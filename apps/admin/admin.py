@@ -1,9 +1,17 @@
-from apps.test import blueprint
-from main import app
-from utils.adminui import Card, DataTable, TableResult
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-@app.page('/admin', 'Admin', auth_needed='user')
-def table_page():
+#  #
+#  Copyright (C) 2022 ZinoHome, Inc. All Rights Reserved
+#  #
+#  @Time    : 2022
+#  @Author  : Zhang Jun
+#  @Email   : ibmzhangjun@139.com
+#  @Software: Scorpius - OSSGPAdmin
+
+from utils.adminui import *
+
+def admin_page():
     table_columns = [
         {'title': 'Rule Name', 'dataIndex': 'name'},
         {'title': 'Description', 'dataIndex': 'desc'},

@@ -14,6 +14,9 @@ import os
 from env.environment import Environment
 from utils.adminui import *
 from utils import log
+from apps.home import home
+from apps.admin import admin
+from apps.about import about
 
 '''logging'''
 env = Environment()
@@ -47,32 +50,17 @@ def on_login(username, password):
 
 @app.page('/', 'Home Page', auth_needed='user')
 def home_page():
-    return [
-        Card(content=[
-            Header('Header of the record', 1),
-            DetailGroup('Refund Request', content=[
-                DetailItem('Order No.', 1100000),
-                DetailItem('Status', "Fetched"),
-                DetailItem('Shipping No.', 1234567),
-                DetailItem('Sub Order', 1135456)
-            ]),
-            Divider(),
-            DetailGroup('User Info', content=[
-                DetailItem('Name', "Alice"),
-                DetailItem('Phone', "555-123-4567"),
-                DetailItem('Shipping Service', 'Continent Ex'),
-                DetailItem('Address', 'XXX XXXX Dr. XX-XX, XXXXXX NY 12345'),
-                DetailItem('Remarks', "None")
-            ]),
-        ])
-    ]
+    return home.home_page()
 
-# blueprint
-for module_name in ('test',):
-    module = importlib.import_module('apps.{}.routes'.format(module_name))
-    app.app.register_blueprint(module.blueprint)
+@app.page('/admin', 'Admin', auth_needed='user')
+def admin_page():
+    return admin.admin_page()
 
-log.logger.debug(app.url_map)
+@app.page('/about', 'About', auth_needed='user')
+def about_page():
+    return about.about_page()
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port='9000',debug=True)
