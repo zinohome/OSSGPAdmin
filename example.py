@@ -1,6 +1,8 @@
 from adminui import *
 
 app = AdminApp()
+app.app_title = "Capricornus"
+
 
 def on_submit(form_data):
     print(form_data)
@@ -29,4 +31,4 @@ app.set_menu(
 )
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0',port='9000')
