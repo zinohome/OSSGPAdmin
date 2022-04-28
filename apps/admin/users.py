@@ -24,8 +24,8 @@ class UsersView(object):
     def __init__(self):
         self._collname = 'users'
         '''page & size'''
-        self._curpage = 0
-        self._pagesize = 0
+        self._curpage = 1
+        self._pagesize = 10
         '''OSSGPClient'''
         self.oc = OSSGPClient(os.getenv('OSSGPADMIN_APP_SYS_USER'), os.getenv('OSSGPADMIN_APP_SYS_PASSWORD'))
         '''table_columns'''
@@ -35,16 +35,17 @@ class UsersView(object):
             {'title': '激活', 'dataIndex': 'active'}
         ]
         '''card title & id'''
-        self.card_title = 'UsersTable'
-        self.card_id = 'userstable'
+        self.card_title = 'UsersCard'
+        self.table_title = 'UsersTable'
+        self.table_id = 'userstable'
 
     def users_page(self):
         return [
             Card(title=self.card_title,
                  content = [
-                DataTable(title=self.card_title,
+                DataTable(title=self.table_title,
                           columns=self.table_columns,
-                          data=TableResult(self.oc.fetch('users', '_collection', None, None, 20)['body']['data'], self.oc.fetchcount('users')['body']),
+                          data=TableResult(self.oc.fetch(self._collname, '_collection', None, None, 20)['body']['data'], self.oc.fetchcount(self._collname)['body']),
                           on_data=self.users_on_page,
                           row_actions=[
                               TableRowAction('view', '查看', on_click=self.users_on_view),
@@ -55,22 +56,22 @@ class UsersView(object):
                               Button(title='新增', style='primary', on_click=self.users_on_new, id='users_add'),
                           ]
                           )],
-                id=self.card_id
+                id=self.table_id
             )
         ]
 
     def users_on_page(self,query):
         log.logger.debug("=================== users_on_page ===================")
-        self.curpage = query['current_page']
-        self.pagesize = query['page_size']
-        return TableResult(self.oc.fetch('users', '_collection', None, (self.curpage-1)*self.pagesize, self.pagesize)['body']['data'], self.oc.fetchcount('users')['body'], self.curpage, self.pagesize)
+        self._curpage = query['current_page']
+        self._pagesize = query['page_size']
+        return TableResult(self.oc.fetch(self._collname, '_collection', None, (self._curpage-1)*self._pagesize, self._pagesize)['body']['data'], self.oc.fetchcount(self._collname)['body'], self._curpage, self._pagesize)
 
     def users_on_new(self):
         print('new users')
 
     def users_on_view(self,item):
-        log.logger.debug("=================== users_on_page ===================")
-        return ReplaceElement(self.card_id, Card(
+        log.logger.debug("=================== users_on_view ===================")
+        return ReplaceElement(self.table_id, Card(
             title=self.card_title,
             content=[
                 DetailGroup('用户信息', content=[
@@ -79,20 +80,20 @@ class UsersView(object):
                     DetailItem('active', str(item['active'])),
                 ]),
                 Divider(),
-                Button('Navigate to details', on_click=self.users_back_view),
+                Button(title='返回', style='primary', on_click=self.users_back_view, id='users_return')
             ],
-            id=self.card_id
+            id=self.table_id
         ))
 
     def users_on_edit(self,item):
         print(item)
 
     def users_back_view(self):
-        return ReplaceElement(self.card_id, Card(title=self.card_title,
+        return ReplaceElement(self.table_id, Card(title=self.card_title,
                 content = [
-                DataTable(title=self.card_title,
+                DataTable(title=self.table_title,
                           columns=self.table_columns,
-                          data=TableResult(self.oc.fetch('users', '_collection', None, (self.curpage-1)*self.pagesize, self.pagesize)['body']['data'], self.oc.fetchcount('users')['body']),
+                          data=TableResult(self.oc.fetch(self._collname, '_collection', None, (self._curpage-1)*self._pagesize, self._pagesize)['body']['data'], self.oc.fetchcount(self._collname)['body'], self._curpage, self._pagesize),
                           on_data=self.users_on_page,
                           row_actions=[
                               TableRowAction('view', '查看', on_click=self.users_on_view),
@@ -103,7 +104,7 @@ class UsersView(object):
                               Button(title='新增', style='primary', on_click=self.users_on_new, id='users_add'),
                           ]
                           )],
-                id=self.card_id
+                id=self.table_id
             )
         )
 
