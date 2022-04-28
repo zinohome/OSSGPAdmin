@@ -15,7 +15,8 @@ from env.environment import Environment
 from utils.adminui import *
 from utils import log
 from apps.home import home
-from apps.admin import admin, users
+from apps.admin import admin
+from apps.admin.users import UsersView
 from apps.about import about
 from utils.restclient import OSSGPClient
 
@@ -64,7 +65,8 @@ def admin_page():
 
 @app.page('/users', 'Users', auth_needed='admin')
 def users_page():
-    return users.users_page()
+    uv = UsersView()
+    return uv.users_page()
 
 @app.page('/about', 'About', auth_needed='user')
 def about_page():
