@@ -17,6 +17,7 @@ from utils import log
 from apps.home import home
 from apps.admin import admin
 from apps.about import about
+from utils.restclient import OSSGPClient
 
 '''logging'''
 env = Environment()
@@ -43,8 +44,12 @@ app.set_menu(
 
 @app.login()
 def on_login(username, password):
-    if username=='alice' and password=='123456':
-        return LoggedInUser("Alice", ['user', 'manager'], redirect_to='/') # you can optionally return roles of the user
+    oc = OSSGPClient(username, password)
+    loginresponse = oc.user_login()
+    if loginresponse['result']:
+        payload = jwt.decode(loginresponse['response']['access_token'], os.getenv("OSSGPADMIN_API_AUTH_SECURITY_KEY"), os.getenv("OSSGPADMIN_API_AUTH_SECURITY_ALGORITHM"))
+        log.logger.debug(payload)
+        return LoggedInUser(payload.get("name"), payload.get("role"), redirect_to='/') # you can optionally return roles of the user
     else:
         return LoginFailed()
 
@@ -52,7 +57,7 @@ def on_login(username, password):
 def home_page():
     return home.home_page()
 
-@app.page('/admin', 'Admin', auth_needed='user')
+@app.page('/admin', 'Admin', auth_needed='admin')
 def admin_page():
     return admin.admin_page()
 
@@ -63,4 +68,4 @@ def about_page():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port='9000',debug=True)
+    app.run(host='0.0.0.0',port='6890',debug=True)

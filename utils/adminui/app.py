@@ -78,7 +78,7 @@ class MenuItem(Element):
             'children': [x.as_dict(auth) for x in self.children if x.has_auth(auth)]
         }
 
-DEFAULT_AVATAR = 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
+DEFAULT_AVATAR = '/img/avatar5.png'
 class LoggedInUser(Element):
     """Returned by login handler, represent a successfully logged in user.
     

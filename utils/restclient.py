@@ -9,24 +9,25 @@
 #  @Software: Capricornus
 
 import asyncio
+import distutils
 import operator
+import os
 import traceback
 
-from config import config
 from datetime import datetime, timedelta
-from util import log
-import json
+import simplejson as json
 from pandas import json_normalize
 
-from util.simple_rest_client.api import API
-
-'''config'''
-cfg = config.app_config
+from utils.simple_rest_client.api import API
+from env.environment import Environment
+from utils import log
 
 '''logging'''
-log = log.Logger(level=cfg['Application_Config'].app_log_level)
+'''logging'''
+env = Environment()
+log = log.Logger(level=os.getenv('OSSGPADMIN_APP_LOG_LEVEL'))
 
-class CapricornusClient():
+class OSSGPClient():
     def __init__(self, username, password):
         self._username = username
         self._password = password
@@ -34,9 +35,9 @@ class CapricornusClient():
         self._token_expired = True
         self._access_token = None
         self._token_type = 'bearer'
-        httpstr = 'https' if cfg['Application_Config'].app_admin_use_https else 'http'
-        self._api_root_url = httpstr + '://127.0.0.1:' + str(cfg['Application_Config'].app_https_port) + cfg['Application_Config'].app_prefix + '/' if cfg['Application_Config'].app_admin_use_https else httpstr + '://127.0.0.1:' + str(cfg['Application_Config'].app_http_port) + cfg['Application_Config'].app_prefix + '/'
-        self._api_client = API(api_root_url = self._api_root_url, params = {}, headers = {}, timeout = cfg['Application_Config'].app_http_timeout, append_slash = False, json_encode_body = False, ssl_verify=False)
+        httpstr = 'https' if distutils.util.strtobool(os.getenv('OSSGPADMIN_API_USE_HTTPS')) else 'http'
+        self._api_root_url = httpstr + '://' + os.getenv('OSSGPADMIN_API_HTTP_HOST') + ':' + os.getenv('OSSGPADMIN_API_HTTPS_PORT') + os.getenv('OSSGPADMIN_API_PREFIX') + '/' if distutils.util.strtobool(os.getenv('OSSGPADMIN_API_USE_HTTPS')) else httpstr + '://' + os.getenv('OSSGPADMIN_API_HTTP_HOST') + ':' + os.getenv('OSSGPADMIN_API_HTTP_PORT') + os.getenv('OSSGPADMIN_API_PREFIX') + '/'
+        self._api_client = API(api_root_url = self._api_root_url, params = {}, headers = {}, timeout = int(os.getenv('OSSGPADMIN_API_TIMEOUT')), append_slash = False, json_encode_body = False, ssl_verify=False)
 
 
     @property
@@ -56,7 +57,7 @@ class CapricornusClient():
         if self._lastlogin == 0:
             self._token_expired = True
         else:
-            self._token_expired = datetime.utcnow() - self._lastlogin > timedelta(minutes=cfg['Security_Config'].access_token_expire_minutes - 1)
+            self._token_expired = datetime.utcnow() - self._lastlogin > timedelta(minutes=int(os.getenv('OSSGPADMIN_API_TOKEN_EXPIRE_MINUTES')) - 1)
         return self._token_expired
 
     @property
@@ -86,7 +87,7 @@ class CapricornusClient():
                 raise Exception('Can not get renew_token at renew_token()')
         except Exception as exp:
             log.logger.error('Exception at renew_token() %s ' % exp)
-            if cfg['Application_Config'].app_exception_detail:
+            if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                 traceback.print_exc()
 
     def user_login(self):
@@ -106,9 +107,9 @@ class CapricornusClient():
                 log.logger.error('Can not get user login at user_login() ... ')
         except Exception as exp:
             log.logger.error('Exception at user_login() %s ' % exp)
-            if cfg['Application_Config'].app_exception_detail:
+            if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                 traceback.print_exc()
-        return login_pass
+        return {"result":login_pass,"response":response.body}
 
     def fetchusers(self):
         api = self._api_client
@@ -120,7 +121,7 @@ class CapricornusClient():
             return response.body
         except Exception as exp:
             log.logger.error('Exception at fetchusers() %s ' % exp)
-            if cfg['Application_Config'].app_exception_detail:
+            if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                 traceback.print_exc()
 
     def fetch(self, resource_name, url_prefix='', body=None, offset=None, limit=None, withcounters=None):
@@ -155,7 +156,7 @@ class CapricornusClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at fetch() %s ' % exp)
-                if cfg['Application_Config'].app_exception_detail:
+                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
     def post(self, resource_name, url_prefix='', body=None):
@@ -182,7 +183,7 @@ class CapricornusClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at post() %s ' % exp)
-                if cfg['Application_Config'].app_exception_detail:
+                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
 
@@ -210,7 +211,7 @@ class CapricornusClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at post() %s ' % exp)
-                if cfg['Application_Config'].app_exception_detail:
+                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
 
@@ -239,7 +240,7 @@ class CapricornusClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at deletebyid() %s ' % exp)
-                if cfg['Application_Config'].app_exception_detail:
+                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
     def toDataFrame(self, jsonobj, attbname):
@@ -248,10 +249,11 @@ class CapricornusClient():
 
 
 if __name__ == '__main__':
-    nc = CapricornusClient('admin', 'admin')
+    nc = OSSGPClient('admin', 'passw0rd')
     log.logger.debug(nc.user_login())
     if nc.token_expired:
         nc.renew_token()
+    '''
     if ( not nc.token_expired ) and ( nc.access_token is not None ):
         log.logger.debug(nc.fetchusers())
         ncdb = nc.fetch('database', '_schema')
@@ -260,7 +262,6 @@ if __name__ == '__main__':
         log.logger.debug(ncmeta)
         resultstr = nc.fetch('ogdbuser', '_table', None, 0, 5, True)
         log.logger.debug(resultstr)
-        '''
         table_name = 'ogdbconnect'
         pkname = 'ogdbconnect.ogdb_id'
         spkname = pkname
@@ -270,8 +271,6 @@ if __name__ == '__main__':
             #key.replace(table_name + '.',"",1)
         log.logger.debug("spkname: %s" % spkname)
         log.logger.debug("pkname: %s" % pkname)
-        '''
-        '''
         log.logger.debug(nc.fetchusers())
         ncdb = nc.fetch('database','_schema')
         log.logger.debug(ncdb)
@@ -299,4 +298,4 @@ if __name__ == '__main__':
         ids = [8]
         log.logger.debug(",".join(idks))
         log.logger.debug("-".join(list(map(str, ids))))
-        '''
+    '''
