@@ -88,12 +88,12 @@ class LoggedInUser(Element):
         avatar: the avatar of the user
         user_info: info for future use, accessible by app.current_user()['user_info']
     """
-    def __init__(self, display_name='', auth=['user'], avatar=DEFAULT_AVATAR, user_info=None, redirect_to=None):
+    def __init__(self, display_name='', auth=['user'], avatar=DEFAULT_AVATAR, user_info=None, redirect_to=None, apitoken=None):
         token = jwt.encode({
             "display_name": display_name,
             "auth": auth,
             "user_info": user_info
-        }, os.getenv('OSSGPADMIN_APP_SECRET'), algorithm='HS256')
+        }, os.getenv('OSSGPADMIN_APP_SECRET'), os.getenv("OSSGPADMIN_API_AUTH_SECURITY_ALGORITHM"))
         super().__init__('LoginAndNavigateTo', status='ok', display_name=display_name, avatar=avatar, redirect_to=redirect_to, token=token.encode().decode('utf-8'))
 
 class LoginFailed(Element):

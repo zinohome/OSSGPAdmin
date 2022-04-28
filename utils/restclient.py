@@ -124,7 +124,7 @@ class OSSGPClient():
             if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                 traceback.print_exc()
 
-    def fetch(self, resource_name, url_prefix='', body=None, offset=None, limit=None, withcounters=None):
+    def fetch(self, resource_name, url_prefix='', body=None, offset=None, limit=None):
         action = 'list'
         if self.token_expired:
             self.renew_token()
@@ -136,8 +136,6 @@ class OSSGPClient():
                 api.headers['offset'] = str(offset)
             if limit is not None:
                 api.headers['limit'] = str(limit)
-            if withcounters is not None:
-                api.headers['include-count'] = str(withcounters)
             api.api_root_url = self.api_root_url + url_prefix
             api.add_resource(resource_name=resource_name)
             try:
@@ -186,7 +184,6 @@ class OSSGPClient():
                 if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
-
     def put(self, resource_name, url_prefix='', body=None, idvalue=None):
         log.logger.debug(body)
         action = 'update'
@@ -214,8 +211,7 @@ class OSSGPClient():
                 if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
-
-    def deletebyid(self, resource_name, url_prefix='', idfield=None, idvalue=None):
+    def deletebyid(self, resource_name, url_prefix='', idvalue=None):
         action = 'destroy'
         if self.token_expired:
             self.renew_token()
@@ -223,8 +219,6 @@ class OSSGPClient():
             # log.logger.debug('access_token : %s' % self.access_token)
             api = self._api_client
             api.headers = {'Authorization': 'Bearer ' + self.access_token}
-            if idfield is not None:
-                api.headers['idfield'] = str(idfield)
             api.api_root_url = self.api_root_url + url_prefix
             api.add_resource(resource_name=resource_name, full_action_url=api.api_root_url + '/' + resource_name + '/' + idvalue)
             try:
@@ -249,10 +243,27 @@ class OSSGPClient():
 
 
 if __name__ == '__main__':
-    nc = OSSGPClient('admin', 'passw0rd')
+    nc = OSSGPClient(os.getenv('OSSGPADMIN_APP_SYS_USER'), os.getenv('OSSGPADMIN_APP_SYS_PASSWORD'))
     log.logger.debug(nc.user_login())
     if nc.token_expired:
         nc.renew_token()
+    if (not nc.token_expired) and (nc.access_token is not None):
+        log.logger.debug(nc.fetchusers())
+    resultstr = nc.fetch('users', '_collection', None, 0, 5)
+    log.logger.debug(resultstr)
+    resultstr = nc.post('users', '_collection', json.dumps({'data': {'name': 'tony', 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}))
+    log.logger.debug(resultstr)
+    resultstr = nc.put('users', '_collection', json.dumps({"data": {'name': 'tony2', 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}),'tony')
+    log.logger.debug(resultstr)
+    resultstr = nc.deletebyid('users', '_collection', 'tony')
+    log.logger.debug(resultstr)
+
+
+    for i in range(100):
+        log.logger.debug(str(i))
+        resultstr = nc.post('users', '_collection', json.dumps(
+            {'data': {'name': 'tony'+str(i), 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}))
+        log.logger.debug(resultstr)
     '''
     if ( not nc.token_expired ) and ( nc.access_token is not None ):
         log.logger.debug(nc.fetchusers())
