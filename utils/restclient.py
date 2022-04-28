@@ -124,6 +124,27 @@ class OSSGPClient():
             if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                 traceback.print_exc()
 
+    def fetchcount(self, resource_name, url_prefix=''):
+        action = 'list'
+        if self.token_expired:
+            self.renew_token()
+        if (not self.token_expired) and (self.access_token is not None):
+            api = self._api_client
+            api.headers = {'Authorization': 'Bearer ' + self.access_token}
+            api.api_root_url = self.api_root_url + '_collection/documentcount/'
+            api.add_resource(resource_name=resource_name)
+            try:
+                res = api._resources[api.correct_attribute_name(resource_name)]
+                func = getattr(res, action)
+                response = func()
+                res = {'code': response.status_code, 'body': response.body}
+                return res
+            except Exception as exp:
+                log.logger.error('Exception at fetchcount() %s ' % exp)
+                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                    traceback.print_exc()
+
+
     def fetch(self, resource_name, url_prefix='', body=None, offset=None, limit=None):
         action = 'list'
         if self.token_expired:
@@ -249,6 +270,7 @@ if __name__ == '__main__':
         nc.renew_token()
     if (not nc.token_expired) and (nc.access_token is not None):
         log.logger.debug(nc.fetchusers())
+    nc.fetchcount('users')
     resultstr = nc.fetch('users', '_collection', None, 0, 5)
     log.logger.debug(resultstr)
     resultstr = nc.post('users', '_collection', json.dumps({'data': {'name': 'tony', 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}))
@@ -258,13 +280,13 @@ if __name__ == '__main__':
     resultstr = nc.deletebyid('users', '_collection', 'tony')
     log.logger.debug(resultstr)
 
-
+    '''
     for i in range(100):
         log.logger.debug(str(i))
         resultstr = nc.post('users', '_collection', json.dumps(
             {'data': {'name': 'tony'+str(i), 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}))
         log.logger.debug(resultstr)
-    '''
+    
     if ( not nc.token_expired ) and ( nc.access_token is not None ):
         log.logger.debug(nc.fetchusers())
         ncdb = nc.fetch('database', '_schema')

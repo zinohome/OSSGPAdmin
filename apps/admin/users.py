@@ -28,14 +28,12 @@ def users_page():
         {'title': '用户角色', 'dataIndex': 'role'},
         {'title': '激活', 'dataIndex': 'active'}
     ]
-    ocresult = oc.fetch('users', '_collection', None, None, None)
-    log.logger.debug(ocresult)
     return [
         Card(title='UsersTable',
              content = [
             DataTable("UsersTable",
                       columns=table_columns,
-                      data=TableResult(ocresult['body']['data'], ocresult['body']['count']),
+                      data=TableResult(oc.fetch('users', '_collection', None, None, None)['body']['data'], oc.fetchcount('users')['body']),
                       on_data=users_on_page,
                       row_actions=[
                           TableRowAction('view', '查看', on_click=users_on_view),
@@ -52,9 +50,7 @@ def users_page():
 
 def users_on_page(query):
     log.logger.debug("=================== users_on_page ===================")
-    ocresult = oc.fetch('users', '_collection', None, (query['current_page']-1)*query['page_size'], query['page_size'])
-    log.logger.debug(ocresult)
-    return TableResult(ocresult['body']['data'], ocresult['body']['count'], query['current_page'])
+    return TableResult(oc.fetch('users', '_collection', None, (query['current_page']-1)*query['page_size'], query['page_size'])['body']['data'], oc.fetchcount('users')['body'], query['current_page'])
 
 def users_on_new():
     print('new users')
