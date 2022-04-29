@@ -38,12 +38,9 @@ def indexhtml():
 @blueprint.route('/<template>')
 @login_required
 def route_template(template):
-
     try:
-
         if not template.endswith('.html'):
             template += '.html'
-
         # Detect the current page
         segment = get_segment(request)
         today = time.strftime("%Y-%m-%d", time.localtime())
@@ -61,15 +58,10 @@ def route_template(template):
 
 # Helper - Extract current page name from request
 def get_segment(request):
-
     try:
-
         segment = request.path.split('/')[-1]
-
         if segment == '':
             segment = 'index'
-
         return segment
-
     except:
         return None
