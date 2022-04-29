@@ -18,3 +18,38 @@
 2022-04-28 at 21:19:37 | ERROR | Exception at fetch() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_collection/users', method='GET', body={'detail': [{'loc': ['header', 'limit'], 'msg': 'ensure this value is greater than 0', 'type': 'value_error.number.not_gt', 'ctx': {'limit_value': 0}}]}, headers=Headers({'content-length': '142', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/_collection/users', method='GET', body={'detail': [{'loc': ['header', 'limit'], 'msg': 'ensure this value is greater than 0', 'type': 'value_error.number.not_gt', 'ctx': {'limit_value': 0}}]}, headers=Headers({'content-length': '142', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
 2022-04-28 at 21:20:02 | ERROR | Exception at fetch() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_collection/users', method='GET', body={'detail': [{'loc': ['header', 'limit'], 'msg': 'ensure this value is greater than 0', 'type': 'value_error.number.not_gt', 'ctx': {'limit_value': 0}}]}, headers=Headers({'content-length': '142', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/_collection/users', method='GET', body={'detail': [{'loc': ['header', 'limit'], 'msg': 'ensure this value is greater than 0', 'type': 'value_error.number.not_gt', 'ctx': {'limit_value': 0}}]}, headers=Headers({'content-length': '142', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
 2022-04-28 at 21:20:35 | ERROR | Exception at fetch() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_collection/users', method='GET', body={'detail': [{'loc': ['header', 'limit'], 'msg': 'ensure this value is greater than 0', 'type': 'value_error.number.not_gt', 'ctx': {'limit_value': 0}}]}, headers=Headers({'content-length': '142', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/_collection/users', method='GET', body={'detail': [{'loc': ['header', 'limit'], 'msg': 'ensure this value is greater than 0', 'type': 'value_error.number.not_gt', 'ctx': {'limit_value': 0}}]}, headers=Headers({'content-length': '142', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 13:10:22 | SUCCESS | [测试log] hello, world
+2022-04-29 at 13:10:22 | INFO | [测试log] hello, world
+2022-04-29 at 13:10:22 | DEBUG | [测试log] hello, world
+2022-04-29 at 13:10:22 | WARNING | [测试log] hello, world
+2022-04-29 at 13:10:22 | ERROR | [测试log] hello, world
+2022-04-29 at 13:10:22 | CRITICAL | [测试log] hello, world
+2022-04-29 at 13:10:22 | ERROR | [测试log] hello, world
+NoneType: None
+2022-04-29 at 13:21:18 | INFO | DEBUG       = True
+2022-04-29 at 13:21:18 | INFO | Environment = Debug
+2022-04-29 at 13:21:18 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 13:22:26 | INFO | DEBUG       = True
+2022-04-29 at 13:22:26 | INFO | Environment = Debug
+2022-04-29 at 13:22:26 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 13:22:27 | INFO | DEBUG       = True
+2022-04-29 at 13:22:27 | INFO | Environment = Debug
+2022-04-29 at 13:22:27 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 13:22:45 | INFO | DEBUG       = True
+2022-04-29 at 13:22:45 | INFO | Environment = Debug
+2022-04-29 at 13:22:45 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 13:23:57 | INFO | DEBUG       = True
+2022-04-29 at 13:23:57 | INFO | Environment = Debug
+2022-04-29 at 13:23:57 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 13:25:06 | INFO | DEBUG       = True
+2022-04-29 at 13:25:06 | INFO | Environment = Debug
+2022-04-29 at 13:25:06 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 13:25:37 | INFO | DEBUG       = True
+2022-04-29 at 13:25:37 | INFO | Environment = Debug
+2022-04-29 at 13:25:37 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 13:26:04 | INFO | DEBUG       = True
+2022-04-29 at 13:26:04 | INFO | Environment = Debug
+2022-04-29 at 13:26:04 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 13:26:14 | INFO | DEBUG       = True
+2022-04-29 at 13:26:14 | INFO | Environment = Debug
+2022-04-29 at 13:26:14 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
