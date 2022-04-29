@@ -7,7 +7,7 @@
 #  @Time    : 2022
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
-#  @Software: OSSGPAPI
+#  @Software: OSSGPAdmin
 
 import os
 from decouple import config

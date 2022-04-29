@@ -7,7 +7,7 @@
 #  @Time    : 2022
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
-#  @Software: OSSGPAPI
+#  @Software: OSSGPAdmin
 
 from flask import Flask
 from flask_login import LoginManager
@@ -28,7 +28,7 @@ def register_extensions(app):
 
 
 def register_blueprints(app):
-    for module_name in ('authentication', 'home'):
+    for module_name in ('authentication', 'home', 'ossgov'):
         module = import_module('apps.{}.routes'.format(module_name))
         app.register_blueprint(module.blueprint)
 

@@ -7,7 +7,7 @@
 #  @Time    : 2022
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
-#  @Software: OSSGPAPI
+#  @Software: OSSGPAdmin
 
 from flask import render_template, redirect, request, url_for
 from flask_login import (

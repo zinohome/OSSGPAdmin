@@ -7,7 +7,7 @@
 #  @Time    : 2022
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
-#  @Software: OSSGPAPI
+#  @Software: OSSGPAdmin
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField

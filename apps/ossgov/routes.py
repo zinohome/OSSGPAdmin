@@ -7,7 +7,7 @@
 #  @Time    : 2022
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
-#  @Software: OSSGPAPI
+#  @Software: OSSGPAdmin
 
 from apps.ossgov import blueprint
 from flask import render_template, request
@@ -17,7 +17,7 @@ from apps import log, oc
 import time
 from decouple import config
 
-@blueprint.route('/ossgov.html')
+@blueprint.route('/ossgov.html', methods = ['GET', 'POST'])
 @login_required
 def route_ossgov():
     today = time.strftime("%Y-%m-%d", time.localtime())
