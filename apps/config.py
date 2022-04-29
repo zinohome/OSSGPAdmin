@@ -12,12 +12,11 @@ from utils import log
 env = Environment()
 log = log.Logger(level=os.getenv('OSSGPADMIN_APP_LOG_LEVEL'))
 
-log.logger.debug(os.getenv('OSSGPADMIN_APP_SECRET'))
-
 class Config(object):
     basedir = os.path.abspath(os.path.dirname(__file__))
+    appdir = os.path.abspath(os.path.join(basedir, os.pardir))
     # Set up the App SECRET_KEY
-    SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_007')
+    SECRET_KEY = config('OSSGPADMIN_APP_SECRET', default='S#perS3crEt_007')
     # This will create a file in <app> FOLDER
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -25,12 +24,10 @@ class Config(object):
 
 class ProductionConfig(Config):
     DEBUG = False
-
     # Security
     SESSION_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_DURATION = 3600
-
     # PostgreSQL database
     SQLALCHEMY_DATABASE_URI = '{}://{}:{}@{}:{}/{}'.format(
         config('DB_ENGINE', default='postgresql'),

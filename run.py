@@ -19,7 +19,8 @@ log = log.Logger(level=os.getenv('OSSGPADMIN_APP_LOG_LEVEL'))
 
 
 # WARNING: Don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('OSSGPADMIN_APP_DEBUG', default=True, cast=bool)
+#log.logger.debug(config('OSSGPADMIN_APP_SECRET'))
 
 # The configuration
 get_config_mode = 'Debug' if DEBUG else 'Production'
@@ -33,7 +34,7 @@ except KeyError:
     exit('Error: Invalid <config_mode>. Expected values [Debug, Production] ')
 
 app = create_app(app_config)
-Migrate(app, db)
+#Migrate(app, db)
 
 if DEBUG:
     log.logger.info('DEBUG       = ' + str(DEBUG))
