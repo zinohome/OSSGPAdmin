@@ -104,3 +104,256 @@ NoneType: None
 2022-04-29 at 13:46:43 | INFO | DEBUG       = True
 2022-04-29 at 13:46:43 | INFO | Environment = Debug
 2022-04-29 at 13:46:43 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 13:49:49 | INFO | DEBUG       = True
+2022-04-29 at 13:49:49 | INFO | Environment = Debug
+2022-04-29 at 13:49:49 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 13:49:49 | INFO | DEBUG       = True
+2022-04-29 at 13:49:49 | INFO | Environment = Debug
+2022-04-29 at 13:49:49 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 15:30:33 | INFO | DEBUG       = True
+2022-04-29 at 15:30:33 | INFO | Environment = Debug
+2022-04-29 at 15:30:33 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 15:34:10 | INFO | DEBUG       = True
+2022-04-29 at 15:34:10 | INFO | Environment = Debug
+2022-04-29 at 15:34:10 | INFO | DBMS        = sqlite:////Users/zhangjun/PycharmProjects/OSSGPAdmin/apps/db.sqlite3
+2022-04-29 at 15:42:50 | INFO | DEBUG       = True
+2022-04-29 at 15:42:50 | INFO | Environment = Debug
+2022-04-29 at 15:44:52 | INFO | DEBUG       = True
+2022-04-29 at 15:44:52 | INFO | Environment = Debug
+2022-04-29 at 15:45:24 | INFO | DEBUG       = True
+2022-04-29 at 15:45:24 | INFO | Environment = Debug
+2022-04-29 at 15:46:51 | INFO | DEBUG       = True
+2022-04-29 at 15:46:51 | INFO | Environment = Debug
+2022-04-29 at 15:47:34 | INFO | DEBUG       = True
+2022-04-29 at 15:47:34 | INFO | Environment = Debug
+2022-04-29 at 15:47:42 | INFO | DEBUG       = True
+2022-04-29 at 15:47:42 | INFO | Environment = Debug
+2022-04-29 at 15:47:50 | INFO | DEBUG       = True
+2022-04-29 at 15:47:50 | INFO | Environment = Debug
+2022-04-29 at 15:48:10 | INFO | DEBUG       = True
+2022-04-29 at 15:48:10 | INFO | Environment = Debug
+2022-04-29 at 15:50:10 | INFO | DEBUG       = True
+2022-04-29 at 15:50:10 | INFO | Environment = Debug
+2022-04-29 at 15:50:27 | INFO | DEBUG       = True
+2022-04-29 at 15:50:27 | INFO | Environment = Debug
+2022-04-29 at 15:50:53 | INFO | DEBUG       = True
+2022-04-29 at 15:50:53 | INFO | Environment = Debug
+2022-04-29 at 15:50:54 | INFO | DEBUG       = True
+2022-04-29 at 15:50:54 | INFO | Environment = Debug
+2022-04-29 at 15:56:57 | INFO | DEBUG       = True
+2022-04-29 at 15:56:57 | INFO | Environment = Debug
+2022-04-29 at 15:58:06 | INFO | DEBUG       = True
+2022-04-29 at 15:58:06 | INFO | Environment = Debug
+2022-04-29 at 16:00:41 | INFO | DEBUG       = True
+2022-04-29 at 16:00:41 | INFO | Environment = Debug
+2022-04-29 at 16:03:23 | INFO | DEBUG       = True
+2022-04-29 at 16:03:23 | INFO | Environment = Debug
+2022-04-29 at 16:03:43 | INFO | DEBUG       = True
+2022-04-29 at 16:03:43 | INFO | Environment = Debug
+2022-04-29 at 16:04:05 | SUCCESS | [测试log] hello, world
+2022-04-29 at 16:04:05 | INFO | [测试log] hello, world
+2022-04-29 at 16:04:05 | DEBUG | [测试log] hello, world
+2022-04-29 at 16:04:05 | WARNING | [测试log] hello, world
+2022-04-29 at 16:04:05 | ERROR | [测试log] hello, world
+2022-04-29 at 16:04:05 | CRITICAL | [测试log] hello, world
+2022-04-29 at 16:04:05 | ERROR | [测试log] hello, world
+NoneType: None
+2022-04-29 at 16:04:07 | INFO | DEBUG       = True
+2022-04-29 at 16:04:07 | INFO | Environment = Debug
+2022-04-29 at 16:04:09 | ERROR | Exception at user_login() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:04:36 | ERROR | Exception at user_login() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:04:36 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:04:36 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:04:36 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:04:36 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:04:36 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:04:36 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:04:36 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:04:37 | INFO | DEBUG       = True
+2022-04-29 at 16:04:37 | INFO | Environment = Debug
+2022-04-29 at 16:05:19 | ERROR | Exception at user_login() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:05:19 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:05:19 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:05:19 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:05:19 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:05:19 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:05:19 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:05:19 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:06:01 | INFO | DEBUG       = True
+2022-04-29 at 16:06:01 | INFO | Environment = Debug
+2022-04-29 at 16:06:03 | INFO | DEBUG       = True
+2022-04-29 at 16:06:03 | INFO | Environment = Debug
+2022-04-29 at 16:06:03 | ERROR | Exception at user_login() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:06:03 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:06:03 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:06:03 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:06:03 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:06:03 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:06:03 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:06:03 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:07:38 | INFO | DEBUG       = True
+2022-04-29 at 16:07:38 | INFO | Environment = Debug
+2022-04-29 at 16:07:39 | ERROR | Exception at user_login() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:07:39 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:07:39 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:07:39 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:07:39 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:07:39 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:07:39 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:07:39 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/token', method='POST', body={'detail': [{'loc': ['body', 'username'], 'msg': 'field required', 'type': 'value_error.missing'}, {'loc': ['body', 'password'], 'msg': 'field required', 'type': 'value_error.missing'}]}, headers=Headers({'content-length': '172', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-29 at 16:08:15 | INFO | DEBUG       = True
+2022-04-29 at 16:08:15 | INFO | Environment = Debug
+2022-04-29 at 16:09:16 | INFO | DEBUG       = True
+2022-04-29 at 16:09:16 | INFO | Environment = Debug
+2022-04-29 at 16:09:58 | INFO | DEBUG       = True
+2022-04-29 at 16:09:58 | INFO | Environment = Debug
+2022-04-29 at 16:11:15 | INFO | DEBUG       = True
+2022-04-29 at 16:11:15 | INFO | Environment = Debug
+2022-04-29 at 16:11:35 | INFO | DEBUG       = True
+2022-04-29 at 16:11:35 | INFO | Environment = Debug
+2022-04-29 at 16:14:51 | INFO | DEBUG       = True
+2022-04-29 at 16:14:51 | INFO | Environment = Debug
+2022-04-29 at 16:15:04 | INFO | DEBUG       = True
+2022-04-29 at 16:15:04 | INFO | Environment = Debug
+2022-04-29 at 16:15:24 | INFO | DEBUG       = True
+2022-04-29 at 16:15:24 | INFO | Environment = Debug
+2022-04-29 at 16:18:31 | INFO | DEBUG       = True
+2022-04-29 at 16:18:31 | INFO | Environment = Debug
+2022-04-29 at 16:19:05 | INFO | DEBUG       = True
+2022-04-29 at 16:19:05 | INFO | Environment = Debug
+2022-04-29 at 16:19:21 | INFO | DEBUG       = True
+2022-04-29 at 16:19:21 | INFO | Environment = Debug
+2022-04-29 at 16:20:26 | INFO | DEBUG       = True
+2022-04-29 at 16:20:26 | INFO | Environment = Debug
+2022-04-29 at 16:21:29 | INFO | DEBUG       = True
+2022-04-29 at 16:21:29 | INFO | Environment = Debug
+2022-04-29 at 16:40:43 | INFO | DEBUG       = True
+2022-04-29 at 16:40:43 | INFO | Environment = Debug
+2022-04-29 at 16:41:40 | INFO | DEBUG       = True
+2022-04-29 at 16:41:40 | INFO | Environment = Debug
+2022-04-29 at 16:43:29 | INFO | DEBUG       = True
+2022-04-29 at 16:43:29 | INFO | Environment = Debug
+2022-04-29 at 16:44:29 | INFO | DEBUG       = True
+2022-04-29 at 16:44:29 | INFO | Environment = Debug
+2022-04-29 at 16:44:58 | INFO | DEBUG       = True
+2022-04-29 at 16:44:58 | INFO | Environment = Debug
+2022-04-29 at 16:45:15 | INFO | DEBUG       = True
+2022-04-29 at 16:45:15 | INFO | Environment = Debug
+2022-04-29 at 16:46:36 | INFO | DEBUG       = True
+2022-04-29 at 16:46:36 | INFO | Environment = Debug
+2022-04-29 at 16:47:09 | INFO | DEBUG       = True
+2022-04-29 at 16:47:09 | INFO | Environment = Debug
+2022-04-29 at 16:47:10 | INFO | DEBUG       = True
+2022-04-29 at 16:47:10 | INFO | Environment = Debug
+2022-04-29 at 16:47:58 | INFO | DEBUG       = True
+2022-04-29 at 16:47:58 | INFO | Environment = Debug
+2022-04-29 at 16:49:18 | INFO | DEBUG       = True
+2022-04-29 at 16:49:18 | INFO | Environment = Debug
+2022-04-29 at 16:49:35 | INFO | DEBUG       = True
+2022-04-29 at 16:49:35 | INFO | Environment = Debug
+2022-04-29 at 16:50:45 | INFO | DEBUG       = True
+2022-04-29 at 16:50:45 | INFO | Environment = Debug
+2022-04-29 at 16:51:11 | INFO | DEBUG       = True
+2022-04-29 at 16:51:11 | INFO | Environment = Debug
+2022-04-29 at 16:51:39 | INFO | DEBUG       = True
+2022-04-29 at 16:51:39 | INFO | Environment = Debug
+2022-04-29 at 16:53:09 | INFO | DEBUG       = True
+2022-04-29 at 16:53:09 | INFO | Environment = Debug
+2022-04-29 at 16:53:20 | INFO | DEBUG       = True
+2022-04-29 at 16:53:20 | INFO | Environment = Debug
+2022-04-29 at 16:54:34 | INFO | DEBUG       = True
+2022-04-29 at 16:54:34 | INFO | Environment = Debug
+2022-04-29 at 16:54:51 | INFO | DEBUG       = True
+2022-04-29 at 16:54:51 | INFO | Environment = Debug
+2022-04-29 at 16:55:06 | INFO | DEBUG       = True
+2022-04-29 at 16:55:06 | INFO | Environment = Debug
+2022-04-29 at 16:55:07 | INFO | DEBUG       = True
+2022-04-29 at 16:55:07 | INFO | Environment = Debug
+2022-04-29 at 16:56:25 | INFO | DEBUG       = True
+2022-04-29 at 16:56:25 | INFO | Environment = Debug
+2022-04-29 at 16:56:26 | INFO | DEBUG       = True
+2022-04-29 at 16:56:26 | INFO | Environment = Debug
+2022-04-29 at 16:57:47 | INFO | DEBUG       = True
+2022-04-29 at 16:57:47 | INFO | Environment = Debug
+2022-04-29 at 16:57:49 | INFO | DEBUG       = True
+2022-04-29 at 16:57:49 | INFO | Environment = Debug
+2022-04-29 at 16:58:34 | INFO | DEBUG       = True
+2022-04-29 at 16:58:34 | INFO | Environment = Debug
+2022-04-29 at 16:58:38 | INFO | DEBUG       = True
+2022-04-29 at 16:58:38 | INFO | Environment = Debug
+2022-04-29 at 16:59:22 | INFO | DEBUG       = True
+2022-04-29 at 16:59:22 | INFO | Environment = Debug
+2022-04-29 at 16:59:54 | INFO | DEBUG       = True
+2022-04-29 at 16:59:54 | INFO | Environment = Debug
+2022-04-29 at 17:00:10 | INFO | DEBUG       = True
+2022-04-29 at 17:00:10 | INFO | Environment = Debug
+2022-04-29 at 17:01:22 | INFO | DEBUG       = True
+2022-04-29 at 17:01:22 | INFO | Environment = Debug
+2022-04-29 at 17:02:06 | INFO | DEBUG       = True
+2022-04-29 at 17:02:06 | INFO | Environment = Debug
+2022-04-29 at 17:04:41 | INFO | DEBUG       = True
+2022-04-29 at 17:04:41 | INFO | Environment = Debug
+2022-04-29 at 17:06:28 | INFO | DEBUG       = True
+2022-04-29 at 17:06:28 | INFO | Environment = Debug
+2022-04-29 at 17:07:29 | INFO | DEBUG       = True
+2022-04-29 at 17:07:29 | INFO | Environment = Debug
+2022-04-29 at 17:10:22 | INFO | DEBUG       = True
+2022-04-29 at 17:10:22 | INFO | Environment = Debug
+2022-04-29 at 17:13:43 | INFO | DEBUG       = True
+2022-04-29 at 17:13:43 | INFO | Environment = Debug
+2022-04-29 at 17:13:52 | INFO | DEBUG       = True
+2022-04-29 at 17:13:52 | INFO | Environment = Debug
+2022-04-29 at 17:14:34 | INFO | DEBUG       = True
+2022-04-29 at 17:14:34 | INFO | Environment = Debug
+2022-04-29 at 17:14:54 | INFO | DEBUG       = True
+2022-04-29 at 17:14:54 | INFO | Environment = Debug
+2022-04-29 at 17:14:55 | INFO | DEBUG       = True
+2022-04-29 at 17:14:55 | INFO | Environment = Debug
+2022-04-29 at 17:15:42 | INFO | DEBUG       = True
+2022-04-29 at 17:15:42 | INFO | Environment = Debug
+2022-04-29 at 17:16:58 | INFO | DEBUG       = True
+2022-04-29 at 17:16:58 | INFO | Environment = Debug
+2022-04-29 at 17:18:40 | INFO | DEBUG       = True
+2022-04-29 at 17:18:40 | INFO | Environment = Debug
+2022-04-29 at 17:19:36 | INFO | DEBUG       = True
+2022-04-29 at 17:19:36 | INFO | Environment = Debug
+2022-04-29 at 17:19:41 | INFO | DEBUG       = True
+2022-04-29 at 17:19:41 | INFO | Environment = Debug
+2022-04-29 at 17:20:14 | INFO | DEBUG       = True
+2022-04-29 at 17:20:14 | INFO | Environment = Debug
+2022-04-29 at 17:21:14 | INFO | DEBUG       = True
+2022-04-29 at 17:21:14 | INFO | Environment = Debug
+2022-04-29 at 17:22:03 | INFO | DEBUG       = True
+2022-04-29 at 17:22:03 | INFO | Environment = Debug
+2022-04-29 at 17:23:34 | INFO | DEBUG       = True
+2022-04-29 at 17:23:34 | INFO | Environment = Debug
+2022-04-29 at 17:23:36 | INFO | DEBUG       = True
+2022-04-29 at 17:23:36 | INFO | Environment = Debug
+2022-04-29 at 17:27:15 | INFO | DEBUG       = True
+2022-04-29 at 17:27:15 | INFO | Environment = Debug
+2022-04-29 at 17:33:23 | INFO | DEBUG       = True
+2022-04-29 at 17:33:23 | INFO | Environment = Debug
+2022-04-29 at 17:34:31 | INFO | DEBUG       = True
+2022-04-29 at 17:34:31 | INFO | Environment = Debug
+2022-04-29 at 17:35:23 | INFO | DEBUG       = True
+2022-04-29 at 17:35:23 | INFO | Environment = Debug
+2022-04-29 at 17:35:31 | INFO | DEBUG       = True
+2022-04-29 at 17:35:31 | INFO | Environment = Debug
+2022-04-29 at 17:35:32 | INFO | DEBUG       = True
+2022-04-29 at 17:35:32 | INFO | Environment = Debug
+2022-04-29 at 17:37:23 | INFO | DEBUG       = True
+2022-04-29 at 17:37:23 | INFO | Environment = Debug
+2022-04-29 at 17:37:52 | INFO | DEBUG       = True
+2022-04-29 at 17:37:52 | INFO | Environment = Debug
+2022-04-29 at 17:38:35 | INFO | DEBUG       = True
+2022-04-29 at 17:38:35 | INFO | Environment = Debug
+2022-04-29 at 17:38:36 | INFO | DEBUG       = True
+2022-04-29 at 17:38:36 | INFO | Environment = Debug
+2022-04-29 at 17:50:47 | INFO | DEBUG       = True
+2022-04-29 at 17:50:47 | INFO | Environment = Debug
+2022-04-29 at 17:50:48 | INFO | DEBUG       = True
+2022-04-29 at 17:50:48 | INFO | Environment = Debug
+2022-04-29 at 17:55:31 | INFO | DEBUG       = True
+2022-04-29 at 17:55:31 | INFO | Environment = Debug
+2022-04-29 at 17:55:32 | INFO | DEBUG       = True
+2022-04-29 at 17:55:32 | INFO | Environment = Debug

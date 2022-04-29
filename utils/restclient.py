@@ -76,6 +76,7 @@ class OSSGPClient():
         api = self._api_client
         api.add_resource(resource_name='token')
         request_body = {"username": self.username,"password": self.password}
+        #log.logger.debug(request_body)
         try:
             response = api.token.create(body = request_body)
             if response.status_code == 200:
@@ -89,6 +90,33 @@ class OSSGPClient():
             log.logger.error('Exception at renew_token() %s ' % exp)
             if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                 traceback.print_exc()
+
+    def getuser(self,name):
+        action = 'list'
+        resource_name = 'users'
+        url_prefix = '_collection'
+        if name is not None:
+            if self.token_expired:
+                self.renew_token()
+            if (not self.token_expired) and (self.access_token is not None):
+                # log.logger.debug('access_token : %s' % self.access_token)
+                api = self._api_client
+                api.headers = {'Authorization': 'Bearer ' + self.access_token}
+                api.api_root_url = self.api_root_url + url_prefix
+                api.add_resource(resource_name=resource_name,
+                                 full_action_url=api.api_root_url + '/' + resource_name + '/' + name)
+                try:
+                    res = api._resources[api.correct_attribute_name(resource_name)]
+                    func = getattr(res, action)
+                    response = func()
+                    return response.body
+                except Exception as exp:
+                    log.logger.error('Exception at getuser() %s ' % exp)
+                    if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                        traceback.print_exc()
+                    return None
+        else:
+            return None
 
     def user_login(self):
         login_pass = False
@@ -109,7 +137,7 @@ class OSSGPClient():
             log.logger.error('Exception at user_login() %s ' % exp)
             if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                 traceback.print_exc()
-        return {"result":login_pass,"response":response.body}
+        return {"result": login_pass, "response": response.body}
 
     def fetchusers(self):
         api = self._api_client
@@ -265,12 +293,14 @@ class OSSGPClient():
 
 
 if __name__ == '__main__':
-    nc = OSSGPClient(os.getenv('OSSGPADMIN_APP_SYS_USER'), os.getenv('OSSGPADMIN_APP_SYS_PASSWORD'))
+    nc = OSSGPClient(os.getenv('OSSGPADMIN_APP_API_USER'), os.getenv('OSSGPADMIN_APP_API_PASSWORD'))
     log.logger.debug(nc.user_login())
     if nc.token_expired:
         nc.renew_token()
     if (not nc.token_expired) and (nc.access_token is not None):
         log.logger.debug(nc.fetchusers())
+    log.logger.debug(nc.getuser('admin'))
+    log.logger.debug(nc.getuser('ddf'))
     nc.fetchcount('users')
     resultstr = nc.fetch('users', '_collection', None, 0, 5)
     log.logger.debug(resultstr)

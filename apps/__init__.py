@@ -5,16 +5,19 @@ Copyright (c) 2019 - present AppSeed.us
 
 from flask import Flask
 from flask_login import LoginManager
-from flask_sqlalchemy import SQLAlchemy
 from importlib import import_module
+from utils.restclient import OSSGPClient
+from decouple import config
+from utils import log
 
+'''logging'''
+log = log.Logger(level=config('OSSGPADMIN_APP_LOG_LEVEL', default='INFO'))
 
-db = SQLAlchemy()
+oc = OSSGPClient(config('OSSGPADMIN_APP_API_USER', default='admin'), config('OSSGPADMIN_APP_API_PASSWORD', default='passw0rd'))
 login_manager = LoginManager()
 
 
 def register_extensions(app):
-    db.init_app(app)
     login_manager.init_app(app)
 
 
@@ -27,12 +30,12 @@ def register_blueprints(app):
 def configure_database(app):
 
     @app.before_first_request
-    def initialize_database():
-        db.create_all()
+    def initialize_app():
+        pass
 
     @app.teardown_request
     def shutdown_session(exception=None):
-        db.session.remove()
+        pass
 
 
 def create_app(config):
