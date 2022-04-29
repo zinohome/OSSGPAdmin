@@ -144,7 +144,6 @@ class OSSGPClient():
                 if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
-
     def fetch(self, resource_name, url_prefix='', body=None, offset=None, limit=None):
         action = 'list'
         if self.token_expired:
@@ -171,6 +170,8 @@ class OSSGPClient():
                     response = func(body)
                 else:
                     response = func()
+                for idict in response.body['data']:
+                    idict.update((k, str(v)) for k, v in idict.items())
                 res = {'code': response.status_code, 'body': response.body}
                 return res
             except Exception as exp:
@@ -280,7 +281,7 @@ if __name__ == '__main__':
     resultstr = nc.deletebyid('users', '_collection', 'tony')
     log.logger.debug(resultstr)
 
-
+    '''
     for i in range(100):
         log.logger.debug(str(i))
         resultstr = nc.post('users', '_collection', json.dumps(
@@ -288,7 +289,7 @@ if __name__ == '__main__':
         log.logger.debug(resultstr)
         resultstr = nc.deletebyid('users', '_collection', 'tony'+str(i))
         log.logger.debug(resultstr)
-    '''
+    
     if ( not nc.token_expired ) and ( nc.access_token is not None ):
         log.logger.debug(nc.fetchusers())
         ncdb = nc.fetch('database', '_schema')
