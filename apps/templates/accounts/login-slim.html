@@ -7,22 +7,13 @@
 
 {% block content %}
 
-    <div class="az-signup-wrapper">
-      <div class="az-column-signup-left">
-        <div>
-          <i class="typcn typcn-chart-bar-outline"></i>
-          <h1 class="az-logo"><a href="#" class="az-logo"><span></span> <h1>P</h1>ractition·er</a></h1>
-          <h5>企业级开源软件治理管控平台</h5>
-          <p>We are excited to launch our new company and product Azia. After being featured in too many magazines to mention and having created an online stir, we know that BootstrapDash is going to be big. We also hope to win Startup Fictional Business of the Year this year.</p>
-          <p>Browse our site and see for yourself why you need Azia.</p>
-          <a href="index.html" class="btn btn-outline-indigo">了解更多</a>
-        </div>
-      </div><!-- az-column-signup-left -->
-      <div class="az-column-signup">
+    <div class="az-signin-wrapper">
+      <div class="az-card-signin">
         <h1 class="az-logo"><a href="#" class="az-logo"><span></span> <h1>P</h1>ractition·er</a></h1>
-        <div class="az-signup-header">
-          <h2>开始使用</h2>
-          <h4>请输入系统账号和密码：</h4>
+        <div class="az-signin-header">
+          <h2>
+            企业开源软件治理平台
+          </h2>
           <h4>
             {% if msg %}
                 {{ msg | safe }}
@@ -41,12 +32,13 @@
             </div><!-- form-group -->
             <button type="submit" name="login" class="btn btn-az-primary btn-block">登 录</button>
           </form>
-        </div><!-- az-signup-header -->
-        <div class="az-signup-footer">
+        </div><!-- az-signin-header -->
+        <div class="az-signin-footer">
+          <p><a href="">忘记密码?</a></p>
           <p>没有账户? <a href="#">请联系管理员</a></p>
         </div><!-- az-signin-footer -->
-      </div><!-- az-column-signup -->
-    </div><!-- az-signup-wrapper -->
+      </div><!-- az-card-signin -->
+    </div><!-- az-signin-wrapper -->
 
 {% endblock content %}
 

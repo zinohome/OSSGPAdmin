@@ -12,7 +12,7 @@
 from flask import Blueprint
 
 blueprint = Blueprint(
-    'home_blueprint',
+    'ossgov_blueprint',
     __name__,
     url_prefix=''
 )

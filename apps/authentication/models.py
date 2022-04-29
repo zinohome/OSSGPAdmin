@@ -1,7 +1,13 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+#  #
+#  Copyright (C) 2022 ZinoHome, Inc. All Rights Reserved
+#  #
+#  @Time    : 2022
+#  @Author  : Zhang Jun
+#  @Email   : ibmzhangjun@139.com
+#  @Software: OSSGPAPI
 
 from flask_login import UserMixin
 

@@ -1,13 +1,16 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-import os
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-from flask_migrate import Migrate
+#  #
+#  Copyright (C) 2022 ZinoHome, Inc. All Rights Reserved
+#  #
+#  @Time    : 2022
+#  @Author  : Zhang Jun
+#  @Email   : ibmzhangjun@139.com
+#  @Software: OSSGPAPI
+
 from sys import exit
 from decouple import config
-from env.environment import Environment
 from utils import log
 
 from apps.config import config_dict
