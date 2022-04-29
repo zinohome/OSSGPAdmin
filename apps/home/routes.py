@@ -26,6 +26,14 @@ def index():
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)
 
+@blueprint.route('/index.html')
+@login_required
+def indexhtml():
+    today = time.strftime("%Y-%m-%d", time.localtime())
+    return render_template('home/index.html', segment='index',
+                           startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                           today=today)
+
 
 @blueprint.route('/<template>')
 @login_required
