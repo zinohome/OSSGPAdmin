@@ -29,6 +29,8 @@ def route_sysadmin():
 @blueprint.route('/sysadmin-users.html', methods = ['GET', 'POST'])
 @login_required
 def route_sysadmin_users():
+    if oc.token_expired:
+        oc.renew_token()
     today = time.strftime("%Y-%m-%d", time.localtime())
     pageinfo = {}
     pageinfo['rcount'] = oc.fetchcount('users')['body']

@@ -24,6 +24,8 @@ class User(UserMixin):
     is_active = None
 
     def __init__(self, name):
+        if oc.token_expired:
+            oc.renew_token()
         udict = oc.getuser(name)
         if udict is not None:
             self.id = udict['name']
