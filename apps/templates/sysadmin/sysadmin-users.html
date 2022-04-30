@@ -47,13 +47,21 @@
                   <td>{{ tr[tdn] }}</td>
                   {% endif %}
                   {% endfor %}
-                  <td><a href=""><i class="typcn typcn-th-menu"></i></a></td>
+                  <td><div><a href=""><i class="typcn typcn-edit tx-18"></i></a> &nbsp;&nbsp;<a href=""><i class="typcn typcn-trash tx-18"></i></a></div></td>
                 </tr>
                 {% endfor %}
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="4"><div style="text-align: right;">...</div></td>
+                  <td colspan="4">
+                    <div style="text-align: right;">
+                      <a href=""><i class="typcn typcn-media-rewind tx-18"></i></a>
+                      <a href=""><i class="typcn typcn-media-play-reverse tx-18"></i></a>
+                      {{ pageinfo['curpage'] }}
+                      <a href=""><i class="typcn typcn-media-play tx-18"></i></a>
+                      <a href=""><i class="typcn typcn-media-fast-forward tx-18"></i></a>
+                    </div>
+                  </td>
                 </tr>
               </tfoot>
             </table>
