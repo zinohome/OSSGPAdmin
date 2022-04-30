@@ -8,12 +8,14 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: OSSGPAdmin
-
+from decouple import config
 from flask_login import UserMixin
 
 from apps import login_manager, log, oc
 
 from apps.authentication.util import hash_pass
+from utils.restclient import OSSGPClient
+
 
 class User(UserMixin):
     __collection__ = 'users'
