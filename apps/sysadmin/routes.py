@@ -24,3 +24,14 @@ def route_sysadmin():
     return render_template('sysadmin/sysadmin.html', segment='sysadmin',
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)
+
+@blueprint.route('/sysadmin-users.html', methods = ['GET', 'POST'])
+@login_required
+def route_sysadmin_users():
+    today = time.strftime("%Y-%m-%d", time.localtime())
+    log.logger.debug('today is :%s' % today)
+    resultstr = oc.fetch('users', '_collection', None, 0, 5)
+    log.logger.debug(resultstr)
+    return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users',
+                           startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                           today=today)
