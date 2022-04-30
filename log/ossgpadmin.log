@@ -556,3 +556,24 @@ NoneType: None
 2022-04-30 at 11:57:23 | INFO | Environment = Debug
 2022-04-30 at 11:57:28 | INFO | DEBUG       = True
 2022-04-30 at 11:57:28 | INFO | Environment = Debug
+2022-04-30 at 12:09:26 | INFO | DEBUG       = True
+2022-04-30 at 12:09:26 | INFO | Environment = Debug
+2022-04-30 at 12:09:50 | INFO | DEBUG       = True
+2022-04-30 at 12:09:50 | INFO | Environment = Debug
+2022-04-30 at 12:11:10 | INFO | DEBUG       = True
+2022-04-30 at 12:11:10 | INFO | Environment = Debug
+2022-04-30 at 12:11:16 | INFO | DEBUG       = True
+2022-04-30 at 12:11:16 | INFO | Environment = Debug
+2022-04-30 at 12:11:28 | INFO | DEBUG       = True
+2022-04-30 at 12:11:28 | INFO | Environment = Debug
+2022-04-30 at 12:12:01 | INFO | DEBUG       = True
+2022-04-30 at 12:12:01 | INFO | Environment = Debug
+2022-04-30 at 12:41:52 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_collection/token', method='POST', body={'detail': [{'loc': ['body'], 'msg': 'value is not a valid dict', 'type': 'type_error.dict'}]}, headers=Headers({'content-length': '88', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/_collection/token', method='POST', body={'detail': [{'loc': ['body'], 'msg': 'value is not a valid dict', 'type': 'type_error.dict'}]}, headers=Headers({'content-length': '88', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-30 at 12:41:54 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_collection/token', method='POST', body={'detail': [{'loc': ['body'], 'msg': 'value is not a valid dict', 'type': 'type_error.dict'}]}, headers=Headers({'content-length': '88', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/_collection/token', method='POST', body={'detail': [{'loc': ['body'], 'msg': 'value is not a valid dict', 'type': 'type_error.dict'}]}, headers=Headers({'content-length': '88', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-30 at 12:41:56 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_collection/token', method='POST', body={'detail': [{'loc': ['body'], 'msg': 'value is not a valid dict', 'type': 'type_error.dict'}]}, headers=Headers({'content-length': '88', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)", Response(url='http://127.0.0.1:6880/api/v2/_collection/token', method='POST', body={'detail': [{'loc': ['body'], 'msg': 'value is not a valid dict', 'type': 'type_error.dict'}]}, headers=Headers({'content-length': '88', 'content-type': 'application/json'}), status_code=422, client_response=<Response [422 Unprocessable Entity]>)) 
+2022-04-30 at 12:42:04 | INFO | DEBUG       = True
+2022-04-30 at 12:42:04 | INFO | Environment = Debug
+2022-04-30 at 12:42:06 | INFO | DEBUG       = True
+2022-04-30 at 12:42:06 | INFO | Environment = Debug
+2022-04-30 at 12:43:40 | INFO | DEBUG       = True
+2022-04-30 at 12:43:40 | INFO | Environment = Debug

@@ -20,6 +20,8 @@ from utils import log
 log = log.Logger(level=config('OSSGPADMIN_APP_LOG_LEVEL', default='INFO'))
 
 oc = OSSGPClient(config('OSSGPADMIN_APP_API_USER', default='admin'), config('OSSGPADMIN_APP_API_PASSWORD', default='passw0rd'))
+if oc.token_expired:
+    oc.renew_token()
 login_manager = LoginManager()
 
 
