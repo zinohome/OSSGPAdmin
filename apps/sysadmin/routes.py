@@ -8,6 +8,7 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: OSSGPAdmin
+from flask_paginate import Pagination, get_page_parameter
 
 from apps.sysadmin import blueprint
 from flask import render_template, request
@@ -47,7 +48,14 @@ def route_sysadmin_users():
     log.logger.debug(define)
     log.logger.debug(record)
     log.logger.debug(pageinfo)
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+
+    pagination = Pagination(page=page, total=pageinfo['rcount'], search=False,
+                            record_name='record', page_parameter='p',
+                            format_total=True, format_number=True)
+    log.logger.debug('pagination: %s' % pagination.links)
+    #log.logger.debug(page)
     return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users',
-                           define = define, record = record, pageinfo = pageinfo,
+                           define = define, record = record, pageinfo = pageinfo, pagination=pagination,
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)

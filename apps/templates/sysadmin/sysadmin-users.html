@@ -6,7 +6,9 @@
 {% block plugin_stylesheets %}{% endblock plugin_stylesheets %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+
+{% endblock stylesheets %}
 
 {% block content %}
 
@@ -20,12 +22,8 @@
             <span>系统管理</span>
             <span>用户管理</span>
           </div>
-          <h2 class="az-content-title">用户管理</h2>
-
-          <div class="az-content-label mg-b-5">
-            <p class="mg-b-20">管理系统用户，你可以在这里<a href="#">创建新用户</a></p>
-          </div>
-
+          <div class="az-content-label mg-b-5">管理系统用户，你可以在这里<a href="#">创建新用户</a></div>
+          <p class="mg-b-20">{{ pagination.info }}</p>
 
           <div class="table-responsive">
             <table class="table table-hover mg-b-0">
@@ -53,13 +51,14 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="4">
+                  <td colspan="2">
                     <div style="text-align: right;">
-                      <a href=""><i class="typcn typcn-media-rewind tx-18"></i></a>
-                      <a href=""><i class="typcn typcn-media-play-reverse tx-18"></i></a>
-                      {{ pageinfo['curpage'] }}
-                      <a href=""><i class="typcn typcn-media-play tx-18"></i></a>
-                      <a href=""><i class="typcn typcn-media-fast-forward tx-18"></i></a>
+                      &nbsp;
+                    </div>
+                  </td>
+                  <td colspan="2">
+                    <div style="text-align: right;">
+                      {{ pagination.links }}
                     </div>
                   </td>
                 </tr>
@@ -77,4 +76,33 @@
 {% block plugin_javascripts %}{% endblock plugin_javascripts %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+  <!-- page script -->
+<script>
+    function page_click(item) {
+
+      currentPage = {{ pageinfo['curpage'] }}
+      allpage = {{ pageinfo['rpages'] }}
+      gopage = 1
+      if(item=='first'){
+        gopage = 1
+      }
+      if(item=='last'){
+        gopage = allpage
+      }
+      if(item=='pre'){
+        gopage = currentPage-1
+      }
+      if(item=='next'){
+        gopage = currentPage+1
+      }
+      if(gopage<1){
+        gopage = 1
+      }
+      if(gopage>allpage){
+        gopage = allpage
+      }
+
+    }
+  </script>
+{% endblock javascripts %}

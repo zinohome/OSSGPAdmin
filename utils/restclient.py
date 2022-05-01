@@ -313,12 +313,13 @@ if __name__ == '__main__':
     resultstr = nc.deletebyid('users', '_collection', 'tony')
     log.logger.debug(resultstr)
 
-    '''
+
     for i in range(100):
         log.logger.debug(str(i))
         resultstr = nc.post('users', '_collection', json.dumps(
             {'data': {'name': 'tony'+str(i), 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}))
         log.logger.debug(resultstr)
+        '''
         resultstr = nc.deletebyid('users', '_collection', 'tony'+str(i))
         log.logger.debug(resultstr)
     
