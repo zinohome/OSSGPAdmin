@@ -8,8 +8,8 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: OSSGPAdmin
-from flask_paginate import Pagination, get_page_parameter
 
+from utils.pagination import Pagination, get_page_parameter
 from apps.sysadmin import blueprint
 from flask import render_template, request
 from flask_login import login_required

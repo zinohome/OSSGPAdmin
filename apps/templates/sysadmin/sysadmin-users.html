@@ -7,7 +7,7 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-
+<link rel="stylesheet" href="/static/assets/css/pagenate.css">
 {% endblock stylesheets %}
 
 {% block content %}
@@ -22,8 +22,9 @@
             <span>系统管理</span>
             <span>用户管理</span>
           </div>
+          <h2 class="az-content-title">用户管理</h2>
           <div class="az-content-label mg-b-5">管理系统用户，你可以在这里<a href="#">创建新用户</a></div>
-          <p class="mg-b-20">{{ pagination.info }}</p>
+
 
           <div class="table-responsive">
             <table class="table table-hover mg-b-0">
@@ -52,14 +53,10 @@
               <tfoot>
                 <tr>
                   <td colspan="2">
-                    <div style="text-align: right;">
-                      &nbsp;
-                    </div>
+                      {{ pagination.info }}
                   </td>
                   <td colspan="2">
-                    <div style="text-align: right;">
                       {{ pagination.links }}
-                    </div>
                   </td>
                 </tr>
               </tfoot>
