@@ -75,31 +75,4 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
   <!-- page script -->
-<script>
-    function page_click(item) {
-
-      currentPage = {{ pageinfo['curpage'] }}
-      allpage = {{ pageinfo['rpages'] }}
-      gopage = 1
-      if(item=='first'){
-        gopage = 1
-      }
-      if(item=='last'){
-        gopage = allpage
-      }
-      if(item=='pre'){
-        gopage = currentPage-1
-      }
-      if(item=='next'){
-        gopage = currentPage+1
-      }
-      if(gopage<1){
-        gopage = 1
-      }
-      if(gopage>allpage){
-        gopage = allpage
-      }
-
-    }
-  </script>
 {% endblock javascripts %}
