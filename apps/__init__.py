@@ -19,7 +19,6 @@ from utils import log
 '''logging'''
 log = log.Logger(level=config('OSSGPADMIN_APP_LOG_LEVEL', default='INFO'))
 
-#oc = OSSGPClient(config('OSSGPADMIN_APP_API_USER', default='admin'), config('OSSGPADMIN_APP_API_PASSWORD', default='passw0rd'))
 login_manager = LoginManager()
 
 
