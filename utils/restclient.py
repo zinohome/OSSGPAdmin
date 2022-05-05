@@ -207,6 +207,42 @@ class OSSGPClient():
                 if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
+    def fetchone(self, resource_name, url_prefix='', body=None, offset=None, limit=None):
+        action = 'list'
+        if self.token_expired:
+            self.renew_token()
+        if (not self.token_expired) and (self.access_token is not None):
+            # log.logger.debug('access_token : %s' % self.access_token)
+            api = self._api_client
+            api.headers = {'Authorization': 'Bearer ' + self.access_token}
+            if offset is not None:
+                api.headers['offset'] = str(offset)
+            if limit is not None:
+                api.headers['limit'] = str(limit)
+            api.api_root_url = self.api_root_url + url_prefix
+            api.add_resource(resource_name=resource_name)
+            try:
+                res = api._resources[api.correct_attribute_name(resource_name)]
+                #res = api._resources[resource_name]
+                #log.logger.debug(res.actions)
+                #log.logger.debug(res.get_action_full_url(action))
+                #log.logger.debug(res.get_action(action))
+                func = getattr(res,action)
+                response = None
+                if body is not None:
+                    response = func(body)
+                else:
+                    response = func()
+                log.logger.debug(response.body)
+                idict = response.body.copy()
+                idict.update((k, str(v)) for k, v in idict.items())
+                res = {'code': response.status_code, 'body': idict}
+                return res
+            except Exception as exp:
+                log.logger.error('Exception at fetchone() %s ' % exp)
+                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                    traceback.print_exc()
+
     def post(self, resource_name, url_prefix='', body=None):
         log.logger.debug(body)
         action = 'create'
@@ -306,20 +342,24 @@ if __name__ == '__main__':
     log.logger.debug(resultstr)
     resultstr = nc.fetch('users', '_collection', None, 0, 5)
     log.logger.debug(resultstr)
+    resultstr = nc.fetchone('admin', '_collection/users', None, 0, 5)
+    log.logger.debug(resultstr)
+    '''
     resultstr = nc.post('users', '_collection', json.dumps({'data': {'name': 'tony', 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}))
     log.logger.debug(resultstr)
     resultstr = nc.put('users', '_collection', json.dumps({"data": {'name': 'tony2', 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}),'tony')
     log.logger.debug(resultstr)
     resultstr = nc.deletebyid('users', '_collection', 'tony')
     log.logger.debug(resultstr)
+    '''
 
-
+    '''
     for i in range(100):
         log.logger.debug(str(i))
         resultstr = nc.post('users', '_collection', json.dumps(
             {'data': {'name': 'tony'+str(i), 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}))
         log.logger.debug(resultstr)
-        '''
+        
         resultstr = nc.deletebyid('users', '_collection', 'tony'+str(i))
         log.logger.debug(resultstr)
     

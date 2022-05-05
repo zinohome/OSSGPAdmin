@@ -824,30 +824,83 @@ NoneType: None
 2022-05-02 at 08:20:19 | INFO | Environment = Debug
 2022-05-02 at 08:21:40 | INFO | DEBUG       = True
 2022-05-02 at 08:21:40 | INFO | Environment = Debug
-2022-05-04 at 21:13:15 | INFO | DEBUG       = True
-2022-05-04 at 21:13:15 | INFO | Environment = Debug
-2022-05-04 at 21:13:16 | INFO | DEBUG       = True
-2022-05-04 at 21:13:16 | INFO | Environment = Debug
-2022-05-04 at 21:14:22 | ERROR | Exception at getuser() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_collection/users/admin', method='GET', body={'detail': 'Collection [ users ] not found'}, headers=Headers({'content-length': '43', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_collection/users/admin', method='GET', body={'detail': 'Collection [ users ] not found'}, headers=Headers({'content-length': '43', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
-2022-05-04 at 21:14:23 | ERROR | Exception at getuser() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_collection/users/admin', method='GET', body={'detail': 'Collection [ users ] not found'}, headers=Headers({'content-length': '43', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_collection/users/admin', method='GET', body={'detail': 'Collection [ users ] not found'}, headers=Headers({'content-length': '43', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
-2022-05-04 at 21:34:27 | ERROR | Exception at fetch() ("operation=server_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/users', method='GET', body='Internal Server Error', headers=Headers({'content-length': '21', 'content-type': 'text/plain; charset=utf-8'}), status_code=500, client_response=<Response [500 Internal Server Error]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/users', method='GET', body='Internal Server Error', headers=Headers({'content-length': '21', 'content-type': 'text/plain; charset=utf-8'}), status_code=500, client_response=<Response [500 Internal Server Error]>)) 
-2022-05-04 at 22:12:03 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:03 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:03 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:03 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:03 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:03 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:05 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:05 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:05 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:05 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:05 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:05 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:07 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:07 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:07 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:07 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:07 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:07 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:07 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:07 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:07 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:07 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:07 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:07 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:25 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:25 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:25 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:25 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:25 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:25 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:25 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:25 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:25 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:25 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:25 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json', 'date': 'Wed, 04 May 2022 14:12:25 GMT', 'server': 'hypercorn-h11'}), status_code=405, client_response=<Response [405 ]>)) 
-2022-05-04 at 22:12:35 | INFO | DEBUG       = True
-2022-05-04 at 22:12:35 | INFO | Environment = Debug
-2022-05-04 at 22:12:36 | INFO | DEBUG       = True
-2022-05-04 at 22:12:36 | INFO | Environment = Debug
-2022-05-04 at 22:19:55 | INFO | DEBUG       = True
-2022-05-04 at 22:19:55 | INFO | Environment = Debug
-2022-05-04 at 22:38:06 | INFO | DEBUG       = True
-2022-05-04 at 22:38:06 | INFO | Environment = Debug
+2022-05-04 at 22:25:50 | INFO | DEBUG       = True
+2022-05-04 at 22:25:50 | INFO | Environment = Debug
+2022-05-04 at 22:25:51 | INFO | DEBUG       = True
+2022-05-04 at 22:25:51 | INFO | Environment = Debug
+2022-05-05 at 10:58:03 | INFO | DEBUG       = True
+2022-05-05 at 10:58:03 | INFO | Environment = Debug
+2022-05-05 at 10:58:05 | INFO | DEBUG       = True
+2022-05-05 at 10:58:05 | INFO | Environment = Debug
+2022-05-05 at 11:06:26 | INFO | DEBUG       = True
+2022-05-05 at 11:06:26 | INFO | Environment = Debug
+2022-05-05 at 11:11:21 | INFO | DEBUG       = True
+2022-05-05 at 11:11:21 | INFO | Environment = Debug
+2022-05-05 at 11:30:47 | INFO | DEBUG       = True
+2022-05-05 at 11:30:47 | INFO | Environment = Debug
+2022-05-05 at 11:41:02 | INFO | DEBUG       = True
+2022-05-05 at 11:41:02 | INFO | Environment = Debug
+2022-05-05 at 11:41:38 | INFO | DEBUG       = True
+2022-05-05 at 11:41:38 | INFO | Environment = Debug
+2022-05-05 at 11:43:47 | INFO | DEBUG       = True
+2022-05-05 at 11:43:47 | INFO | Environment = Debug
+2022-05-05 at 11:44:05 | INFO | DEBUG       = True
+2022-05-05 at 11:44:05 | INFO | Environment = Debug
+2022-05-05 at 11:48:12 | INFO | DEBUG       = True
+2022-05-05 at 11:48:12 | INFO | Environment = Debug
+2022-05-05 at 11:48:23 | INFO | DEBUG       = True
+2022-05-05 at 11:48:23 | INFO | Environment = Debug
+2022-05-05 at 11:51:09 | INFO | DEBUG       = True
+2022-05-05 at 11:51:09 | INFO | Environment = Debug
+2022-05-05 at 11:51:56 | INFO | DEBUG       = True
+2022-05-05 at 11:51:56 | INFO | Environment = Debug
+2022-05-05 at 11:53:15 | INFO | DEBUG       = True
+2022-05-05 at 11:53:15 | INFO | Environment = Debug
+2022-05-05 at 11:55:29 | INFO | DEBUG       = True
+2022-05-05 at 11:55:29 | INFO | Environment = Debug
+2022-05-05 at 12:13:34 | INFO | DEBUG       = True
+2022-05-05 at 12:13:34 | INFO | Environment = Debug
+2022-05-05 at 12:15:20 | INFO | DEBUG       = True
+2022-05-05 at 12:15:20 | INFO | Environment = Debug
+2022-05-05 at 12:17:14 | INFO | DEBUG       = True
+2022-05-05 at 12:17:14 | INFO | Environment = Debug
+2022-05-05 at 12:19:24 | INFO | DEBUG       = True
+2022-05-05 at 12:19:24 | INFO | Environment = Debug
+2022-05-05 at 12:20:00 | INFO | DEBUG       = True
+2022-05-05 at 12:20:00 | INFO | Environment = Debug
+2022-05-05 at 12:33:58 | INFO | DEBUG       = True
+2022-05-05 at 12:33:58 | INFO | Environment = Debug
+2022-05-05 at 12:33:59 | INFO | DEBUG       = True
+2022-05-05 at 12:33:59 | INFO | Environment = Debug
+2022-05-05 at 12:40:46 | INFO | DEBUG       = True
+2022-05-05 at 12:40:46 | INFO | Environment = Debug
+2022-05-05 at 12:41:58 | INFO | DEBUG       = True
+2022-05-05 at 12:41:58 | INFO | Environment = Debug
+2022-05-05 at 12:45:39 | INFO | DEBUG       = True
+2022-05-05 at 12:45:39 | INFO | Environment = Debug
+2022-05-05 at 12:46:38 | INFO | DEBUG       = True
+2022-05-05 at 12:46:38 | INFO | Environment = Debug
+2022-05-05 at 12:46:57 | ERROR | Exception at fetch() 'users_admin' 
+2022-05-05 at 12:46:57 | INFO | DEBUG       = True
+2022-05-05 at 12:46:57 | INFO | Environment = Debug
+2022-05-05 at 12:48:00 | INFO | DEBUG       = True
+2022-05-05 at 12:48:00 | INFO | Environment = Debug
+2022-05-05 at 12:48:00 | ERROR | Exception at fetch() 'users_admin' 
+2022-05-05 at 12:49:10 | ERROR | Exception at fetch() 'data' 
+2022-05-05 at 12:49:11 | INFO | DEBUG       = True
+2022-05-05 at 12:49:11 | INFO | Environment = Debug
+2022-05-05 at 12:50:31 | INFO | DEBUG       = True
+2022-05-05 at 12:50:31 | INFO | Environment = Debug
+2022-05-05 at 12:52:03 | INFO | DEBUG       = True
+2022-05-05 at 12:52:03 | INFO | Environment = Debug
+2022-05-05 at 12:52:14 | INFO | DEBUG       = True
+2022-05-05 at 12:52:14 | INFO | Environment = Debug
+2022-05-05 at 12:52:14 | ERROR | Exception at fetch() 'str' object has no attribute 'update' 
+2022-05-05 at 12:53:13 | ERROR | Exception at fetchone() 'data' 
+2022-05-05 at 12:53:13 | INFO | DEBUG       = True
+2022-05-05 at 12:53:13 | INFO | Environment = Debug
+2022-05-05 at 12:53:57 | ERROR | Exception at fetchone() 'str' object has no attribute 'update' 
+2022-05-05 at 12:53:58 | INFO | DEBUG       = True
+2022-05-05 at 12:53:58 | INFO | Environment = Debug
+2022-05-05 at 12:55:17 | INFO | DEBUG       = True
+2022-05-05 at 12:55:17 | INFO | Environment = Debug
