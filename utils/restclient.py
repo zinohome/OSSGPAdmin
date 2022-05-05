@@ -233,7 +233,7 @@ class OSSGPClient():
                     response = func(body)
                 else:
                     response = func()
-                log.logger.debug(response.body)
+                #log.logger.debug(response.body)
                 idict = response.body.copy()
                 idict.update((k, str(v)) for k, v in idict.items())
                 res = {'code': response.status_code, 'body': idict}

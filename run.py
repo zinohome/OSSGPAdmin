@@ -37,10 +37,9 @@ except KeyError:
 
 app = create_app(app_config)
 
-
 if DEBUG:
     log.logger.info('DEBUG       = ' + str(DEBUG))
     log.logger.info('Environment = ' + get_config_mode)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(threaded=True)
