@@ -971,3 +971,39 @@ NoneType: None
 2022-05-05 at 14:44:56 | INFO | Environment = Debug
 2022-05-05 at 14:47:31 | INFO | DEBUG       = True
 2022-05-05 at 14:47:31 | INFO | Environment = Debug
+2022-05-05 at 17:30:41 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)) 
+2022-05-05 at 17:30:41 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)) 
+2022-05-05 at 17:30:42 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)) 
+2022-05-05 at 17:30:42 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)) 
+2022-05-05 at 17:30:45 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)) 
+2022-05-05 at 17:30:45 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)) 
+2022-05-05 at 17:30:45 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)) 
+2022-05-05 at 17:30:45 | ERROR | Exception at renew_token() ("operation=client_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/token', method='POST', body={'detail': 'Method Not Allowed'}, headers=Headers({'content-length': '31', 'content-type': 'application/json'}), status_code=405, client_response=<Response [405 Method Not Allowed]>)) 
+2022-05-05 at 17:30:51 | INFO | DEBUG       = True
+2022-05-05 at 17:30:51 | INFO | Environment = Debug
+2022-05-05 at 17:30:53 | INFO | DEBUG       = True
+2022-05-05 at 17:30:53 | INFO | Environment = Debug
+2022-05-05 at 17:49:57 | INFO | DEBUG       = True
+2022-05-05 at 17:49:57 | INFO | Environment = Debug
+2022-05-05 at 18:09:39 | INFO | DEBUG       = True
+2022-05-05 at 18:09:39 | INFO | Environment = Debug
+2022-05-05 at 18:09:51 | INFO | DEBUG       = True
+2022-05-05 at 18:09:51 | INFO | Environment = Debug
+2022-05-05 at 18:15:58 | INFO | DEBUG       = True
+2022-05-05 at 18:15:58 | INFO | Environment = Debug
+2022-05-05 at 18:16:57 | INFO | DEBUG       = True
+2022-05-05 at 18:16:57 | INFO | Environment = Debug
+2022-05-05 at 18:19:50 | INFO | DEBUG       = True
+2022-05-05 at 18:19:50 | INFO | Environment = Debug
+2022-05-05 at 18:26:00 | INFO | DEBUG       = True
+2022-05-05 at 18:26:00 | INFO | Environment = Debug
+2022-05-05 at 18:42:28 | INFO | DEBUG       = True
+2022-05-05 at 18:42:28 | INFO | Environment = Debug
+2022-05-05 at 18:55:10 | INFO | DEBUG       = True
+2022-05-05 at 18:55:10 | INFO | Environment = Debug
+2022-05-05 at 18:55:28 | INFO | DEBUG       = True
+2022-05-05 at 18:55:28 | INFO | Environment = Debug
+2022-05-05 at 18:56:41 | INFO | DEBUG       = True
+2022-05-05 at 18:56:41 | INFO | Environment = Debug
+2022-05-05 at 18:56:48 | INFO | DEBUG       = True
+2022-05-05 at 18:56:48 | INFO | Environment = Debug

@@ -68,8 +68,15 @@ def route_sysadmin_users():
                                    startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                    today=today)
 
-    elif request.method == 'POST': # edit
-        pass
+    elif request.method == 'POST': # create edit
+        act = request.args.get('act', type=str, default='list')
+        log.logger.debug(request.form.get('name'))
+        log.logger.debug(request.form.get('role'))
+        log.logger.debug(request.form.get('active'))
+        log.logger.debug(request.form.get('page'))
+        log.logger.debug(request.form.get('key'))
+        log.logger.debug(request.form.get('act'))
+
 
 @blueprint.route('/sysadmin-authority.html', methods = ['GET', 'POST'])
 @login_required
