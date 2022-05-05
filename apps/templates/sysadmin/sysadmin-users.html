@@ -35,7 +35,7 @@
           <h2 class="az-content-title">用户管理</h2>
 
           {% if act=='list' %}
-          <div class="az-content-label mg-b-5">管理系统用户，你可以在这里<a href="#">创建新用户</a></div>
+          <div class="az-content-label mg-b-5">管理系统用户，你可以在这里<a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=pagination.page,act='create') }}" title="查看">创建新用户</a></div>
           <div class="table-responsive">
             <table class="table table-hover mg-b-0">
               <thead>
@@ -54,7 +54,6 @@
                   {% endfor %}
                   <td>
                     <div>
-                      <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=pagination.page,act='view',key=tr[define['keyfieldname']]) }}" title="查看"><i class="typcn typcn-document tx-18"></i></a>
                       <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=pagination.page,act='edit',key=tr[define['keyfieldname']]) }}" title="修改"><i class="typcn typcn-edit tx-18"></i></a>
                       <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=pagination.page,act='delete',key=tr[define['keyfieldname']]) }}" title="删除"><i class="typcn typcn-trash tx-18"></i></a>
                     </div>
@@ -74,7 +73,7 @@
               </tfoot>
             </table>
           </div><!-- table-responsive -->
-          {% elif act=='view' %}
+          {% elif act=='edit' %}
           <div class="az-content-label mg-b-5">管理系统用户，你可以在这里查看用户资料</div>
           <div class="table-responsive">
             <table class="table mg-b-0">
@@ -82,15 +81,19 @@
                 <tr>
                   <td>
                     <div class="row row-sm">
-                      <div class="col-lg">
-                        {{ record }}
-                        <input class="form-control" placeholder="Input box" type="text">
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">{{ define['thlist'][0] }}:</label>
+                        <input class="form-control" placeholder="{{ record[define['thlist'][0]] }}" type="text" value="{{ record[define['thlist'][0]] }}">
                       </div><!-- col -->
-                      <div class="col-lg mg-t-10 mg-lg-t-0">
-                        <input class="form-control" placeholder="Input box (readonly)" readonly="" type="text">
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">{{ define['thlist'][1] }}:</label>
+                        <input class="form-control" placeholder="{{ record[define['thlist'][1]] }}" type="text" value="{{ record[define['thlist'][1]] }}">
                       </div><!-- col -->
-                      <div class="col-lg mg-t-10 mg-lg-t-0">
-                        <input class="form-control" placeholder="Input box (disabled)" disabled="" type="text">
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">{{ define['thlist'][2] }}:</label>
+                        <label class="ckbox">
+                          <input type="checkbox" {{ "checked" if record[define['thlist'][2]] == 'True'  }}><span>Active</span>
+                        </label>
                       </div><!-- col -->
                     </div><!-- row -->
                   </td>
@@ -116,7 +119,16 @@
 {% endblock content %}
 
 <!-- Page JS Plugins goes HERE  -->
-{% block plugin_javascripts %}{% endblock plugin_javascripts %}
+{% block plugin_javascripts %}
+    <script src="/static/assets/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="/static/assets/lib/jquery.maskedinput/jquery.maskedinput.js"></script>
+    <script src="/static/assets/lib/spectrum-colorpicker/spectrum.js"></script>
+    <script src="/static/assets/lib/select2/js/select2.min.js"></script>
+    <script src="/static/assets/lib/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="/static/assets/lib/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+    <script src="/static/assets/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
+    <script src="/static/assets/lib/pickerjs/picker.min.js"></script>
+{% endblock plugin_javascripts %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
