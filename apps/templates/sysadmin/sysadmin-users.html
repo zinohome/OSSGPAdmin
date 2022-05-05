@@ -35,7 +35,7 @@
           <h2 class="az-content-title">用户管理</h2>
 
           {% if act=='list' %}
-          <div class="az-content-label mg-b-5">管理系统用户，你可以在这里<a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=pagination.page,act='create') }}" title="查看"><i class="typcn typcn-chevron-right-outline tx-18"></i>创建新用户</a></div>
+          <div class="az-content-label mg-b-5">管理系统用户，你可以在这里<a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=pagination.page,act='create') }}" title="查看"><i class="typcn typcn-plus tx-18"></i>创建新用户</a></div>
           <div class="table-responsive">
             <table class="table table-hover mg-b-0">
               <thead>
@@ -196,7 +196,7 @@
                       <div class="col-sm-4">
                         <label class="az-content-label mg-b-5">用户名:</label>
                         <input class="form-control" name="page" type="hidden" value="{{ page }}">
-                        <input class="form-control" name="act" type="hidden" value="doedit">
+                        <input class="form-control" name="act" type="hidden" value="dodelete">
                         <input class="form-control" name="key" type="hidden" value="{{ record[define['keyfieldname']] }}">
                         <input class="form-control" placeholder="{{ record[define['thlist'][0]] }}" name="{{ define['thlist'][0] }}" type="text" value="{{ record[define['thlist'][0]] }}">
                       </div><!-- col -->
@@ -218,9 +218,9 @@
                 <tr>
                   <td>
                     <div class="az-content-label mg-b-5">
-                      <a href="javascript:if(document.getElementById('password').value==document.getElementById('rpassword').value){document.dataform.submit();}else{alert('密码和重复密码必须相同 !');}" title="提交"><i class="typcn typcn-media-eject tx-18"></i>提交</a>
+                      <a href="javascript:document.dataform.submit();" title="确定"><i class="typcn typcn-tick tx-18"></i>确定</a>
                       &nbsp;
-                      <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=page,act='list') }}" title="返回"><i class="typcn typcn-chevron-left tx-18"></i>返回</a>
+                      <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=page,act='list') }}" title="取消"><i class="typcn typcn-times tx-18"></i>取消</a>
                     </div>
                   </td>
                 </tr>

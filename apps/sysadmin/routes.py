@@ -55,36 +55,45 @@ def route_sysadmin_users():
                                    define = define, record = record, pagination=pagination,
                                    startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                    today=today)
-        if act == 'create':
+        elif act == 'create':
             return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users', act=act,
                                    define=define, page=page,
                                    startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                    today=today)
-        if act == 'edit':
+        elif act == 'edit':
             key = request.args.get('key', type=str, default=None)
             record = oc.fetchone(key, '_collection/users', None, 0, 5)['body']
             return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users', act=act,
                                    define=define, page=page, record = record,
                                    startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                    today=today)
-        if act == 'delete':
+        elif act == 'delete':
             key = request.args.get('key', type=str, default=None)
             record = oc.fetchone(key, '_collection/users', None, 0, 5)['body']
             return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users', act=act,
                                    define=define, page=page, record = record,
                                    startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                    today=today)
-
+        else:
+            count = oc.fetchcount('users')['body']
+            perpage = config('OSSGPADMIN_SYS_PAGE_SIZE', default=10, cast=int)
+            record = oc.fetch('users', '_collection', None, (page-1)*perpage, perpage)['body']
+            pagination = Pagination(page=page, per_page=perpage, total=count, search=False)
+            return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users', act=act,
+                                   define = define, record = record, pagination=pagination,
+                                   startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                                   today=today)
     elif request.method == 'POST': # create edit
         act = request.form.get('act', type=str, default='list')
-        crtjson = {}
-        bodyjson = {}
         if act == 'docreate':
+            crtjson = {}
+            bodyjson = {}
             crtjson['name'] = request.form.get('name')
             crtjson['role'] = request.form.get('role')
             crtjson['password'] = request.form.get('password')
-            crtjson['active'] = request.form.get('active')
+            crtjson['active'] = request.form.get('active', type=bool, default=False)
             bodyjson['data'] = crtjson
+            log.logger.debug(bodyjson)
             resultstr = oc.post('users', '_collection', json.dumps(bodyjson))
             page = request.form.get('page', type=int, default=1)
             count = oc.fetchcount('users')['body']
@@ -95,9 +104,48 @@ def route_sysadmin_users():
                                    define=define, record=record, pagination=pagination,
                                    startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                    today=today)
-
-
-
+        elif act == 'doedit':
+            crtjson = {}
+            bodyjson = {}
+            crtjson['name'] = request.form.get('name')
+            crtjson['role'] = request.form.get('role')
+            crtjson['password'] = request.form.get('password')
+            crtjson['active'] = request.form.get('active', type=bool, default=False)
+            bodyjson['data'] = crtjson
+            key = request.form.get('key')
+            resultstr = oc.put('users', '_collection', json.dumps(bodyjson),key)
+            page = request.form.get('page', type=int, default=1)
+            count = oc.fetchcount('users')['body']
+            perpage = config('OSSGPADMIN_SYS_PAGE_SIZE', default=10, cast=int)
+            record = oc.fetch('users', '_collection', None, (page - 1) * perpage, perpage)['body']
+            pagination = Pagination(page=page, per_page=perpage, total=count, search=False)
+            return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users', act='list',
+                                   define=define, record=record, pagination=pagination,
+                                   startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                                   today=today)
+        elif act == 'dodelete':
+            key = request.form.get('key')
+            page = request.form.get('page', type=int, default=1)
+            count = oc.fetchcount('users')['body']
+            perpage = config('OSSGPADMIN_SYS_PAGE_SIZE', default=10, cast=int)
+            if page > (count//perpage)+1:
+                page = (count//perpage)+1
+            resultstr = oc.deletebyid('users', '_collection', key)
+            record = oc.fetch('users', '_collection', None, (page - 1) * perpage, perpage)['body']
+            pagination = Pagination(page=page, per_page=perpage, total=count, search=False)
+            return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users', act='list',
+                                   define=define, record=record, pagination=pagination,
+                                   startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                                   today=today)
+        else:
+            count = oc.fetchcount('users')['body']
+            perpage = config('OSSGPADMIN_SYS_PAGE_SIZE', default=10, cast=int)
+            record = oc.fetch('users', '_collection', None, (page-1)*perpage, perpage)['body']
+            pagination = Pagination(page=page, per_page=perpage, total=count, search=False)
+            return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users', act=act,
+                                   define = define, record = record, pagination=pagination,
+                                   startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                                   today=today)
 
 
 @blueprint.route('/sysadmin-authority.html', methods = ['GET', 'POST'])
