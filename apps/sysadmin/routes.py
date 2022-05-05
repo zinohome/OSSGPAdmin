@@ -57,9 +57,9 @@ def route_sysadmin_users():
                                    today=today)
         if act=='view':
             key = request.args.get('key', type=str, default=None)
-            record = oc.fetch('users', '_collection', None, (page - 1) * perpage, perpage)['body']
+            record = oc.fetchone(key, '_collection/users', None, 0, 5)['body']
             return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users', act=act,
-                                   define=define, page=page,
+                                   define=define, page=page, record = record,
                                    startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                    today=today)
 
