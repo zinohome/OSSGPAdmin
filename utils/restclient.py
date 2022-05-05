@@ -337,6 +337,7 @@ if __name__ == '__main__':
         log.logger.debug(nc.fetchusers())
     log.logger.debug(nc.getuser('admin'))
     log.logger.debug(nc.getuser('ddf'))
+    log.logger.debug("nc.getuser('ddf') %s" % nc.getuser('ddf'))
     log.logger.debug(nc.fetchcount('users'))
     resultstr = nc.fetch('users', '_collection', None, 0, 5)
     log.logger.debug(resultstr)

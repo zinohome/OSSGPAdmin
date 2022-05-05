@@ -8,16 +8,18 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: OSSGPAdmin
-
+from utils import cryptutil
 from utils.pagination import Pagination, get_page_parameter
 from apps.sysadmin import blueprint
-from flask import render_template, request, url_for, redirect
+from flask import render_template, request, url_for, redirect, session
 from flask_login import login_required
 from jinja2 import TemplateNotFound
-from apps import log, oc
+from apps import log
 import simplejson as json
 import time
 from decouple import config
+from utils.restclient import OSSGPClient
+
 
 @blueprint.route('/sysadmin.html', methods = ['GET', 'POST'])
 @login_required
@@ -30,6 +32,8 @@ def route_sysadmin():
 @blueprint.route('/sysadmin-users.html', methods = ['GET', 'POST'])
 @login_required
 def route_sysadmin_users():
+    oc = OSSGPClient(session['username'],
+                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
         oc.renew_token()
     today = time.strftime("%Y-%m-%d", time.localtime())
@@ -126,11 +130,11 @@ def route_sysadmin_users():
         elif act == 'dodelete':
             key = request.form.get('key')
             page = request.form.get('page', type=int, default=1)
-            count = oc.fetchcount('users')['body']
             perpage = config('OSSGPADMIN_SYS_PAGE_SIZE', default=10, cast=int)
-            if page > (count//perpage)+1:
-                page = (count//perpage)+1
             resultstr = oc.deletebyid('users', '_collection', key)
+            count = oc.fetchcount('users')['body']
+            if page >= (count//perpage)+1:
+                page = (count//perpage)+1
             record = oc.fetch('users', '_collection', None, (page - 1) * perpage, perpage)['body']
             pagination = Pagination(page=page, per_page=perpage, total=count, search=False)
             return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users', act='list',
@@ -152,6 +156,8 @@ def route_sysadmin_users():
 @login_required
 def route_sysadmin_authority():
     if request.method == 'GET':
+        oc = OSSGPClient(session['username'],
+                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
         if oc.token_expired:
             oc.renew_token()
         today = time.strftime("%Y-%m-%d", time.localtime())

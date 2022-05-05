@@ -9,19 +9,21 @@
 #  @Email   : ibmzhangjun@139.com
 #  @Software: OSSGPAdmin
 
-from flask import render_template, redirect, request, url_for
+from flask import render_template, redirect, request, url_for, session
 from flask_login import (
     current_user,
     login_user,
     logout_user
 )
 
-from apps import login_manager, log, oc
+from apps import login_manager, log
 from apps.authentication import blueprint
 from apps.authentication.forms import LoginForm
 from apps.authentication.models import User
+from decouple import config
 
 from apps.authentication.util import verify_pass
+from utils import cryptutil
 
 
 @blueprint.route('/')
@@ -38,11 +40,16 @@ def login():
         # read form data
         username = request.form['username']
         password = request.form['password']
+        remember = True if request.form.get('remember') else False
+
+
         # Locate user
         user = User(username)
-        # Check the password
+
         if user and verify_pass(password, user.password):
-            login_user(user,fresh=True)
+            session['username'] = user.username
+            session['password'] = cryptutil.encrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), password)
+            login_user(user, remember=remember, fresh=True)
             return redirect(url_for('authentication_blueprint.route_default'))
         # Something (user or pass) is not ok
         return render_template('accounts/login.html',
