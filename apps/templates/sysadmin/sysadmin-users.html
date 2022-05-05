@@ -85,7 +85,7 @@
                       <div class="col-sm-4">
                         <label class="az-content-label mg-b-5">用户名:</label>
                         <input class="form-control" name="page" type="hidden" value="{{ page }}">
-                        <input class="form-control" name="act" type="hidden" value="creat">
+                        <input class="form-control" name="act" type="hidden" value="docreate">
                         <input class="form-control" placeholder="{{ define['thlist'][0] }}" name="{{ define['thlist'][0] }}" type="text" value="">
                       </div><!-- col -->
                       <div class="col-sm-4">
@@ -95,7 +95,7 @@
                       <div class="col-sm-4">
                         <label class="az-content-label mg-b-5">激活状态:</label>
                         <label class="ckbox">
-                          <input type="checkbox" name="{{ define['thlist'][2] }}" ><span>Active</span>
+                          <input type="checkbox" name="{{ define['thlist'][2] }}" value="True" ><span>Active</span>
                         </label>
                       </div><!-- col -->
                     </div><!-- row -->
@@ -140,7 +140,7 @@
                       <div class="col-sm-4">
                         <label class="az-content-label mg-b-5">用户名:</label>
                         <input class="form-control" name="page" type="hidden" value="{{ page }}">
-                        <input class="form-control" name="act" type="hidden" value="edit">
+                        <input class="form-control" name="act" type="hidden" value="doedit">
                         <input class="form-control" name="key" type="hidden" value="{{ record[define['keyfieldname']] }}">
                         <input class="form-control" placeholder="{{ record[define['thlist'][0]] }}" name="{{ define['thlist'][0] }}" type="text" value="{{ record[define['thlist'][0]] }}">
                       </div><!-- col -->
@@ -158,11 +158,11 @@
                     <div class="row row-sm">
                       <div class="col-sm-4">
                         <label class="az-content-label mg-b-5">密码:</label>
-                        <input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
+                        <input class="form-control" placeholder="Password" name="password" id="password" type="password" value="{{ record['password'] }}">
                       </div><!-- col -->
                       <div class="col-sm-4">
                         <label class="az-content-label mg-b-5">重复密码:</label>
-                        <input class="form-control" placeholder="Password" name="rpassword" id="rpassword" type="password" value="">
+                        <input class="form-control" placeholder="Password" name="rpassword" id="rpassword" type="password" value="{{ record['password'] }}">
                       </div><!-- col -->
                     </div><!-- row -->
                   </td>
@@ -185,6 +185,49 @@
             </table>
           </div><!-- view-responsive -->
           {% elif act=='delete' %}
+          <div class="az-content-label mg-b-5">⚠️ &nbsp;警告：确定删除用户资料吗？</div>
+          <div class="table-responsive">
+            <table class="table mg-b-0">
+              <form name="dataform" id="dataform" method="POST" action="{{ url_for('sysadmin_blueprint.route_sysadmin_users') }}">
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="row row-sm">
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">用户名:</label>
+                        <input class="form-control" name="page" type="hidden" value="{{ page }}">
+                        <input class="form-control" name="act" type="hidden" value="doedit">
+                        <input class="form-control" name="key" type="hidden" value="{{ record[define['keyfieldname']] }}">
+                        <input class="form-control" placeholder="{{ record[define['thlist'][0]] }}" name="{{ define['thlist'][0] }}" type="text" value="{{ record[define['thlist'][0]] }}">
+                      </div><!-- col -->
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">角色:</label>
+                        <input class="form-control" placeholder="{{ record[define['thlist'][1]] }}" name="{{ define['thlist'][1] }}" type="text" value="{{ record[define['thlist'][1]] }}">
+                      </div><!-- col -->
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">激活状态:</label>
+                        <label class="ckbox">
+                          <input type="checkbox" name="{{ define['thlist'][2] }}" {{ "checked" if record[define['thlist'][2]] == 'True'  }} value="{{ record[define['thlist'][2]] }}"><span>Active</span>
+                        </label>
+                      </div><!-- col -->
+                    </div><!-- row -->
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>
+                    <div class="az-content-label mg-b-5">
+                      <a href="javascript:if(document.getElementById('password').value==document.getElementById('rpassword').value){document.dataform.submit();}else{alert('密码和重复密码必须相同 !');}" title="提交"><i class="typcn typcn-media-eject tx-18"></i>提交</a>
+                      &nbsp;
+                      <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=page,act='list') }}" title="返回"><i class="typcn typcn-chevron-left tx-18"></i>返回</a>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+              </form>
+            </table>
+          </div><!-- view-responsive -->
           {% endif %}
 
         </div><!-- az-content-body -->

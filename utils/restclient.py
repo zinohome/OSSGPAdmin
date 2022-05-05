@@ -244,7 +244,7 @@ class OSSGPClient():
                     traceback.print_exc()
 
     def post(self, resource_name, url_prefix='', body=None):
-        log.logger.debug(body)
+        #log.logger.debug(body)
         action = 'create'
         if self.token_expired:
             self.renew_token()
@@ -271,7 +271,7 @@ class OSSGPClient():
                     traceback.print_exc()
 
     def put(self, resource_name, url_prefix='', body=None, idvalue=None):
-        log.logger.debug(body)
+        #log.logger.debug(body)
         action = 'update'
         if self.token_expired:
             self.renew_token()
