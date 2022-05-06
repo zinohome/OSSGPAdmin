@@ -8,7 +8,10 @@
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
   <!-- DataTables -->
-  <link rel="stylesheet" href="/static/assets/lib/datatables/datatables.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-bs4/css/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-buttons/css/buttons.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-select/css/select.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
 
   <!-- DataTables Editor-->
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
@@ -16,6 +19,7 @@
 <style type="text/css">
 .align-right {text-align: right;font-size:13px;}
 .table.dataTable  {font-size: 13px;}
+
 </style>
 {% endblock stylesheets %}
 
@@ -67,34 +71,49 @@
   <script src="/static/assets/lib/datatables/pdfmake.js"></script>
   <script src="/static/assets/lib/datatables/vfs_fonts.js"></script>
   <script src="/static/assets/lib/datatables/datatables.js"></script>
--->
+
   <!-- DataTables Editor-->
   <script src="/static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>
   <!-- page script -->
   <script>
     $(document).ready(function () {
       editor = new $.fn.dataTable.Editor({
-        "ajaxUrl": "/sysadmin-authority/getdata",
-        "domTable": "#datatable",
+        "ajax": "/sysadmin-authority/data",
+        "table": "#datatable",
+        "display": "lightbox",
+        "idSrc":  "name",
         "fields": [ {
                 "label": "姓名:",
                 "name": "name"
             }, {
                 "label": "角色:",
-                "name": "role"
+                "name": "role",
+                "type": "select",
+                "multiple": true,
+                "separator": ',',
+                "options":[
+                    {label:"Admin", value:"admin"},
+                    {label:"User", value:"user"}
+                ]
             }, {
-                "label": "是否活动:",
-                "name": "active"
+                "label": "是否激活:",
+                "name": "active",
+                "type":"radio",
+                "options":[
+                    {label:"激活", value:"True"},
+                    {label:"锁定", value:"False"}
+                ]
             }, {
                 "label": "密码:",
-                "name": "password"
+                "name": "password",
+                "type": "password"
             }
         ]
       });
       $("#datatable").DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": "/sysadmin-authority/getdata",
+        "ajax": "/sysadmin-authority/data",
         "responsive": true,
         "autoWidth": true,
         "paging": true,
@@ -108,9 +127,9 @@
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
         "select": "single",
         "columns":[
-          {data:"name",title:"name",defaultContent:""},
-          {data:"role",title:"role",defaultContent:""},
-          {data:"active",title:"active",defaultContent:""},
+          {data:"name",title:"姓名",defaultContent:""},
+          {data:"role",title:"角色",defaultContent:""},
+          {data:"active",title:"是否激活",defaultContent:""},
         ],
         buttons: [
         { extend: 'create', editor: editor },

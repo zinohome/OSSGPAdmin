@@ -11,7 +11,7 @@
 from utils import cryptutil
 from utils.pagination import Pagination, get_page_parameter
 from apps.sysadmin import blueprint
-from flask import render_template, request, url_for, redirect, session
+from flask import render_template, request, url_for, redirect, session, Response
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from apps import log
@@ -181,16 +181,16 @@ def route_sysadmin_authority():
             'recordsTotal': count,
             'draw': request.args.get('draw', type=int),
         }
-        log.logger.debug("define %s" % define)
-        log.logger.debug("rdata %s" % rdata)
+        #log.logger.debug("define %s" % define)
+        #log.logger.debug("rdata %s" % rdata)
         return render_template('sysadmin/sysadmin-authority.html', segment='sysadmin-authority',
                                 define=define, record=record,
                                 startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                 today=today)
 
-@blueprint.route('/sysadmin-authority/getdata', methods = ['GET', 'POST'])
+@blueprint.route('/sysadmin-authority/data', methods = ['GET', 'POST'])
 @login_required
-def route_sysadmin_authority_getdata():
+def route_sysadmin_authority_data():
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
@@ -206,5 +206,41 @@ def route_sysadmin_authority_getdata():
             'recordsTotal': count,
             'draw': request.args.get('draw', type=int),
         }
-        log.logger.debug("rdata %s" % rdata)
         return rdata
+    elif request.method == 'POST':
+        definestr = oc.fetch('users', '_sysdef', None, 0, 5)['body']
+        keyfieldname = definestr['data'][0]['keyfieldname']
+        action = request.form.get('action', type=str)
+        reqdict = request.form.to_dict()
+        formdict = {}
+        for (key, value) in reqdict.items():
+            if '][' in key:
+                formdict[key.split(']')[1][1:]] = value
+        formdict['_key'] = formdict[keyfieldname]
+        subformdata = {'data':formdict}
+        if action == 'create':
+            resultstr = oc.post('users', '_collection', json.dumps(subformdata))
+            if resultstr['code'] == 200:
+                returnlist=[]
+                returnlist.append(resultstr['body'])
+                returndict={'data':returnlist}
+                return Response(json.dumps(returndict), status=200)
+            else:
+                return Response('{"status":500, "body": "Error"}', status=500)
+        elif action == 'edit':
+            log.logger.debug(request.form.to_dict())
+            resultstr = oc.put('users', '_collection', json.dumps(subformdata),formdict[keyfieldname])
+            if resultstr['code'] == 200:
+                returnlist=[]
+                returnlist.append(resultstr['body'])
+                returndict={'data':returnlist}
+                return Response(json.dumps(returndict), status=200)
+            else:
+                return Response('{"status":500, "body": "Error"}', status=500)
+        elif action == 'remove':
+            resultstr = oc.deletebyid('users', '_collection', formdict[keyfieldname])
+            #log.logger.debug(resultstr)
+            if resultstr['code'] == 200:
+                return Response('{"status":200, "body": "'+ str(resultstr['body'])+'"}', status=200)
+            else:
+                return Response('{"status":500, "body": "Error"}', status=500)
