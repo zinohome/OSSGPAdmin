@@ -155,29 +155,56 @@ def route_sysadmin_users():
 @blueprint.route('/sysadmin-authority.html', methods = ['GET', 'POST'])
 @login_required
 def route_sysadmin_authority():
-    if request.method == 'GET':
-        oc = OSSGPClient(session['username'],
-                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
-        if oc.token_expired:
-            oc.renew_token()
-        today = time.strftime("%Y-%m-%d", time.localtime())
-        definestr = oc.fetch('users', '_sysdef', None, 0, 5)['body']
-        log.logger.debug('definestr: %s' % definestr)
+    oc = OSSGPClient(session['username'],
+                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+    if oc.token_expired:
+        oc.renew_token()
+    today = time.strftime("%Y-%m-%d", time.localtime())
+    definestr = oc.fetch('users', '_sysdef', None, 0, 5)['body']
+    define = {}
+    define['colname'] = definestr['data'][0]['name']
+    define['keyfieldname'] = definestr['data'][0]['keyfieldname']
+    define['coldef'] = json.loads(definestr['data'][0]['coldef'])
+    thlist = []
+    for cdef in define['coldef'].keys():
+        if cdef not in ['__collection__', '_index', '_key', 'password']:
+            thlist.append(cdef)
+    define['thlist'] = thlist
+    if request.method == 'GET':  # list
         count = oc.fetchcount('users')['body']
-        page = request.args.get(get_page_parameter(), type=int, default=1)
-        perpage = config('OSSGPADMIN_SYS_PAGE_SIZE', default=10, cast=int)
-        define = {}
-        define['colname'] = definestr['data'][0]['name']
-        define['keyfieldname'] = definestr['data'][0]['keyfieldname']
-        define['coldef'] = json.loads(definestr['data'][0]['coldef'])
-        record = oc.fetch('users', '_collection', None, (page-1)*perpage, perpage)['body']
-        #log.logger.debug(definestr)
-        #log.logger.debug(define)
-        #log.logger.debug(record)
-        pagination = Pagination(page=page, per_page=perpage, total=count, search=False)
+        start = request.args.get('start', type=int)
+        length = request.args.get('length', type=int)
+        record = oc.fetch('users', '_collection', None, start, length)['body']
+        rdata = {
+            'data': record['data'],
+            'recordsFiltered': record['count'],
+            'recordsTotal': count,
+            'draw': request.args.get('draw', type=int),
+        }
+        log.logger.debug("define %s" % define)
+        log.logger.debug("rdata %s" % rdata)
         return render_template('sysadmin/sysadmin-authority.html', segment='sysadmin-authority',
-                               define = define, record = record, pagination=pagination,
-                               startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
-                               today=today)
-    elif request.method == 'POST':
-        pass
+                                define=define, record=record,
+                                startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                                today=today)
+
+@blueprint.route('/sysadmin-authority/getdata', methods = ['GET', 'POST'])
+@login_required
+def route_sysadmin_authority_getdata():
+    oc = OSSGPClient(session['username'],
+                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+    if oc.token_expired:
+        oc.renew_token()
+    if request.method == 'GET':  # list
+        count = oc.fetchcount('users')['body']
+        start = request.args.get('start', type=int)
+        length = request.args.get('length', type=int)
+        record = oc.fetch('users', '_collection', None, start, length)['body']
+        rdata = {
+            'data': record['data'],
+            'recordsFiltered': count,
+            'recordsTotal': count,
+            'draw': request.args.get('draw', type=int),
+        }
+        log.logger.debug("rdata %s" % rdata)
+        return rdata

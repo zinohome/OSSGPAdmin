@@ -7,7 +7,11 @@
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-<link rel="stylesheet" href="/static/assets/css/pagenate.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/static/assets/lib/datatables-bs4/css/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-buttons/css/buttons.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-select/css/select.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
 {% endblock stylesheets %}
 
 {% block content %}
@@ -23,43 +27,18 @@
             <span>用户管理</span>
           </div>
           <h2 class="az-content-title">用户管理</h2>
-          <div class="az-content-label mg-b-5">管理系统用户，你可以在这里<a href="#">创建新用户</a></div>
-
 
           <div class="table-responsive">
-            <table class="table table-hover mg-b-0">
+            <table id="datatable" class="table table-hover mg-b-0">
               <thead>
                 <tr>
-                  {% for th in define['coldef'].keys() %}
-                  {% if th not in ['__collection__','_index','_key','password'] %}
+                  {% for th in define['thlist'] %}
                   <th>{{ th }}</th>
-                  {% endif %}
-                  {% endfor %}
-                  <th>操作</th>
+                    {% endfor %}
                 </tr>
               </thead>
               <tbody>
-                {% for tr in record['data']  %}
-                <tr>
-                  {% for tdn in tr.keys() %}
-                  {% if tdn not in ['__collection__','_index','_key','password'] %}
-                  <td>{{ tr[tdn] }}</td>
-                  {% endif %}
-                  {% endfor %}
-                  <td><div><a href=""><i class="typcn typcn-edit tx-18"></i></a> &nbsp;&nbsp;<a href=""><i class="typcn typcn-trash tx-18"></i></a></div></td>
-                </tr>
-                {% endfor %}
               </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="2">
-                      {{ pagination.info }}
-                  </td>
-                  <td colspan="2">
-                      {{ pagination.links }}
-                  </td>
-                </tr>
-              </tfoot>
             </table>
           </div><!-- table-responsive -->
           
@@ -74,5 +53,56 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+ <!-- jQuery -->
+  <script src="/static/assets/lib/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/lib/bootstrap/js/bootstrap.bundle.js"></script>
+  <!-- DataTables -->
+  <script src="/static/assets/lib/datatables/jquery.dataTables.min.js"></script>
+  <script src="/static/assets/lib/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="/static/assets/lib/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/static/assets/lib/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <!-- DataTables Editor-->
+
   <!-- page script -->
+  <script>
+    $(function () {
+      $("#datatable").DataTable({
+        "language": {
+            "processing": "正在加载 ......",
+            "lengthMenu": "每页显示 _MENU_ 条记录",
+            "zeroRecords": "没有记录",
+            "info": "第 _PAGE_ 页，共 _PAGES_ 页",
+            "infoEmpty": "没有更多的记录",
+            "infoFiltered": "(从 _MAX_ 条记录中过滤)",
+            "paginate":{
+                "previous": "《",
+                "next": "》"
+            }
+        },
+        "processing": true,
+        "serverSide": true,
+        "ajax": "/sysadmin-authority/getdata",
+        "responsive": true,
+        "autoWidth": true,
+        "paging": true,
+        "lengthChange": true,
+        "searching": false,
+        "ordering": false,
+        "info": true,
+        "dom": '<lfBr<t>ip>',        // Needs button container
+        "select": true,
+        "columns":[
+          {data:"name",title:"name",defaultContent:""},
+          {data:"role",title:"role",defaultContent:""},
+          {data:"active",title:"active",defaultContent:""},
+        ],
+        buttons: [
+        { extend: 'create', editor: editor },
+        { extend: 'edit',   editor: editor },
+        { extend: 'remove', editor: editor }
+        ]
+      });
+    });
+  </script>
 {% endblock javascripts %}
