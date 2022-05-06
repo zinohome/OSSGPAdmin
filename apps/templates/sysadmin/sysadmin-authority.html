@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+<script src="../../static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>{% extends "layouts/base.html" %}
 
 {% block title %} Tables {% endblock %} 
 
@@ -12,6 +12,13 @@
   <link rel="stylesheet" href="/static/assets/lib/datatables-buttons/css/buttons.bootstrap4.css">
   <link rel="stylesheet" href="/static/assets/lib/datatables-select/css/select.bootstrap4.css">
   <link rel="stylesheet" href="/static/assets/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <!-- DataTables Editor-->
+  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
+
+<style type="text/css">
+.align-right {text-align: right;font-size:13px;}
+.table.dataTable  {font-size: 13px;}
+</style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -62,23 +69,36 @@
   <script src="/static/assets/lib/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="/static/assets/lib/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="/static/assets/lib/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="/static/assets/lib/datatables-select/js/dataTables.select.min.js"></script>
+  <script src="/static/assets/lib/datatables-select/js/select.bootstrap4.min.js"></script>
+  <script src="/static/assets/lib/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="/static/assets/lib/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
   <!-- DataTables Editor-->
-
+  <script src="/static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>
   <!-- page script -->
   <script>
-    $(function () {
+    $(document).ready(function () {
+      editor = new $.fn.dataTable.Editor({
+        "ajaxUrl": "php/gc_users.php",
+        "domTable": "#datatable",
+        "fields": [ {
+                "label": "姓名:",
+                "name": "name"
+            }, {
+                "label": "角色:",
+                "name": "role"
+            }, {
+                "label": "是否活动:",
+                "name": "active"
+            }, {
+                "label": "密码:",
+                "name": "password"
+            }
+        ]
+      });
       $("#datatable").DataTable({
         "language": {
-            "processing": "正在加载 ......",
-            "lengthMenu": "每页显示 _MENU_ 条记录",
-            "zeroRecords": "没有记录",
-            "info": "第 _PAGE_ 页，共 _PAGES_ 页",
-            "infoEmpty": "没有更多的记录",
-            "infoFiltered": "(从 _MAX_ 条记录中过滤)",
-            "paginate":{
-                "previous": "《",
-                "next": "》"
-            }
+            "url":"/static/assets/lib/datatables/zh_CN.json"
         },
         "processing": true,
         "serverSide": true,
@@ -87,11 +107,14 @@
         "autoWidth": true,
         "paging": true,
         "lengthChange": true,
+        "fixedHeader": true,
         "searching": false,
         "ordering": false,
         "info": true,
-        "dom": '<lfBr<t>ip>',        // Needs button container
-        "select": true,
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'<'align-right'B>>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
+        "select": "single",
         "columns":[
           {data:"name",title:"name",defaultContent:""},
           {data:"role",title:"role",defaultContent:""},
