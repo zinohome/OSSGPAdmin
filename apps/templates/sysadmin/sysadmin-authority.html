@@ -61,7 +61,7 @@
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
  <!-- jQuery -->
-  <script src="/static/assets/lib/jquery/jquery.min.js"></script>
+  <script src="/static/assets/lib/jquery/jquery-3.6.0.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="/static/assets/lib/bootstrap/js/bootstrap.bundle.js"></script>
   <!-- DataTables -->
@@ -79,7 +79,7 @@
   <script>
     $(document).ready(function () {
       editor = new $.fn.dataTable.Editor({
-        "ajaxUrl": "php/gc_users.php",
+        "ajaxUrl": "/sysadmin-authority/getdata",
         "domTable": "#datatable",
         "fields": [ {
                 "label": "姓名:",
@@ -97,9 +97,6 @@
         ]
       });
       $("#datatable").DataTable({
-        "language": {
-            url:'/static/assets/lib/datatables/zh.json'
-        },
         "processing": true,
         "serverSide": true,
         "ajax": "/sysadmin-authority/getdata",
@@ -124,7 +121,10 @@
         { extend: 'create', editor: editor },
         { extend: 'edit',   editor: editor },
         { extend: 'remove', editor: editor }
-        ]
+        ],
+        "language": {
+            url:'/static/assets/lib/datatables/zh.json'
+        }
       });
     });
   </script>
