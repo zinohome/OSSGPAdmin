@@ -7327,7 +7327,9 @@ a.text-dark:hover, a.text-dark:focus {
   padding: 9px 20px;
   border-radius: 0;
   transition: none;
-  min-height: 38px; }
+  font-size: 13px;
+  min-height: 30px;
+  min-width: 30px;}
   .btn:active, .btn:focus {
     box-shadow: none; }
 
@@ -7846,8 +7848,8 @@ a.text-dark:hover, a.text-dark:focus {
       font-size: 18px; }
 
 .btn-icon {
-  width: 38px;
-  height: 38px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;

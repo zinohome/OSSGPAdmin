@@ -38,7 +38,7 @@
           <h2 class="az-content-title">用户管理</h2>
 
           <div class="table-responsive">
-            <table id="datatable" class="table table-hover mg-b-0">
+            <table id="datatable" class="table table-hover mg-b-0" width="100%">
               <thead>
                 <tr>
                   {% for th in define['thlist'] %}
@@ -77,12 +77,19 @@
   <!-- page script -->
   <script>
     $(document).ready(function () {
-      editor = new $.fn.dataTable.Editor({
-        "ajax": "/sysadmin-authority/data",
-        "table": "#datatable",
-        "display": "lightbox",
-        "idSrc":  "name",
-        "fields": [ {
+      $.fn.dataTable.ext.buttons.reload = {
+        text:'<i class="typcn typcn-arrow-sync tx-18"></i>',
+        titleAttr: '刷新',
+        action: function ( e, dt, node, config ) {
+            dt.ajax.reload();
+        }
+      };
+      var editor = new $.fn.dataTable.Editor({
+        ajax: "/sysadmin-authority/data",
+        table: "#datatable",
+        display: "lightbox",
+        idSrc:  "name",
+        fields: [ {
                 "label": "姓名:",
                 "name": "name"
             }, {
@@ -110,33 +117,43 @@
             }
         ]
       });
-      $("#datatable").DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ajax": "/sysadmin-authority/data",
-        "responsive": true,
-        "autoWidth": true,
-        "paging": true,
-        "lengthChange": true,
-        "fixedHeader": true,
-        "searching": false,
-        "ordering": false,
-        "info": true,
-        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'<'align-right'B>>>" +
+      var datatable = $("#datatable").DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "/sysadmin-authority/data",
+        responsive: {
+            details: true
+        },
+        autoWidth: true,
+        paging: true,
+        fixedHeader: true,
+        searching: false,
+        ordering: false,
+        info: true,
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'<'align-right'B>>>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
-        "select": "single",
-        "columns":[
+        select: 'single',
+        columns:[
           {data:"name",title:"姓名",defaultContent:""},
           {data:"role",title:"角色",defaultContent:""},
           {data:"active",title:"是否激活",defaultContent:""},
         ],
-        buttons: [
-        { extend: 'create', editor: editor },
-        { extend: 'edit',   editor: editor },
-        { extend: 'remove', editor: editor }
-        ],
-        "language": {
+        buttons: true,
+        buttons: {
+          name:'primary',
+          buttons: [
+          { extend: 'create', text:'<i class="typcn typcn-plus tx-18"></i>', titleAttr: '新增', editor: editor },
+          { extend: 'edit', text:'<i class="typcn typcn-edit tx-18"></i>', titleAttr: '修改', editor: editor },
+          { extend: 'remove', text:'<i class="typcn typcn-trash tx-18"></i>', titleAttr: '删除', editor: editor },
+          'reload'
+          ],
+          dom: {
+            button: { className: "btn btn-info btn-icon"},
+            buttonLiner: { tag: null }
+          }
+        },
+        language: {
             url:'/static/assets/lib/datatables/zh.json'
         }
       });
