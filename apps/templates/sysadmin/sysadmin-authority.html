@@ -18,8 +18,12 @@
 
 <style type="text/css">
 .align-right {text-align: right;font-size:13px;}
-.table.dataTable  {font-size: 13px;}
-
+.table.dataTable {font-size: 13px;}
+.dataTables_length {font-size: 13px;}
+.dataTables_info {font-size: 13px;}
+.paginate_button {font-size: 13px;}
+.btn-icon {height:30px; width:30px;}
+.btn-info {height:30px; width:30px;}
 </style>
 {% endblock stylesheets %}
 
@@ -149,7 +153,7 @@
           'reload'
           ],
           dom: {
-            button: { className: "btn btn-info btn-icon"},
+            button: { className: "btn btn-secondary btn-icon"},
             buttonLiner: { tag: null }
           }
         },

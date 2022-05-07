@@ -131,6 +131,7 @@ table.dataTable.nowrap td {
 }
 
 div.dataTables_wrapper div.dataTables_length label {
+  font-size: 13px;
   font-weight: normal;
   text-align: left;
   white-space: nowrap;

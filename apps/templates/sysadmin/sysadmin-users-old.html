@@ -1,0 +1,254 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Users {% endblock %}
+
+<!-- Page CSS Plugins goes HERE  -->
+{% block plugin_stylesheets %}
+
+    <link href="/static/assets/lib/spectrum-colorpicker/spectrum.css" rel="stylesheet">
+    <link href="/static/assets/lib/select2/css/select2.min.css" rel="stylesheet">
+    <link href="/static/assets/lib/ion-rangeslider/css/ion.rangeSlider.css" rel="stylesheet">
+    <link href="/static/assets/lib/ion-rangeslider/css/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <link href="/static/assets/lib/amazeui-datetimepicker/css/amazeui.datetimepicker.css" rel="stylesheet">
+    <link href="/static/assets/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet">
+    <link href="/static/assets/lib/pickerjs/picker.min.css" rel="stylesheet">
+
+{% endblock plugin_stylesheets %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link rel="stylesheet" href="/static/assets/css/pagenate.css">
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="az-content pd-y-20 pd-lg-y-30 pd-xl-y-40">
+      <div class="container">
+
+        {% include 'includes/sysadminsidebar.html' %}
+
+        <div class="az-content-body pd-lg-l-40 d-flex flex-column">
+          <div class="az-content-breadcrumb">
+            <span>系统管理</span>
+            <span>用户管理</span>
+          </div>
+          <h2 class="az-content-title">用户管理</h2>
+
+          {% if act=='list' %}
+          <div class="az-content-label mg-b-5">管理系统用户，你可以在这里<a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=pagination.page,act='create') }}" title="查看"><i class="typcn typcn-plus tx-18"></i>创建新用户</a></div>
+          <div class="table-responsive">
+            <table class="table table-hover mg-b-0">
+              <thead>
+                <tr>
+                  {% for th in define['thlist'] %}
+                  <th>{{ th }}</th>
+                  {% endfor %}
+                  <th>action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for tr in record['data']  %}
+                <tr>
+                  {% for td in define['thlist'] %}
+                  <td>{{ tr[td] }}</td>
+                  {% endfor %}
+                  <td>
+                    <div>
+                      <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=pagination.page,act='edit',key=tr[define['keyfieldname']]) }}" title="修改"><i class="typcn typcn-edit tx-18"></i></a>
+                      <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=pagination.page,act='delete',key=tr[define['keyfieldname']]) }}" title="删除"><i class="typcn typcn-trash tx-18"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2">
+                      {{ pagination.info }}
+                  </td>
+                  <td colspan="2">
+                      {{ pagination.links }}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div><!-- table-responsive -->
+          {% elif act=='create' %}
+          <div class="az-content-label mg-b-5">创建新用户，请输入用户信息</div>
+          <div class="table-responsive">
+            <table class="table mg-b-0">
+              <form method="POST" name="dataform" id="dataform" action="{{ url_for('sysadmin_blueprint.route_sysadmin_users') }}">
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="row row-sm">
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">用户名:</label>
+                        <input class="form-control" name="page" type="hidden" value="{{ page }}">
+                        <input class="form-control" name="act" type="hidden" value="docreate">
+                        <input class="form-control" placeholder="{{ define['thlist'][0] }}" name="{{ define['thlist'][0] }}" type="text" value="">
+                      </div><!-- col -->
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">角色:</label>
+                        <input class="form-control" placeholder="{{ define['thlist'][1] }}" name="{{ define['thlist'][1] }}" type="text" value="">
+                      </div><!-- col -->
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">激活状态:</label>
+                        <label class="ckbox">
+                          <input type="checkbox" name="{{ define['thlist'][2] }}" value="True" ><span>Active</span>
+                        </label>
+                      </div><!-- col -->
+                    </div><!-- row -->
+                    <div class="row row-sm">
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">密码:</label>
+                        <input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
+                      </div><!-- col -->
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">重复密码:</label>
+                        <input class="form-control" placeholder="Password" name="rpassword" id="rpassword" type="password" value="">
+                      </div><!-- col -->
+                    </div><!-- row -->
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>
+                    <div class="az-content-label mg-b-5">
+                      <a href="javascript:if(document.getElementById('password').value==document.getElementById('rpassword').value){document.dataform.submit();}else{alert('密码和重复密码必须相同 !');}" title="提交"><i class="typcn typcn-media-eject tx-18"></i>提交</a>
+                      &nbsp;
+                      <a href="javascript:document.dataform.reset();" title="重置"><i class="typcn typcn-refresh tx-18"></i>重置</a>
+                      &nbsp;
+                      <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=page,act='list') }}" title="返回"><i class="typcn typcn-chevron-left tx-18"></i>返回</a>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+              </form>
+            </table>
+          </div><!-- view-responsive -->
+          {% elif act=='edit' %}
+          <div class="az-content-label mg-b-5">管理系统用户，你可以在这里查看/修改用户资料</div>
+          <div class="table-responsive">
+            <table class="table mg-b-0">
+              <form name="dataform" id="dataform" method="POST" action="{{ url_for('sysadmin_blueprint.route_sysadmin_users') }}">
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="row row-sm">
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">用户名:</label>
+                        <input class="form-control" name="page" type="hidden" value="{{ page }}">
+                        <input class="form-control" name="act" type="hidden" value="doedit">
+                        <input class="form-control" name="key" type="hidden" value="{{ record[define['keyfieldname']] }}">
+                        <input class="form-control" placeholder="{{ record[define['thlist'][0]] }}" name="{{ define['thlist'][0] }}" type="text" value="{{ record[define['thlist'][0]] }}">
+                      </div><!-- col -->
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">角色:</label>
+                        <input class="form-control" placeholder="{{ record[define['thlist'][1]] }}" name="{{ define['thlist'][1] }}" type="text" value="{{ record[define['thlist'][1]] }}">
+                      </div><!-- col -->
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">激活状态:</label>
+                        <label class="ckbox">
+                          <input type="checkbox" name="{{ define['thlist'][2] }}" {{ "checked" if record[define['thlist'][2]] == 'True'  }} value="{{ record[define['thlist'][2]] }}"><span>Active</span>
+                        </label>
+                      </div><!-- col -->
+                    </div><!-- row -->
+                    <div class="row row-sm">
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">密码:</label>
+                        <input class="form-control" placeholder="Password" name="password" id="password" type="password" value="{{ record['password'] }}">
+                      </div><!-- col -->
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">重复密码:</label>
+                        <input class="form-control" placeholder="Password" name="rpassword" id="rpassword" type="password" value="{{ record['password'] }}">
+                      </div><!-- col -->
+                    </div><!-- row -->
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>
+                    <div class="az-content-label mg-b-5">
+                      <a href="javascript:if(document.getElementById('password').value==document.getElementById('rpassword').value){document.dataform.submit();}else{alert('密码和重复密码必须相同 !');}" title="提交"><i class="typcn typcn-media-eject tx-18"></i>提交</a>
+                      &nbsp;
+                      <a href="javascript:document.dataform.reset();" title="重置"><i class="typcn typcn-refresh tx-18"></i>重置</a>
+                      &nbsp;
+                      <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=page,act='list') }}" title="返回"><i class="typcn typcn-chevron-left tx-18"></i>返回</a>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+              </form>
+            </table>
+          </div><!-- view-responsive -->
+          {% elif act=='delete' %}
+          <div class="az-content-label mg-b-5">⚠️ &nbsp;警告：确定删除用户资料吗？</div>
+          <div class="table-responsive">
+            <table class="table mg-b-0">
+              <form name="dataform" id="dataform" method="POST" action="{{ url_for('sysadmin_blueprint.route_sysadmin_users') }}">
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="row row-sm">
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">用户名:</label>
+                        <input class="form-control" name="page" type="hidden" value="{{ page }}">
+                        <input class="form-control" name="act" type="hidden" value="dodelete">
+                        <input class="form-control" name="key" type="hidden" value="{{ record[define['keyfieldname']] }}">
+                        <input class="form-control" placeholder="{{ record[define['thlist'][0]] }}" name="{{ define['thlist'][0] }}" type="text" value="{{ record[define['thlist'][0]] }}">
+                      </div><!-- col -->
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">角色:</label>
+                        <input class="form-control" placeholder="{{ record[define['thlist'][1]] }}" name="{{ define['thlist'][1] }}" type="text" value="{{ record[define['thlist'][1]] }}">
+                      </div><!-- col -->
+                      <div class="col-sm-4">
+                        <label class="az-content-label mg-b-5">激活状态:</label>
+                        <label class="ckbox">
+                          <input type="checkbox" name="{{ define['thlist'][2] }}" {{ "checked" if record[define['thlist'][2]] == 'True'  }} value="{{ record[define['thlist'][2]] }}"><span>Active</span>
+                        </label>
+                      </div><!-- col -->
+                    </div><!-- row -->
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>
+                    <div class="az-content-label mg-b-5">
+                      <a href="javascript:document.dataform.submit();" title="确定"><i class="typcn typcn-tick tx-18"></i>确定</a>
+                      &nbsp;
+                      <a href="{{ url_for('sysadmin_blueprint.route_sysadmin_users', page=page,act='list') }}" title="取消"><i class="typcn typcn-times tx-18"></i>取消</a>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+              </form>
+            </table>
+          </div><!-- view-responsive -->
+          {% endif %}
+
+        </div><!-- az-content-body -->
+      </div><!-- container -->
+    </div><!-- az-content -->
+
+{% endblock content %}
+
+<!-- Page JS Plugins goes HERE  -->
+{% block plugin_javascripts %}
+    <script src="/static/assets/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="/static/assets/lib/jquery.maskedinput/jquery.maskedinput.js"></script>
+    <script src="/static/assets/lib/spectrum-colorpicker/spectrum.js"></script>
+    <script src="/static/assets/lib/select2/js/select2.min.js"></script>
+    <script src="/static/assets/lib/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="/static/assets/lib/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+    <script src="/static/assets/lib/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
+    <script src="/static/assets/lib/pickerjs/picker.min.js"></script>
+{% endblock plugin_javascripts %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+  <!-- page script -->
+{% endblock javascripts %}

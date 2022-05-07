@@ -1337,3 +1337,26 @@ NoneType: None
 2022-05-07 at 10:39:43 | INFO | Environment = Debug
 2022-05-07 at 10:44:19 | INFO | DEBUG       = True
 2022-05-07 at 10:44:19 | INFO | Environment = Debug
+2022-05-07 at 14:01:25 | INFO | DEBUG       = True
+2022-05-07 at 14:01:25 | INFO | Environment = Debug
+2022-05-07 at 14:01:44 | INFO | DEBUG       = True
+2022-05-07 at 14:01:44 | INFO | Environment = Debug
+2022-05-07 at 14:07:26 | INFO | DEBUG       = True
+2022-05-07 at 14:07:26 | INFO | Environment = Debug
+2022-05-07 at 16:08:06 | INFO | DEBUG       = True
+2022-05-07 at 16:08:06 | INFO | Environment = Debug
+2022-05-07 at 18:39:40 | INFO | DEBUG       = True
+2022-05-07 at 18:39:40 | INFO | Environment = Debug
+2022-05-07 at 19:06:04 | ERROR | Exception at fetch() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/users', method='GET', body={'detail': 'Not Found'}, headers=Headers({'content-length': '22', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/users', method='GET', body={'detail': 'Not Found'}, headers=Headers({'content-length': '22', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
+2022-05-07 at 19:06:36 | INFO | DEBUG       = True
+2022-05-07 at 19:06:36 | INFO | Environment = Debug
+2022-05-07 at 19:10:45 | INFO | DEBUG       = True
+2022-05-07 at 19:10:45 | INFO | Environment = Debug
+2022-05-07 at 19:13:01 | INFO | DEBUG       = True
+2022-05-07 at 19:13:01 | INFO | Environment = Debug
+2022-05-07 at 19:13:13 | INFO | DEBUG       = True
+2022-05-07 at 19:13:13 | INFO | Environment = Debug
+2022-05-07 at 19:16:42 | INFO | DEBUG       = True
+2022-05-07 at 19:16:42 | INFO | Environment = Debug
+2022-05-07 at 19:18:10 | INFO | DEBUG       = True
+2022-05-07 at 19:18:10 | INFO | Environment = Debug
