@@ -48,7 +48,7 @@ def route_sysadmin_users():
             thlist.append(cdef)
     define['thlist'] = thlist
     if request.method == 'GET':  # list
-        count = oc.fetchcount('users')['body']
+        count = oc.fetchcount('oss', 'users')['body']
         start = request.args.get('start', type=int)
         length = request.args.get('length', type=int)
         record = oc.fetch('users', '_collection', None, start, length, 'name')['body']
@@ -73,7 +73,7 @@ def route_sysadmin_users_data():
     if oc.token_expired:
         oc.renew_token()
     if request.method == 'GET':  # list
-        count = oc.fetchcount('users')['body']
+        count = oc.fetchcount('oss', 'users')['body']
         start = request.args.get('start', type=int)
         length = request.args.get('length', type=int)
         record = oc.fetch('users', '_collection', None, start, length, 'name')['body']
@@ -141,7 +141,7 @@ def route_sysadmin_authority():
             thlist.append(cdef)
     define['thlist'] = thlist
     if request.method == 'GET':  # list
-        count = oc.fetchcount('users')['body']
+        count = oc.fetchcount('oss', 'users')['body']
         start = request.args.get('start', type=int)
         length = request.args.get('length', type=int)
         record = oc.fetch('users', '_collection', None, start, length, 'name')['body']
@@ -166,7 +166,7 @@ def route_sysadmin_authority_data():
     if oc.token_expired:
         oc.renew_token()
     if request.method == 'GET':  # list
-        count = oc.fetchcount('users')['body']
+        count = oc.fetchcount('oss', 'users')['body']
         start = request.args.get('start', type=int)
         length = request.args.get('length', type=int)
         record = oc.fetch('users', '_collection', None, start, length, 'name')['body']

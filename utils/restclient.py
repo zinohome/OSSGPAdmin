@@ -152,7 +152,7 @@ class OSSGPClient():
             if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                 traceback.print_exc()
 
-    def fetchcount(self, resource_name, url_prefix=''):
+    def fetchcount(self, resource_type, resource_name, url_prefix=''):
         action = 'list'
         if self.token_expired:
             self.renew_token()
@@ -160,6 +160,8 @@ class OSSGPClient():
             api = self._api_client
             api.headers = {'Authorization': 'Bearer ' + self.access_token}
             api.api_root_url = self.api_root_url + '_collection/documentcount/'
+            if resource_type == 'sys':
+                api.api_root_url = self.api_root_url + '_sysdef/sysdefcount/'
             api.add_resource(resource_name=resource_name)
             try:
                 res = api._resources[api.correct_attribute_name(resource_name)]

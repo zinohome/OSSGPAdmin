@@ -39,7 +39,7 @@ def route_sysdev_model():
     if oc.token_expired:
         oc.renew_token()
     today = time.strftime("%Y-%m-%d", time.localtime())
-    definestr = oc.fetch('users', '_sysdef/coldef', None, 0, 5)['body']
+    definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
     define = {}
     define['colname'] = definestr['data'][0]['name']
     define['keyfieldname'] = definestr['data'][0]['keyfieldname']
@@ -50,22 +50,19 @@ def route_sysdev_model():
             thlist.append(cdef)
     define['thlist'] = thlist
     if request.method == 'GET':  # list
-        count = oc.fetchcount('users')['body']
+        count = oc.fetchcount('sys', 'sysdef')['body']
         start = request.args.get('start', type=int)
         length = request.args.get('length', type=int)
-        record = oc.fetch('users', '_collection', None, start, length, 'name')['body']
+        record = oc.fetch('coldef', '_sysdef', None, start, length, 'name')['body']
         rdata = {
             'data': record['data'],
             'recordsFiltered': record['count'],
             'recordsTotal': count,
             'draw': request.args.get('draw', type=int),
         }
-        # log.logger.debug("define %s" % define)
-        # log.logger.debug("rdata %s" % rdata)
-        return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users',
-                               define=define, record=record,
-                               startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
-                               today=today)
+        #log.logger.debug("define %s" % define)
+        #log.logger.debug("record %s" % record)
+        #log.logger.debug("rdata %s" % rdata)
         return render_template('sysdev/sysdev-model.html', segment='sysdev-model',
                                define=define, record=record,
                                startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
