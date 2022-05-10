@@ -85,7 +85,8 @@
         text:'<i class="typcn typcn-arrow-sync tx-18"></i>',
         titleAttr: '刷新',
         action: function ( e, dt, node, config ) {
-            dt.ajax.reload();
+          dt.clear().draw();
+          dt.ajax.reload(null,false);
         }
       };
       var editor = new $.fn.dataTable.Editor({
