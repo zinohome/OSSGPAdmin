@@ -1,0 +1,86 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Json Editor{% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="az-content pd-y-20 pd-lg-y-30 pd-xl-y-40">
+      <div class="container">
+        <div class="az-content-body pd-lg-l-40 d-flex flex-column">
+          <div class="az-content-breadcrumb">
+            <span>模型定义</span>
+            <span>辅助工具</span>
+          </div>
+          <h2 class="az-content-title">模型定义</h2>
+
+          <div class="table-responsive">
+            <p>
+        字段可用类型：
+        "Field", "Raw", "Nested", "Mapping", "Dict", "List", "Tuple", "String", "UUID", "Number", "Integer",
+        "Decimal", "Boolean", "Float", "DateTime", "NaiveDateTime", "AwareDateTime", "Time", "Date", "TimeDelta",
+        "Url", "URL", "Email", "IP", "IPv4", "IPv6", "IPInterface", "IPv4Interface", "IPv6Interface", "Method",
+        "Function", "Str", "Bool", "Int", "Constant", "Pluck"
+            </p>
+            <div class="form-group"></div>
+              <div id='editor-container'></div>
+          </div><!-- table-responsive -->
+
+        </div><!-- az-content-body -->
+      </div><!-- container -->
+    </div><!-- az-content -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<!-- JsonEditor-->
+<script src="/static/assets/js/jsoneditor.js"></script>
+<!-- Editor script -->
+<script>
+  var config = {
+    use_name_attributes: false,
+    theme: 'bootstrap4',
+    disable_edit_json: false,
+    disable_properties: false,
+    disable_collapse: true,
+    schema: {
+      'title': 'Model Definition',
+      'type': 'object',
+      'required': [
+        '__collection__',
+        '_index',
+        '_key',
+        'createdate'
+      ],
+      'properties': {
+        '__collection__': {
+          'type': 'string',
+          'description': '名称',
+          'minLength': 4,
+          'default': 'mycollection'
+        },
+        '_index': {
+          'type': 'string',
+          'description': '索引',
+          'default': "[{'type':'hash', 'fields':['name'], 'unique':True}]"
+        },
+        '_key': {
+          'type': 'string',
+          'description': '主键',
+          'default': "String(required=True)"
+        },
+        'createdate': {
+          'type': 'string',
+          'description': '创建日期',
+          'default': "String(required=True, allow_none=False)"
+        }
+      }
+    }
+  }
+  var editor = new JSONEditor(document.querySelector('#editor-container'), config)
+
+</script>
+{% endblock javascripts %}
