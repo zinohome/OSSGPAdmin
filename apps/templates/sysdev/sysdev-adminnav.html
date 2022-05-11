@@ -1,12 +1,52 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Tables {% endblock %} 
+{% block title %} 导航定义 {% endblock %}
 
 <!-- Page CSS Plugins goes HERE  -->
 {% block plugin_stylesheets %}{% endblock plugin_stylesheets %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/static/assets/lib/datatables-bs4/css/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-buttons/css/buttons.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-select/css/select.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <!-- DataTables Editor-->
+  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/dataTables.dateTime.min.css">
+  <!-- JsonEditor-->
+  <link rel="stylesheet" href="/static/assets/lib/jsoneditor/jsoneditor.min.css">
+
+<style type="text/css">
+.align-right {text-align: right;font-size:13px;}
+.table.dataTable {font-size: 13px;}
+.dataTables_length {font-size: 13px;}
+.dataTables_info {font-size: 13px;}
+.paginate_button {font-size: 13px;}
+.btn-icon {height:30px; width:30px;}
+.btn-info {height:30px; width:30px;}
+div.DTED_Lightbox_Wrapper {
+    left: 10em;
+    right: 10em;
+    margin-left: 0;
+    width: auto;
+}
+div.DTE_Body div.DTE_Body_Content div.DTE_Field {
+    float: left;
+    width: 50%;
+    padding: 5px 20px;
+    clear: none;
+    box-sizing: border-box;
+}
+
+div.DTE_Body div.DTE_Form_Content:after {
+    content: ' ';
+    display: block;
+    clear: both;
+}
+</style>
+{% endblock stylesheets %}
 
 {% block content %}
 
@@ -17,60 +57,25 @@
 
         <div class="az-content-body pd-lg-l-40 d-flex flex-column">
           <div class="az-content-breadcrumb">
-            <span>Components</span>
-            <span>Tables</span>
-            <span>Basic Tables</span>
+            <span>业务定义</span>
+            <span>导航定义</span>
           </div>
-          <h2 class="az-content-title">Basic Tables</h2>
-          
-          <div class="az-content-label mg-b-5">Hoverable Rows Table</div>
-          <p class="mg-b-20">To enable a hover state on table rows.</p>
+          <h2 class="az-content-title">导航定义</h2>
 
           <div class="table-responsive">
-            <table class="table table-hover mg-b-0">
+            <table id="datatable" class="table table-hover mg-b-0" width="100%">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Position</th>
-                  <th>Salary</th>
+                  {% for th in define['thlist'] %}
+                  <th>{{ th }}</th>
+                    {% endfor %}
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Tiger Nixon</td>
-                  <td>System Architect</td>
-                  <td>$320,800</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Garrett Winters</td>
-                  <td>Accountant</td>
-                  <td>$170,750</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Ashton Cox</td>
-                  <td>Junior Technical Author</td>
-                  <td>$86,000</td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>Cedric Kelly</td>
-                  <td>Senior Javascript Developer</td>
-                  <td>$433,060</td>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td>Airi Satou</td>
-                  <td>Accountant</td>
-                  <td>$162,700</td>
-                </tr>
               </tbody>
             </table>
           </div><!-- table-responsive -->
-          
+
         </div><!-- az-content-body -->
       </div><!-- container -->
     </div><!-- az-content -->
@@ -81,4 +86,164 @@
 {% block plugin_javascripts %}{% endblock plugin_javascripts %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+
+ <!-- jQuery -->
+  <script src="/static/assets/lib/jquery/jquery-3.6.0.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/lib/bootstrap/js/bootstrap.bundle.js"></script>
+  <!-- DataTables -->
+  <script src="/static/assets/lib/datatables/pdfmake.js"></script>
+  <script src="/static/assets/lib/datatables/vfs_fonts.js"></script>
+  <script src="/static/assets/lib/datatables/datatables.js"></script>
+  <!-- DataTables Editor-->
+  <script src="/static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>
+  <script src="/static/assets/lib/datatables-editor/js/dataTables.dateTime.min.js"></script>
+  <!-- JsonEditor-->
+  <script src="/static/assets/lib/jsoneditor/jsoneditor.min.js"></script>
+  <!-- page script -->
+  <script>
+    $(document).ready(function () {
+      $.fn.dataTable.ext.buttons.reload = {
+        text:'<i class="typcn typcn-arrow-sync tx-18"></i>',
+        titleAttr: '刷新',
+        action: function ( e, dt, node, config ) {
+          dt.clear().draw();
+          dt.ajax.reload(null,false);
+        }
+      };
+      var editor = new $.fn.dataTable.Editor({
+        ajax: "/sysdev-adminnav/data",
+        table: "#datatable",
+        display: "lightbox",
+        idSrc:  "name",
+        fields: [ {
+                "label": "名称:",
+                "name": "name"
+            }, {
+                "label": "标题:",
+                "name": "title"
+            },{
+                "label": "层级:",
+                "name": "level",
+                "type": "select",
+                "options":[
+                    {label:"一级", value:"1"},
+                    {label:"二级", value:"2"}
+                ]
+            },{
+                "label": "顺序:",
+                "name": "order",
+                "def": "1",
+            },{
+                "label": "标记:",
+                "name": "segment"
+            },{
+                "label": "列表样式:",
+                "name": "liclass",
+                "type": "select",
+                "def": "nav-item",
+                "options":[
+                    {label:"nav-item", value:"nav-item"},
+                    {label:"nav-item", value:"nav-item"}
+                ]
+            },{
+                "label": "链接样式:",
+                "name": "hrefclass",
+                "type": "select",
+                "def": "nav-link",
+                "options":[
+                    {label:"链接", value:"nav-link"},
+                    {label:"目录", value:"nav-link with-sub"}
+                ]
+            },{
+                "label": "条目样式:",
+                "name": "navclass",
+                "type": "select",
+                "def": "link",
+                "options":[
+                    {label:"标签", value:"label"},
+                    {label:"链接", value:"link"}
+                ]
+            }, {
+                "label": "链接目标:",
+                "name": "href"
+            }, {
+                "label": "图标:",
+                "name": "icon",
+                "def": "typcn typcn-document",
+            }, {
+                "label": "创建/修改时间:",
+                "name": "createdate",
+                "type": "datetime",
+                "def": function () { return new Date(); }
+            }
+        ]
+      });
+      editor.on( 'onInitCreate', function(){
+        editor.enable('createdate');
+      });
+      editor.on( 'onInitEdit', function(){
+        editor.disable('createdate');
+      });
+      var datatable = $("#datatable").DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "/sysdev-adminnav/data",
+        responsive: {
+            details: true
+        },
+        autoWidth: true,
+        paging: true,
+        fixedHeader: true,
+        searching: false,
+        ordering: false,
+        info: true,
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'<'align-right'B>>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
+        select: 'single',
+        columns:[
+          {data:"name", title:"名称", "visible": false, defaultContent:""},
+          {data:"title", title:"标题", "visible": true, defaultContent:""},
+          {data:"level", title:"层级", "visible": true, defaultContent:""},
+          {data:"order", title:"顺序", "visible": true, defaultContent:""},
+          {data:"segment", title:"标记", "visible": true, defaultContent:""},
+          {data:"liclass", title:"列表样式", "visible": false, defaultContent:""},
+          {data:"hrefclass", title:"链接样式", "visible": false, defaultContent:""},
+          {data:"navclass", title:"条目样式", "visible": false, defaultContent:""},
+          {data:"href", title:"链接目标", "visible": false, defaultContent:""},
+          {data:"icon", title:"图标", "visible": false, defaultContent:""},
+          {data:"createdate", title:"创建/修改时间", "visible": true, defaultContent:""}
+        ],
+        buttons: true,
+        buttons: {
+          name:'primary',
+          buttons: [
+          { extend: 'create', text:'<i class="typcn typcn-document-add tx-18"></i>', titleAttr: '创建', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '创建'] },
+          {
+            extend: "selected",
+            text: '<i class="typcn typcn-clipboard tx-18"></i>',
+            action: function ( e, dt, node, config ) {
+              // Start in edit mode, and then change to create
+              editor.edit(datatable.rows( {selected: true} ).indexes(), {
+                title: '从记录复制',
+                buttons: [{text: '取消', action: function() {this.close();}}, '创建']
+              }).mode( 'create' );}
+            },
+          { extend: 'edit', text:'<i class="typcn typcn-edit tx-18"></i>', titleAttr: '修改', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '修改'] },
+          { extend: 'remove', text:'<i class="typcn typcn-document-delete tx-18"></i>', titleAttr: '删除', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '删除'] },
+          'reload'
+          ],
+          dom: {
+            button: { className: "btn btn-secondary btn-icon"},
+            buttonLiner: { tag: null }
+          }
+        },
+        language: {
+            url:'/static/assets/lib/datatables/zh.json'
+        }
+      });
+    });
+  </script>
+{% endblock javascripts %}

@@ -221,7 +221,7 @@ def route_sysdev_adminnav():
     if oc.token_expired:
         oc.renew_token()
     today = time.strftime("%Y-%m-%d", time.localtime())
-    definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
+    definestr = oc.fetch('adminnav', '_sysdef/sysdef', None, 0, 5)['body']
     define = {}
     define['colname'] = definestr['data'][0]['name']
     define['keyfieldname'] = definestr['data'][0]['keyfieldname']
@@ -236,3 +236,60 @@ def route_sysdev_adminnav():
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)
 
+@blueprint.route('/sysdev-adminnav/data', methods = ['GET', 'POST'])
+@login_required
+def route_sysadmin_adminnav_data():
+    oc = OSSGPClient(session['username'],
+                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+    if oc.token_expired:
+        oc.renew_token()
+    if request.method == 'GET':  # list
+        count = oc.fetchcount('sys', 'adminnav')['body']
+        start = request.args.get('start', type=int)
+        length = request.args.get('length', type=int)
+        record = oc.fetch('adminnav', '_sysdef', None, start, length, 'order')['body']
+        rdata = {
+            'data': record['data'],
+            'recordsFiltered': count,
+            'recordsTotal': count,
+            'draw': request.args.get('draw', type=int),
+        }
+        #log.logger.debug("rdata %s" % rdata)
+        return rdata
+    elif request.method == 'POST':
+        definestr = oc.fetch('adminnav', '_sysdef/sysdef', None, 0, 5)['body']
+        keyfieldname = definestr['data'][0]['keyfieldname']
+        action = request.form.get('action', type=str)
+        reqdict = request.form.to_dict()
+        formdict = {}
+        for (key, value) in reqdict.items():
+            if '][' in key:
+                formdict[key.split(']')[1][1:]] = value
+        formdict['_key'] = formdict[keyfieldname]
+        subformdata = {'data':formdict}
+        if action == 'create':
+            resultstr = oc.post('adminnav', '_sysdef', json.dumps(subformdata))
+            if resultstr['code'] == 200:
+                returnlist=[]
+                returnlist.append(resultstr['body'])
+                returndict={'data':returnlist}
+                return Response(json.dumps(returndict), status=200)
+            else:
+                return Response('{"status":500, "body": "Error"}', status=500)
+        elif action == 'edit':
+            log.logger.debug(request.form.to_dict())
+            resultstr = oc.put('adminnav', '_sysdef', json.dumps(subformdata),formdict[keyfieldname])
+            if resultstr['code'] == 200:
+                returnlist=[]
+                returnlist.append(resultstr['body'])
+                returndict={'data':returnlist}
+                return Response(json.dumps(returndict), status=200)
+            else:
+                return Response('{"status":500, "body": "Error"}', status=500)
+        elif action == 'remove':
+            resultstr = oc.deletebyid('adminnav', '_sysdef', formdict[keyfieldname])
+            #log.logger.debug(resultstr)
+            if resultstr['code'] == 200:
+                return Response('{"status":200, "body": "'+ str(resultstr['body'])+'"}', status=200)
+            else:
+                return Response('{"status":500, "body": "Error"}', status=500)
