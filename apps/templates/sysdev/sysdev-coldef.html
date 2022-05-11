@@ -26,6 +26,25 @@
 .paginate_button {font-size: 13px;}
 .btn-icon {height:30px; width:30px;}
 .btn-info {height:30px; width:30px;}
+div.DTED_Lightbox_Wrapper {
+    left: 10em;
+    right: 10em;
+    margin-left: 0;
+    width: auto;
+}
+div.DTE_Body div.DTE_Body_Content div.DTE_Field {
+    float: left;
+    width: 50%;
+    padding: 5px 20px;
+    clear: none;
+    box-sizing: border-box;
+}
+
+div.DTE_Body div.DTE_Form_Content:after {
+    content: ' ';
+    display: block;
+    clear: both;
+}
 </style>
 {% endblock stylesheets %}
 
@@ -94,7 +113,7 @@
         }
       };
       var editor = new $.fn.dataTable.Editor({
-        ajax: "/sysdev-model/data",
+        ajax: "/sysdev-sysdef/data",
         table: "#datatable",
         display: "lightbox",
         idSrc:  "name",
@@ -111,8 +130,10 @@
                 ]
             }, {
                 "label": "模型定义:",
+                "labelInfo": "JSON Assembly <a href='sysdev-sysdef.html' target='_blank'>Tool</a>",
                 "name": "coldef",
-                "type": "quill"
+                "type": "textarea",
+                'className': 'block'
             }, {
                 "label": "键字段:",
                 "name": "keyfieldname"
@@ -133,7 +154,7 @@
       var datatable = $("#datatable").DataTable({
         processing: true,
         serverSide: true,
-        ajax: "/sysdev-model/data",
+        ajax: "/sysdev-sysdef/data",
         responsive: {
             details: true
         },
@@ -158,9 +179,9 @@
         buttons: {
           name:'primary',
           buttons: [
-          { extend: 'create', text:'<i class="typcn typcn-plus tx-18"></i>', titleAttr: '新增', editor: editor },
-          { extend: 'edit', text:'<i class="typcn typcn-edit tx-18"></i>', titleAttr: '修改', editor: editor },
-          { extend: 'remove', text:'<i class="typcn typcn-trash tx-18"></i>', titleAttr: '删除', editor: editor },
+          { extend: 'create', text:'<i class="typcn typcn-plus tx-18"></i>', titleAttr: '创建', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '创建'] },
+          { extend: 'edit', text:'<i class="typcn typcn-edit tx-18"></i>', titleAttr: '修改', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '修改'] },
+          { extend: 'remove', text:'<i class="typcn typcn-trash tx-18"></i>', titleAttr: '删除', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '删除'] },
           'reload'
           ],
           dom: {

@@ -1,6 +1,6 @@
-<script src="../../static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>{% extends "layouts/base.html" %}
+{% extends "layouts/base.html" %}
 
-{% block title %} 用户管理 {% endblock %}
+{% block title %} 模型定义 {% endblock %}
 
 <!-- Page CSS Plugins goes HERE  -->
 {% block plugin_stylesheets %}{% endblock plugin_stylesheets %}
@@ -12,9 +12,11 @@
   <link rel="stylesheet" href="/static/assets/lib/datatables-buttons/css/buttons.bootstrap4.css">
   <link rel="stylesheet" href="/static/assets/lib/datatables-select/css/select.bootstrap4.css">
   <link rel="stylesheet" href="/static/assets/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
-
   <!-- DataTables Editor-->
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/dataTables.dateTime.min.css">
+  <!-- JsonEditor-->
+  <link rel="stylesheet" href="/static/assets/lib/jsoneditor/jsoneditor.min.css">
 
 <style type="text/css">
 .align-right {text-align: right;font-size:13px;}
@@ -51,14 +53,14 @@ div.DTE_Body div.DTE_Form_Content:after {
     <div class="az-content pd-y-20 pd-lg-y-30 pd-xl-y-40">
       <div class="container">
 
-        {% include 'includes/sysadminsidebar.html' %}
+        {% include 'includes/sysdevsidebar.html' %}
 
         <div class="az-content-body pd-lg-l-40 d-flex flex-column">
           <div class="az-content-breadcrumb">
-            <span>系统管理</span>
-            <span>用户管理</span>
+            <span>业务定义</span>
+            <span>模型定义</span>
           </div>
-          <h2 class="az-content-title">用户管理</h2>
+          <h2 class="az-content-title">模型定义</h2>
 
           <div class="table-responsive">
             <table id="datatable" class="table table-hover mg-b-0" width="100%">
@@ -94,9 +96,11 @@ div.DTE_Body div.DTE_Form_Content:after {
   <script src="/static/assets/lib/datatables/pdfmake.js"></script>
   <script src="/static/assets/lib/datatables/vfs_fonts.js"></script>
   <script src="/static/assets/lib/datatables/datatables.js"></script>
-
   <!-- DataTables Editor-->
   <script src="/static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>
+  <script src="/static/assets/lib/datatables-editor/js/dataTables.dateTime.min.js"></script>
+  <!-- JsonEditor-->
+  <script src="/static/assets/lib/jsoneditor/jsoneditor.min.js"></script>
   <!-- page script -->
   <script>
     $(document).ready(function () {
@@ -109,42 +113,48 @@ div.DTE_Body div.DTE_Form_Content:after {
         }
       };
       var editor = new $.fn.dataTable.Editor({
-        ajax: "/sysadmin-users/data",
+        ajax: "/sysdev-sysdef/data",
         table: "#datatable",
         display: "lightbox",
         idSrc:  "name",
         fields: [ {
-                "label": "姓名:",
+                "label": "模型名称:",
                 "name": "name"
             }, {
-                "label": "角色:",
-                "name": "role",
+                "label": "模型类型:",
+                "name": "coltype",
                 "type": "select",
-                "multiple": true,
-                "separator": ',',
                 "options":[
-                    {label:"Admin", value:"admin"},
-                    {label:"User", value:"user"}
+                    {label:"Document", value:"document"},
+                    {label:"Edge", value:"edge"}
                 ]
             }, {
-                "label": "是否激活:",
-                "name": "active",
-                "type":"radio",
-                "options":[
-                    {label:"激活", value:"True"},
-                    {label:"锁定", value:"False"}
-                ]
+                "label": "模型定义:",
+                "labelInfo": "JSON Assembly <a href='sysdev-sysdef.html' target='_blank'>Tool</a>",
+                "name": "coldef",
+                "type": "textarea",
+                'className': 'block'
             }, {
-                "label": "密码:",
-                "name": "password",
-                "type": "password"
+                "label": "键字段:",
+                "name": "keyfieldname"
+            }, {
+                "label": "创建/修改时间:",
+                "name": "createdate",
+                "type": "datetime",
+                "def": function () { return new Date(); }
             }
         ]
+      });
+      editor.on( 'onInitCreate', function(){
+        editor.enable('createdate');
+      });
+      editor.on( 'onInitEdit', function(){
+        editor.disable('createdate');
       });
       var datatable = $("#datatable").DataTable({
         processing: true,
         serverSide: true,
-        ajax: "/sysadmin-users/data",
+        ajax: "/sysdev-sysdef/data",
         responsive: {
             details: true
         },
@@ -159,9 +169,11 @@ div.DTE_Body div.DTE_Form_Content:after {
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
         select: 'single',
         columns:[
-          {data:"name",title:"姓名",defaultContent:""},
-          {data:"role",title:"角色",defaultContent:""},
-          {data:"active",title:"是否激活",defaultContent:""},
+          {data:"name",title:"模型名称",defaultContent:""},
+          {data:"coltype",title:"模型类型",defaultContent:""},
+          {data:"keyfieldname",title:"键字段",defaultContent:""},
+          {data:"coldef",title:"模型定义",defaultContent:""},
+          {data:"createdate",title:"创建/修改时间",defaultContent:""}
         ],
         buttons: true,
         buttons: {

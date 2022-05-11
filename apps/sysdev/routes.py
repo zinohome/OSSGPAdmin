@@ -30,7 +30,7 @@ def route_sysdev():
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)
 
-@blueprint.route('/sysdev-model.html', methods = ['GET', 'POST'])
+@blueprint.route('/sysdev-sysdef.html', methods = ['GET', 'POST'])
 @login_required
 def route_sysdev_model():
     today = time.strftime("%Y-%m-%d", time.localtime())
@@ -49,12 +49,12 @@ def route_sysdev_model():
         if cdef not in ['__collection__', '_index', '_key', 'password']:
             thlist.append(cdef)
     define['thlist'] = thlist
-    return render_template('sysdev/sysdev-model.html', segment='sysdev-model',
+    return render_template('sysdev/sysdev-sysdef.html', segment='sysdev-sysdef',
                             define=define,
                             startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                             today=today)
 
-@blueprint.route('/sysdev-model/data', methods = ['GET', 'POST'])
+@blueprint.route('/sysdev-sysdef/data', methods = ['GET', 'POST'])
 @login_required
 def route_sysadmin_users_data():
     oc = OSSGPClient(session['username'],
@@ -128,11 +128,27 @@ def route_sysdev_view():
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)
 
-@blueprint.route('/sysdev-nav.html', methods = ['GET', 'POST'])
+@blueprint.route('/sysdev-adminnav.html', methods = ['GET', 'POST'])
 @login_required
 def route_sysdev_nav():
     today = time.strftime("%Y-%m-%d", time.localtime())
-    return render_template('sysdev/sysdev-nav.html', segment='sysdev-nav',
+    oc = OSSGPClient(session['username'],
+                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+    if oc.token_expired:
+        oc.renew_token()
+    today = time.strftime("%Y-%m-%d", time.localtime())
+    definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
+    define = {}
+    define['colname'] = definestr['data'][0]['name']
+    define['keyfieldname'] = definestr['data'][0]['keyfieldname']
+    define['coldef'] = json.loads(definestr['data'][0]['coldef'])
+    thlist = []
+    for cdef in define['coldef'].keys():
+        if cdef not in ['__collection__', '_index', '_key', 'password']:
+            thlist.append(cdef)
+    define['thlist'] = thlist
+    return render_template('sysdev/sysdev-adminnav.html', segment='sysdev-adminnav',
+                           define=define,
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)
 
