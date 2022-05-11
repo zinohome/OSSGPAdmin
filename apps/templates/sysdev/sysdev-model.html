@@ -12,9 +12,11 @@
   <link rel="stylesheet" href="/static/assets/lib/datatables-buttons/css/buttons.bootstrap4.css">
   <link rel="stylesheet" href="/static/assets/lib/datatables-select/css/select.bootstrap4.css">
   <link rel="stylesheet" href="/static/assets/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
-
   <!-- DataTables Editor-->
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/dataTables.dateTime.min.css">
+  <!-- JsonEditor-->
+  <link rel="stylesheet" href="/static/assets/lib/jsoneditor/jsoneditor.min.css">
 
 <style type="text/css">
 .align-right {text-align: right;font-size:13px;}
@@ -75,9 +77,11 @@
   <script src="/static/assets/lib/datatables/pdfmake.js"></script>
   <script src="/static/assets/lib/datatables/vfs_fonts.js"></script>
   <script src="/static/assets/lib/datatables/datatables.js"></script>
-
   <!-- DataTables Editor-->
   <script src="/static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>
+  <script src="/static/assets/lib/datatables-editor/js/dataTables.dateTime.min.js"></script>
+  <!-- JsonEditor-->
+  <script src="/static/assets/lib/jsoneditor/jsoneditor.min.js"></script>
   <!-- page script -->
   <script>
     $(document).ready(function () {
@@ -106,25 +110,25 @@
                     {label:"Edge", value:"edge"}
                 ]
             }, {
-                "label": "键字段:",
-                "name": "keyfieldname",
-                "type": "select",
-                "options":[
-                    {label:"name", value:"name"},
-                    {label:"password", value:"password"},
-                    {label:"role", value:"role"},
-                    {label:"active", value:"active"}
-                ]
-            }, {
                 "label": "模型定义:",
                 "name": "coldef",
-                "type": "textarea"
+                "type": "quill"
+            }, {
+                "label": "键字段:",
+                "name": "keyfieldname"
             }, {
                 "label": "创建/修改时间:",
                 "name": "createdate",
-                "type": "readonly"
+                "type": "datetime",
+                "def": function () { return new Date(); }
             }
         ]
+      });
+      editor.on( 'onInitCreate', function(){
+        editor.enable('createdate');
+      });
+      editor.on( 'onInitEdit', function(){
+        editor.disable('createdate');
       });
       var datatable = $("#datatable").DataTable({
         processing: true,
