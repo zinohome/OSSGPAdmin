@@ -15,8 +15,7 @@
   <!-- DataTables Editor-->
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/dataTables.dateTime.min.css">
-  <!-- JsonEditor-->
-  <link rel="stylesheet" href="/static/assets/lib/jsoneditor/jsoneditor.min.css">
+
 
 <style type="text/css">
 .align-right {text-align: right;font-size:13px;}
@@ -109,42 +108,63 @@ if ( ! DataTable.ext.editorFields ) {
 }
 var Editor = DataTable.Editor;
 var _fieldTypes = DataTable.ext.editorFields;
-_fieldTypes.todo = {
+_fieldTypes.jsoneditor = {
     create: function ( conf ) {
         var that = this;
         conf._enabled = true;
         // Create the elements to use for the input
         conf._input = $(
-            '<div id="'+Editor.safeId( conf.id )+'">'+
-                '<button type="button" class="inputButton" value="0">To do</button>'+
-                '<button type="button" class="inputButton" value="1">Done</button>'+
-            '</div>');
-        // Use the fact that we are called in the scope of the Editor instance to call
-        // the API method for setting the value when needed
-        $('button.inputButton', conf._input).click( function () {
-            if ( conf._enabled ) {
-                that.set( conf.name, $(this).attr('value') );
+            '<div id="'+Editor.safeId( conf.id )+'"></div>');
+        conf._config = {
+        use_name_attributes: false,
+        theme: 'bootstrap4',
+        disable_edit_json: false,
+        disable_properties: false,
+        disable_collapse: true,
+        schema: {
+          'title': 'Model Definition',
+          'type': 'object',
+          'required': [
+            '__collection__',
+            '_index',
+            '_key',
+            'createdate'
+          ],
+          'properties': {
+            '__collection__': {
+              'type': 'string',
+              'description': '名称',
+              'minLength': 4,
+              'default': 'mycollection'
+            },
+            '_index': {
+              'type': 'string',
+              'description': '索引',
+              'default': "[{'type':'hash', 'fields':['name'], 'unique':True}]"
+            },
+            '_key': {
+              'type': 'string',
+              'description': '主键',
+              'default': "String(required=True)"
+            },
+            'createdate': {
+              'type': 'string',
+              'description': '创建日期',
+              'default': "String(required=True, allow_none=False)"
             }
-            return false;
-        } );
-        return conf._input;
+          }
+        }
+        };
+        conf._editor = new JSONEditor(document.querySelector(Editor.safeId( conf.id )), conf._config);
+        return conf._editor;
     },
 
     get: function ( conf ) {
-        return $('button.selected', conf._input).attr('value');
+        return $(conf._editor.getValue());
     },
     set: function ( conf, val ) {
-        $('button.selected', conf._input).removeClass( 'selected' );
-        $('button.inputButton[value='+val+']', conf._input).addClass('selected');
+        $(conf._editor.setValue(val));
     },
-    enable: function ( conf ) {
-        conf._enabled = true;
-        $(conf._input).removeClass( 'disabled' );
-    },
-    disable: function ( conf ) {
-        conf._enabled = false;
-        $(conf._input).addClass( 'disabled' );
-    }
 };
 })(jQuery, jQuery.fn.dataTable);
 
@@ -177,7 +197,7 @@ _fieldTypes.todo = {
                 "label": "模型定义:",
                 "labelInfo": "JSON Assembly <a href='jsontool.html' target='_blank'>Tool</a>",
                 "name": "coldef",
-                "type": "textarea",
+                "type": "jsoneditor",
                 'className': 'block'
             }, {
                 "label": "键字段:",
