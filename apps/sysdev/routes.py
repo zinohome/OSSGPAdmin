@@ -32,13 +32,14 @@ def route_sysdev():
 
 @blueprint.route('/sysdev-sysdef.html', methods = ['GET', 'POST'])
 @login_required
-def route_sysdev_model():
+def route_sysdev_sysdef():
     today = time.strftime("%Y-%m-%d", time.localtime())
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
         oc.renew_token()
     today = time.strftime("%Y-%m-%d", time.localtime())
+    #sysdef define same with coldef
     definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
     define = {}
     define['colname'] = definestr['data'][0]['name']
@@ -56,13 +57,96 @@ def route_sysdev_model():
 
 @blueprint.route('/sysdev-sysdef/data', methods = ['GET', 'POST'])
 @login_required
-def route_sysadmin_users_data():
+def route_sysadmin_sysdef_data():
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
         oc.renew_token()
     if request.method == 'GET':  # list
         count = oc.fetchcount('sys', 'sysdef')['body']
+        start = request.args.get('start', type=int)
+        length = request.args.get('length', type=int)
+        record = oc.fetch('sysdef', '_sysdef', None, start, length, 'name')['body']
+        rdata = {
+            'data': record['data'],
+            'recordsFiltered': count,
+            'recordsTotal': count,
+            'draw': request.args.get('draw', type=int),
+        }
+        #log.logger.debug("rdata %s" % rdata)
+        return rdata
+    elif request.method == 'POST':
+        # sysdef define same with coldef
+        definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
+        keyfieldname = definestr['data'][0]['keyfieldname']
+        action = request.form.get('action', type=str)
+        reqdict = request.form.to_dict()
+        formdict = {}
+        for (key, value) in reqdict.items():
+            if '][' in key:
+                formdict[key.split(']')[1][1:]] = value
+        formdict['_key'] = formdict[keyfieldname]
+        subformdata = {'data':formdict}
+        if action == 'create':
+            resultstr = oc.post('sysdef', '_sysdef', json.dumps(subformdata))
+            if resultstr['code'] == 200:
+                returnlist=[]
+                returnlist.append(resultstr['body'])
+                returndict={'data':returnlist}
+                return Response(json.dumps(returndict), status=200)
+            else:
+                return Response('{"status":500, "body": "Error"}', status=500)
+        elif action == 'edit':
+            log.logger.debug(request.form.to_dict())
+            resultstr = oc.put('sysdef', '_sysdef', json.dumps(subformdata),formdict[keyfieldname])
+            if resultstr['code'] == 200:
+                returnlist=[]
+                returnlist.append(resultstr['body'])
+                returndict={'data':returnlist}
+                return Response(json.dumps(returndict), status=200)
+            else:
+                return Response('{"status":500, "body": "Error"}', status=500)
+        elif action == 'remove':
+            resultstr = oc.deletebyid('sysdef', '_sysdef', formdict[keyfieldname])
+            #log.logger.debug(resultstr)
+            if resultstr['code'] == 200:
+                return Response('{"status":200, "body": "'+ str(resultstr['body'])+'"}', status=200)
+            else:
+                return Response('{"status":500, "body": "Error"}', status=500)
+
+@blueprint.route('/sysdev-coldef.html', methods = ['GET', 'POST'])
+@login_required
+def route_sysdev_coldef():
+    today = time.strftime("%Y-%m-%d", time.localtime())
+    oc = OSSGPClient(session['username'],
+                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+    if oc.token_expired:
+        oc.renew_token()
+    today = time.strftime("%Y-%m-%d", time.localtime())
+    definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
+    define = {}
+    define['colname'] = definestr['data'][0]['name']
+    define['keyfieldname'] = definestr['data'][0]['keyfieldname']
+    define['coldef'] = json.loads(definestr['data'][0]['coldef'])
+    thlist = []
+    for cdef in define['coldef'].keys():
+        if cdef not in ['__collection__', '_index', '_key', 'password']:
+            thlist.append(cdef)
+    define['thlist'] = thlist
+    return render_template('sysdev/sysdev-coldef.html', segment='sysdev-coldef',
+                            define=define,
+                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                            today=today)
+
+@blueprint.route('/sysdev-coldef/data', methods = ['GET', 'POST'])
+@login_required
+def route_sysadmin_coldef_data():
+    oc = OSSGPClient(session['username'],
+                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+    if oc.token_expired:
+        oc.renew_token()
+    if request.method == 'GET':  # list
+        count = oc.fetchcount('sys', 'coldef')['body']
         start = request.args.get('start', type=int)
         length = request.args.get('length', type=int)
         record = oc.fetch('coldef', '_sysdef', None, start, length, 'name')['body']
@@ -130,7 +214,7 @@ def route_sysdev_view():
 
 @blueprint.route('/sysdev-adminnav.html', methods = ['GET', 'POST'])
 @login_required
-def route_sysdev_nav():
+def route_sysdev_adminnav():
     today = time.strftime("%Y-%m-%d", time.localtime())
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))

@@ -168,6 +168,7 @@ class OSSGPClient():
                 func = getattr(res, action)
                 response = func()
                 res = {'code': response.status_code, 'body': response.body}
+                #log.logger.debug("name+count= (%s,%s)" % (resource_name,res))
                 return res
             except Exception as exp:
                 log.logger.error('Exception at fetchcount() %s ' % exp)
