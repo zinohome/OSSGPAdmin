@@ -25,8 +25,9 @@
         "Function", "Str", "Bool", "Int", "Constant", "Pluck"
             </p>
             <div class="form-group"></div>
+              <input id="editor-input" type="text" name="json">
               <div id='editor-container'></div>
-          </div><!-- table-responsive -->
+            </div><!-- table-responsive -->
 
         </div><!-- az-content-body -->
       </div><!-- container -->
@@ -81,6 +82,10 @@
     }
   };
   var editor = new JSONEditor(document.querySelector('#editor-container'), config);
+  console.log(editor)
+  editor.on('change', function () {
+    document.querySelector('#editor-input').value = JSON.stringify(editor.getValue())
+  })
 
 </script>
 {% endblock javascripts %}

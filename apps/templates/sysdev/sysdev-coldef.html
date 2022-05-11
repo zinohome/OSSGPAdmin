@@ -109,61 +109,71 @@ if ( ! DataTable.ext.editorFields ) {
 var Editor = DataTable.Editor;
 var _fieldTypes = DataTable.ext.editorFields;
 _fieldTypes.jsoneditor = {
-    create: function ( conf ) {
-        var that = this;
-        conf._enabled = true;
-        // Create the elements to use for the input
-        conf._input = $(
-            '<div id="'+Editor.safeId( conf.id )+'"></div>');
-        conf._config = {
-        use_name_attributes: false,
-        theme: 'bootstrap4',
-        disable_edit_json: false,
-        disable_properties: false,
-        disable_collapse: true,
-        schema: {
-          'title': 'Model Definition',
-          'type': 'object',
-          'required': [
-            '__collection__',
-            '_index',
-            '_key',
-            'createdate'
-          ],
-          'properties': {
-            '__collection__': {
-              'type': 'string',
-              'description': '名称',
-              'minLength': 4,
-              'default': 'mycollection'
-            },
-            '_index': {
-              'type': 'string',
-              'description': '索引',
-              'default': "[{'type':'hash', 'fields':['name'], 'unique':True}]"
-            },
-            '_key': {
-              'type': 'string',
-              'description': '主键',
-              'default': "String(required=True)"
-            },
-            'createdate': {
-              'type': 'string',
-              'description': '创建日期',
-              'default': "String(required=True, allow_none=False)"
-            }
-          }
-        }
-        };
-        conf._editor = new JSONEditor(document.querySelector(Editor.safeId( conf.id )), conf._config);
-        return conf._editor;
+    create: function (conf) {
+        //SEC 1 - DOM Setup
+        var safeId = DataTable.Editor.safeId(conf.id);
+        var config = {
+                use_name_attributes: false,
+                theme: 'bootstrap4',
+                disable_edit_json: false,
+                disable_properties: false,
+                disable_collapse: true,
+                schema: {
+                  'title': 'Model Definition',
+                  'type': 'object',
+                  'required': [
+                    '__collection__',
+                    '_index',
+                    '_key',
+                    'createdate'
+                  ],
+                  'properties': {
+                    '__collection__': {
+                      'type': 'string',
+                      'description': '名称',
+                      'minLength': 4,
+                      'default': 'mycollection'
+                    },
+                    '_index': {
+                      'type': 'string',
+                      'description': '索引',
+                      'default': "[{'type':'hash', 'fields':['name'], 'unique':True}]"
+                    },
+                    '_key': {
+                      'type': 'string',
+                      'description': '主键',
+                      'default': "String(required=True)"
+                    },
+                    'createdate': {
+                      'type': 'string',
+                      'description': '创建日期',
+                      'default': "String(required=True, allow_none=False)"
+                    }
+                  }
+                }
+              };
+        var jsoninput = $('<input id="' + safeId + '" type="text" name="json">');
+        var jsondiv = $('<div id="' + safeId + '_div"></div>');
+        var container = $('<div/>').append(jsoninput).append(jsondiv);
+        console.log(container)
+        conf.jsoninput = jsoninput
+        // SEC 2 - JSONEditor setup
+        console.log(jsondiv)
+        var jeditor = new JSONEditor({jsondiv}, config);
+        console.log(jeditor)
+        conf.jsoneditor = jeditor
+        // SEC 3 - JSONEditor onchange control
+        jeditor.on('change', function () {
+            jsoninput.value = JSON.stringify(editor.getValue())
+        });
+        return container;
     },
 
-    get: function ( conf ) {
-        return $(conf._editor.getValue());
+    get: function (conf) {
+        return conf.jsoninput.val();
     },
-    set: function ( conf, val ) {
-        $(conf._editor.setValue(val));
+    set: function (conf, val) {
+        conf.jsoneditor.setValue(val);
     },
 };
 })(jQuery, jQuery.fn.dataTable);
