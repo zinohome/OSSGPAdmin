@@ -90,42 +90,46 @@
         }
       };
       var editor = new $.fn.dataTable.Editor({
-        ajax: "/sysadmin-users/data",
+        ajax: "/sysdev-model/data",
         table: "#datatable",
         display: "lightbox",
         idSrc:  "name",
         fields: [ {
-                "label": "姓名:",
+                "label": "模型名称:",
                 "name": "name"
             }, {
-                "label": "角色:",
-                "name": "role",
+                "label": "模型类型:",
+                "name": "coltype",
                 "type": "select",
-                "multiple": true,
-                "separator": ',',
                 "options":[
-                    {label:"Admin", value:"admin"},
-                    {label:"User", value:"user"}
+                    {label:"Document", value:"document"},
+                    {label:"Edge", value:"edge"}
                 ]
             }, {
-                "label": "是否激活:",
-                "name": "active",
-                "type":"radio",
+                "label": "键字段:",
+                "name": "keyfieldname",
+                "type": "select",
                 "options":[
-                    {label:"激活", value:"True"},
-                    {label:"锁定", value:"False"}
+                    {label:"name", value:"name"},
+                    {label:"password", value:"password"},
+                    {label:"role", value:"role"},
+                    {label:"active", value:"active"}
                 ]
             }, {
-                "label": "密码:",
-                "name": "password",
-                "type": "password"
+                "label": "模型定义:",
+                "name": "coldef",
+                "type": "textarea"
+            }, {
+                "label": "创建/修改时间:",
+                "name": "createdate",
+                "type": "readonly"
             }
         ]
       });
       var datatable = $("#datatable").DataTable({
         processing: true,
         serverSide: true,
-        ajax: "/sysadmin-users/data",
+        ajax: "/sysdev-model/data",
         responsive: {
             details: true
         },
@@ -140,9 +144,11 @@
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
         select: 'single',
         columns:[
-          {data:"name",title:"姓名",defaultContent:""},
-          {data:"role",title:"角色",defaultContent:""},
-          {data:"active",title:"是否激活",defaultContent:""},
+          {data:"name",title:"模型名称",defaultContent:""},
+          {data:"coltype",title:"模型类型",defaultContent:""},
+          {data:"keyfieldname",title:"键字段",defaultContent:""},
+          {data:"coldef",title:"模型定义",defaultContent:""},
+          {data:"createdate",title:"创建/修改时间",defaultContent:""}
         ],
         buttons: true,
         buttons: {
