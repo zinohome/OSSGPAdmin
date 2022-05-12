@@ -26,14 +26,14 @@
 .btn-icon {height:30px; width:30px;}
 .btn-info {height:30px; width:30px;}
 div.DTED_Lightbox_Wrapper {
-    left: 10em;
-    right: 10em;
+    left: 5em;
+    right: 5em;
     margin-left: 0;
     width: auto;
 }
 div.DTE_Body div.DTE_Body_Content div.DTE_Field {
     float: left;
-    width: 50%;
+    width: 100%;
     padding: 5px 20px;
     clear: none;
     box-sizing: border-box;
@@ -115,12 +115,15 @@ _fieldTypes.jsoneditor = {
         var config = {
                 use_name_attributes: false,
                 theme: 'bootstrap4',
+                iconlib: 'fontawesome5',
+                keep_oneof_values: false,
                 disable_edit_json: false,
                 disable_properties: false,
-                disable_collapse: true,
+                disable_collapse: false,
                 schema: {
-                  'title': 'Model Definition',
+                  'title': 'model',
                   'type': 'object',
+                  'format': 'grid',
                   'required': [
                     '__collection__',
                     '_index',
@@ -130,41 +133,40 @@ _fieldTypes.jsoneditor = {
                   'properties': {
                     '__collection__': {
                       'type': 'string',
-                      'description': '名称',
-                      'minLength': 4,
-                      'default': 'mycollection'
+                      'default': 'collectionname'
                     },
                     '_index': {
                       'type': 'string',
-                      'description': '索引',
                       'default': "[{'type':'hash', 'fields':['name'], 'unique':True}]"
                     },
                     '_key': {
                       'type': 'string',
-                      'description': '主键',
                       'default': "String(required=True)"
                     },
                     'createdate': {
                       'type': 'string',
-                      'description': '创建日期',
                       'default': "String(required=True, allow_none=False)"
                     }
                   }
                 }
               };
-        var jsoninput = $('<input id="' + safeId + '" type="text" name="json">');
-        var jsondiv = $('<div id="' + safeId + '_div"></div>');
-        var container = $('<div/>').append(jsoninput).append(jsondiv);
-        console.log(container)
-        conf.jsoninput = jsoninput
+        var jinput = $('<input id="' + safeId + '" type="text" name="'+safeId+'">');
+        var jdiv = $('<div id="' + safeId + '_div"></div>');
+        var container = $('<div/>').append(jinput).append(jdiv);
+        conf.jsoninput = jinput;
         // SEC 2 - JSONEditor setup
-        console.log(jsondiv)
-        var jeditor = new JSONEditor({jsondiv}, config);
-        console.log(jeditor)
-        conf.jsoneditor = jeditor
+        const jeditor = new JSONEditor(jdiv[0], config);
+        conf.jsoneditor = jeditor;
         // SEC 3 - JSONEditor onchange control
+        jeditor.on('ready', function () {
+            jeditor.enable();
+            const errors = jeditor.validate();
+            if (errors.length) {
+              console.log(errors);
+            }
+        });
         jeditor.on('change', function () {
-            jsoninput.value = JSON.stringify(editor.getValue())
+            jinput.val(JSON.stringify(jeditor.getValue()));
         });
         return container;
     },
@@ -173,7 +175,10 @@ _fieldTypes.jsoneditor = {
         return conf.jsoninput.val();
     },
     set: function (conf, val) {
+        console.log(val);
+        conf.jsoneditor.startval=val;
         conf.jsoneditor.setValue(val);
+        //console.log(JSON.stringify(conf.jsoneditor.getValue()));
     },
 };
 })(jQuery, jQuery.fn.dataTable);
@@ -205,10 +210,9 @@ _fieldTypes.jsoneditor = {
                 ]
             }, {
                 "label": "模型定义:",
-                "labelInfo": "JSON Assembly <a href='jsontool.html' target='_blank'>Tool</a>",
+                "labelInfo": "字段可用类型：\"String\", \"Number\", \"Integer\", \"Boolean\", \"Float\", \"DateTime\"",
                 "name": "coldef",
-                "type": "jsoneditor",
-                'className': 'block'
+                "type": "jsoneditor"
             }, {
                 "label": "键字段:",
                 "name": "keyfieldname"

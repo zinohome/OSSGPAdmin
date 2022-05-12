@@ -19,10 +19,7 @@
           <div class="table-responsive">
             <p>
         字段可用类型：
-        "Field", "Raw", "Nested", "Mapping", "Dict", "List", "Tuple", "String", "UUID", "Number", "Integer",
-        "Decimal", "Boolean", "Float", "DateTime", "NaiveDateTime", "AwareDateTime", "Time", "Date", "TimeDelta",
-        "Url", "URL", "Email", "IP", "IPv4", "IPv6", "IPInterface", "IPv4Interface", "IPv6Interface", "Method",
-        "Function", "Str", "Bool", "Int", "Constant", "Pluck"
+        "String", "Number", "Integer", "Boolean", "Float", "DateTime"
             </p>
             <div class="form-group"></div>
               <input id="editor-input" type="text" name="json">
@@ -82,7 +79,6 @@
     }
   };
   var editor = new JSONEditor(document.querySelector('#editor-container'), config);
-  console.log(editor)
   editor.on('change', function () {
     document.querySelector('#editor-input').value = JSON.stringify(editor.getValue())
   })
