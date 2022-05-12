@@ -118,11 +118,13 @@ _fieldTypes.jsoneditor = {
                 keep_oneof_values: false,
                 disable_edit_json: false,
                 disable_properties: false,
-                disable_collapse: false,
+                disable_collapse: true,
+                expand_height: true,
+                show_opt_in: false,
                 schema: {
                   'title': 'model',
                   'type': 'object',
-                  'format': 'grid',
+                  'format': 'grid-strict',
                   'required': [
                     '__collection__',
                     '_index',
@@ -149,7 +151,7 @@ _fieldTypes.jsoneditor = {
                   }
                 }
               };
-        var jinput = $('<input id="' + safeId + '" type="text" name="'+safeId+'">');
+        var jinput = $('<input id="' + safeId + '" type="hidden" name="'+safeId+'">');
         var jdiv = $('<div id="' + safeId + '_div"></div>');
         var container = $('<div/>').append(jinput).append(jdiv);
         conf.jsoninput = jinput;
@@ -174,10 +176,11 @@ _fieldTypes.jsoneditor = {
         return conf.jsoninput.val();
     },
     set: function (conf, val) {
-        console.log(val);
-        conf.jsoneditor.startval=val;
-        conf.jsoneditor.setValue(val);
-        //console.log(JSON.stringify(conf.jsoneditor.getValue()));
+        if(val){
+            //conf.jsoninput.val(val);
+            conf.jsoneditor.setValue(JSON.parse(val));
+            //console.log(JSON.stringify(conf.jsoneditor.getValue()));
+        }
     },
 };
 })(jQuery, jQuery.fn.dataTable);
@@ -250,7 +253,7 @@ _fieldTypes.jsoneditor = {
           {data:"name", title:"模型名称", "visible": true, defaultContent:""},
           {data:"coltype", title:"模型类型", "visible": true, defaultContent:""},
           {data:"keyfieldname", title:"键字段", "visible": true, defaultContent:""},
-          {data:"coldef", title:"模型定义", "visible": true, defaultContent:""},
+          {data:"coldef", title:"模型定义", "visible": false, defaultContent:""},
           {data:"createdate", title:"创建/修改时间", "visible": true, defaultContent:""}
         ],
         buttons: true,
