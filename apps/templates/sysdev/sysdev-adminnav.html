@@ -135,31 +135,14 @@ div.DTE_Body div.DTE_Form_Content:after {
                 "label": "标记:",
                 "name": "segment"
             },{
-                "label": "列表样式:",
-                "name": "liclass",
-                "type": "select",
-                "def": "nav-item",
-                "options":[
-                    {label:"nav-item", value:"nav-item"},
-                    {label:"nav-item", value:"nav-item"}
-                ]
-            },{
-                "label": "链接样式:",
-                "name": "hrefclass",
-                "type": "select",
-                "def": "nav-link",
-                "options":[
-                    {label:"链接", value:"nav-link"},
-                    {label:"目录", value:"nav-link with-sub"}
-                ]
-            },{
                 "label": "条目样式:",
                 "name": "navclass",
                 "type": "select",
                 "def": "link",
                 "options":[
                     {label:"标签", value:"label"},
-                    {label:"链接", value:"link"}
+                    {label:"链接", value:"link"},
+                    {label:"目录", value:"sub"}
                 ]
             }, {
                 "label": "链接目标:",
@@ -205,18 +188,16 @@ div.DTE_Body div.DTE_Form_Content:after {
           {data:"level", title:"层级", "visible": true, defaultContent:""},
           {data:"order", title:"顺序", "visible": true, defaultContent:""},
           {data:"segment", title:"标记", "visible": true, defaultContent:""},
-          {data:"liclass", title:"列表样式", "visible": false, defaultContent:""},
-          {data:"hrefclass", title:"链接样式", "visible": false, defaultContent:""},
-          {data:"navclass", title:"条目样式", "visible": false, defaultContent:""},
-          {data:"href", title:"链接目标", "visible": false, defaultContent:""},
-          {data:"icon", title:"图标", "visible": false, defaultContent:""},
+          {data:"navclass", title:"条目样式", "visible": true, defaultContent:""},
+          {data:"href", title:"链接目标", "visible": true, defaultContent:""},
+          {data:"icon", title:"图标", "visible": true, defaultContent:""},
           {data:"createdate", title:"创建/修改时间", "visible": true, defaultContent:""}
         ],
         buttons: true,
         buttons: {
           name:'primary',
           buttons: [
-          { extend: 'create', text:'<i class="typcn typcn-document-add tx-18"></i>', titleAttr: '创建', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '创建'] },
+          { extend: 'create', text:'<i class="typcn typcn-document-add tx-18"></i>', titleAttr: '新建', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '新建'] },
           {
             extend: "selected",
             text: '<i class="typcn typcn-clipboard tx-18"></i>', titleAttr: '复制',
@@ -224,7 +205,7 @@ div.DTE_Body div.DTE_Form_Content:after {
               // Start in edit mode, and then change to create
               editor.edit(datatable.rows( {selected: true} ).indexes(), {
                 title: '从记录复制',
-                buttons: [{text: '取消', action: function() {this.close();}}, '创建']
+                buttons: [{text: '取消', action: function() {this.close();}}, '新建']
               }).mode( 'create' );}
             },
           { extend: 'edit', text:'<i class="typcn typcn-edit tx-18"></i>', titleAttr: '修改', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '修改'] },

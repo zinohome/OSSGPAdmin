@@ -263,7 +263,7 @@ _fieldTypes.jsoneditor = {
         buttons: {
           name:'primary',
           buttons: [
-          { extend: 'create', text:'<i class="typcn typcn-document-add tx-18"></i>', titleAttr: '创建', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '创建'] },
+          { extend: 'create', text:'<i class="typcn typcn-document-add tx-18"></i>', titleAttr: '新建', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '新建'] },
           {
             extend: "selected",
             text: '<i class="typcn typcn-clipboard tx-18"></i>', titleAttr: '复制',
@@ -271,7 +271,7 @@ _fieldTypes.jsoneditor = {
               // Start in edit mode, and then change to create
               editor.edit(datatable.rows( {selected: true} ).indexes(), {
                 title: '从记录复制',
-                buttons: [{text: '取消', action: function() {this.close();}}, '创建']
+                buttons: [{text: '取消', action: function() {this.close();}}, '新建']
               }).mode( 'create' );}
             },
           { extend: 'edit', text:'<i class="typcn typcn-edit tx-18"></i>', titleAttr: '修改', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '修改'] },
