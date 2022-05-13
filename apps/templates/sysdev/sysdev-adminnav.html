@@ -15,8 +15,6 @@
   <!-- DataTables Editor-->
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/dataTables.dateTime.min.css">
-  <!-- JsonEditor-->
-  <link rel="stylesheet" href="/static/assets/lib/jsoneditor/jsoneditor.min.css">
 
 <style type="text/css">
 .align-right {text-align: right;font-size:13px;}
@@ -99,8 +97,6 @@ div.DTE_Body div.DTE_Form_Content:after {
   <!-- DataTables Editor-->
   <script src="/static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>
   <script src="/static/assets/lib/datatables-editor/js/dataTables.dateTime.min.js"></script>
-  <!-- JsonEditor-->
-  <script src="/static/assets/lib/jsoneditor/jsoneditor.min.js"></script>
   <!-- page script -->
   <script>
     $(document).ready(function () {
@@ -223,7 +219,7 @@ div.DTE_Body div.DTE_Form_Content:after {
           { extend: 'create', text:'<i class="typcn typcn-document-add tx-18"></i>', titleAttr: '创建', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '创建'] },
           {
             extend: "selected",
-            text: '<i class="typcn typcn-clipboard tx-18"></i>',
+            text: '<i class="typcn typcn-clipboard tx-18"></i>', titleAttr: '复制',
             action: function ( e, dt, node, config ) {
               // Start in edit mode, and then change to create
               editor.edit(datatable.rows( {selected: true} ).indexes(), {
