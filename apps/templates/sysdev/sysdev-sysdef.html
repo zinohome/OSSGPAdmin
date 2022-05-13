@@ -61,7 +61,7 @@ div.DTE_Body div.DTE_Form_Content:after {
           <h2 class="az-content-title">系统模型</h2>
 
           <div class="table-responsive">
-            <table id="datatable" class="table table-hover mg-b-0" width="100%">
+            <table id="datatable" class="table table-hover mg-b-0 responsive " style="width:100%">
               <thead>
                 <tr>
                   {% for th in define['thlist'] %}
@@ -94,6 +94,7 @@ div.DTE_Body div.DTE_Form_Content:after {
   <script src="/static/assets/lib/datatables/pdfmake.js"></script>
   <script src="/static/assets/lib/datatables/vfs_fonts.js"></script>
   <script src="/static/assets/lib/datatables/datatables.js"></script>
+  <script src="/static/assets/lib/datatables/datatables.responsive.min.js"></script>
   <!-- DataTables Editor-->
   <script src="/static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>
   <script src="/static/assets/lib/datatables-editor/js/dataTables.dateTime.min.js"></script>
@@ -235,6 +236,20 @@ _fieldTypes.jsoneditor = {
       editor.on( 'onInitEdit', function(){
         editor.disable('createdate');
       });
+      var openVals;
+      editor.on( 'open', function () {
+            // Store the values of the fields on open
+            openVals = JSON.stringify( editor.get() );
+            editor.on( 'preClose', function ( e ) {
+                // On close, check if the values have changed and ask for closing confirmation if they have
+                if ( openVals !== JSON.stringify( editor.get() ) ) {
+                    return confirm( '有修改过的数据没有保存，确认退出吗?' );
+                }
+            } )
+        } );
+      editor.on( 'postCreate postEdit close', function () {
+            editor.off( 'preClose' );
+        } );
       var datatable = $("#datatable").DataTable({
         processing: true,
         serverSide: true,

@@ -248,6 +248,49 @@ class OSSGPClient():
                 if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
+    def query(self, resource_name, url_prefix='', body=None, filter=None, filteror=None, sort=None, limit=None, offset=None):
+        action = 'list'
+        if self.token_expired:
+            self.renew_token()
+        if (not self.token_expired) and (self.access_token is not None):
+            # log.logger.debug('access_token : %s' % self.access_token)
+            api = self._api_client
+            api.headers = {'Authorization': 'Bearer ' + self.access_token}
+            if filter is not None:
+                api.headers['filter'] = str(filter)
+            if filteror is not None:
+                api.headers['filteror'] = str(filteror)
+            if offset is not None:
+                api.headers['offset'] = str(offset)
+            if limit is not None:
+                api.headers['limit'] = str(limit)
+            else:
+                api.headers['limit'] = str(os.getenv('OSSGPADMIN_API_QUERY_LIMIT_UPSET'))
+            if sort is not None:
+                api.headers['sort'] = str(sort)
+            api.api_root_url = self.api_root_url + url_prefix
+            api.add_resource(resource_name=resource_name)
+            try:
+                res = api._resources[api.correct_attribute_name(resource_name)]
+                #res = api._resources[resource_name]
+                #log.logger.debug(res.actions)
+                #log.logger.debug(res.get_action_full_url(action))
+                #log.logger.debug(res.get_action(action))
+                func = getattr(res,action)
+                response = None
+                if body is not None:
+                    response = func(body)
+                else:
+                    response = func()
+                for idict in response.body['data']:
+                    idict.update((k, str(v)) for k, v in idict.items())
+                res = {'code': response.status_code, 'body': response.body}
+                return res
+            except Exception as exp:
+                log.logger.error('Exception at query() %s ' % exp)
+                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                    traceback.print_exc()
+
     def post(self, resource_name, url_prefix='', body=None):
         #log.logger.debug(body)
         action = 'create'
@@ -343,12 +386,24 @@ if __name__ == '__main__':
     log.logger.debug(nc.getuser('admin'))
     log.logger.debug(nc.getuser('ddf'))
     log.logger.debug("nc.getuser('ddf') %s" % nc.getuser('ddf'))
-    log.logger.debug(nc.fetchcount('users'))
+    log.logger.debug(nc.fetchcount('oss', 'users'))
     resultstr = nc.fetch('users', '_collection', None, 0, 5)
     log.logger.debug(resultstr)
     resultstr = nc.fetch('users', '_collection', None, 0, 5)
     log.logger.debug(resultstr)
     resultstr = nc.fetchone('admin', '_collection/users', None, 0, 5)
+    log.logger.debug(resultstr)
+    resultstr = nc.query('adminnav', '_sysdef', None, filter='level==1', filteror=None, sort='order', limit=None,
+                         offset=None)
+    log.logger.debug(resultstr)
+    resultstr = nc.query('adminnav', '_sysdef', None, filter='level==2,order LIKE "1%"', filteror=None, sort='order', limit=None,
+                     offset=None)
+    log.logger.debug(resultstr)
+    resultstr = nc.query('adminnav', '_sysdef', None, filter='level==2,order LIKE "2%"', filteror=None, sort='order', limit=None,
+                     offset=None)
+    log.logger.debug(resultstr)
+    resultstr = nc.query('adminnav', '_sysdef', None, filter='level==2', filteror=None, sort='order', limit=None,
+                     offset=None)
     log.logger.debug(resultstr)
     '''
     resultstr = nc.post('users', '_collection', json.dumps({'data': {'name': 'tony', 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}))

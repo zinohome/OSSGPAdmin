@@ -26,7 +26,8 @@ from utils.restclient import OSSGPClient
 @login_required
 def route_sysdev():
     today = time.strftime("%Y-%m-%d", time.localtime())
-    return render_template('sysdev/sysdev.html', segment='sysdev',
+    nav = get_nav()
+    return render_template('sysdev/sysdev.html', segment='sysdev',nav=nav,
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)
 
@@ -34,6 +35,7 @@ def route_sysdev():
 @login_required
 def route_sysdev_sysdef():
     today = time.strftime("%Y-%m-%d", time.localtime())
+    nav = get_nav()
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
@@ -50,7 +52,7 @@ def route_sysdev_sysdef():
         if cdef not in ['__collection__', '_index', '_key', 'password']:
             thlist.append(cdef)
     define['thlist'] = thlist
-    return render_template('sysdev/sysdev-sysdef.html', segment='sysdev-sysdef',
+    return render_template('sysdev/sysdev-sysdef.html', segment='sysdev-sysdef',nav=nav,
                             define=define,
                             startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                             today=today)
@@ -97,7 +99,7 @@ def route_sysadmin_sysdef_data():
             else:
                 return Response('{"status":500, "body": "Error"}', status=500)
         elif action == 'edit':
-            log.logger.debug(request.form.to_dict())
+            #log.logger.debug(request.form.to_dict())
             resultstr = oc.put('sysdef', '_sysdef', json.dumps(subformdata),formdict[keyfieldname])
             if resultstr['code'] == 200:
                 returnlist=[]
@@ -118,6 +120,7 @@ def route_sysadmin_sysdef_data():
 @login_required
 def route_sysdev_coldef():
     today = time.strftime("%Y-%m-%d", time.localtime())
+    nav = get_nav()
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
@@ -133,7 +136,7 @@ def route_sysdev_coldef():
         if cdef not in ['__collection__', '_index', '_key', 'password']:
             thlist.append(cdef)
     define['thlist'] = thlist
-    return render_template('sysdev/sysdev-coldef.html', segment='sysdev-coldef',
+    return render_template('sysdev/sysdev-coldef.html', segment='sysdev-coldef',nav=nav,
                             define=define,
                             startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                             today=today)
@@ -179,7 +182,7 @@ def route_sysadmin_coldef_data():
             else:
                 return Response('{"status":500, "body": "Error"}', status=500)
         elif action == 'edit':
-            log.logger.debug(request.form.to_dict())
+            #log.logger.debug(request.form.to_dict())
             resultstr = oc.put('coldef', '_sysdef', json.dumps(subformdata),formdict[keyfieldname])
             if resultstr['code'] == 200:
                 returnlist=[]
@@ -200,7 +203,8 @@ def route_sysadmin_coldef_data():
 @login_required
 def route_sysdev_relation():
     today = time.strftime("%Y-%m-%d", time.localtime())
-    return render_template('sysdev/sysdev-relation.html', segment='sysdev-relation',
+    nav = get_nav()
+    return render_template('sysdev/sysdev-relation.html', segment='sysdev-relation',nav=nav,
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)
 
@@ -208,7 +212,8 @@ def route_sysdev_relation():
 @login_required
 def route_sysdev_view():
     today = time.strftime("%Y-%m-%d", time.localtime())
-    return render_template('sysdev/sysdev-view.html', segment='sysdev-view',
+    nav = get_nav()
+    return render_template('sysdev/sysdev-view.html', segment='sysdev-view',nav=nav,
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)
 
@@ -216,6 +221,7 @@ def route_sysdev_view():
 @login_required
 def route_sysdev_adminnav():
     today = time.strftime("%Y-%m-%d", time.localtime())
+    nav = get_nav()
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
@@ -231,7 +237,7 @@ def route_sysdev_adminnav():
         if cdef not in ['__collection__', '_index', '_key', 'password']:
             thlist.append(cdef)
     define['thlist'] = thlist
-    return render_template('sysdev/sysdev-adminnav.html', segment='sysdev-adminnav',
+    return render_template('sysdev/sysdev-adminnav.html', segment='sysdev-adminnav',nav=nav,
                            define=define,
                            startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                            today=today)
@@ -277,7 +283,7 @@ def route_sysadmin_adminnav_data():
             else:
                 return Response('{"status":500, "body": "Error"}', status=500)
         elif action == 'edit':
-            log.logger.debug(request.form.to_dict())
+            #log.logger.debug(request.form.to_dict())
             resultstr = oc.put('adminnav', '_sysdef', json.dumps(subformdata),formdict[keyfieldname])
             if resultstr['code'] == 200:
                 returnlist=[]
@@ -293,3 +299,56 @@ def route_sysadmin_adminnav_data():
                 return Response('{"status":200, "body": "'+ str(resultstr['body'])+'"}', status=200)
             else:
                 return Response('{"status":500, "body": "Error"}', status=500)
+
+
+# Helper - Extract current page name from request
+def get_segment(request):
+    try:
+        segment = request.path.split('/')[-1]
+        if segment == '':
+            segment = 'index'
+        return segment
+    except:
+        return None
+
+# Helper - Generate navigation
+def get_nav():
+    try:
+        nav = []
+        oc = OSSGPClient(session['username'],
+                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+        if oc.token_expired:
+            oc.renew_token()
+        l1nav = oc.query('adminnav', '_sysdef', None, filter='level==1', filteror=None, sort='order', limit=None,
+                         offset=None)
+        for l1item in l1nav['body']['data']:
+            navitem = {}
+            navitem['level'] = 1
+            navitem['name'] = l1item['name']
+            navitem['title'] = l1item['title']
+            navitem['segment'] = l1item['segment']
+            navitem['href'] = l1item['href']
+            navitem['icon'] = l1item['icon']
+            navitem['navclass'] = l1item['navclass']
+            #log.logger.debug('l1item: %s' % l1item)
+            if l1item['navclass'] == 'sub':
+                l2nav = oc.query('adminnav', '_sysdef', None, filter='level==2,order LIKE "'+str(l1item['order'])+'%"', filteror=None, sort='order', limit=None,
+                     offset=None)
+                sublist = []
+                for l2item in l2nav['body']['data']:
+                    nav2item = {}
+                    nav2item['level'] = 2
+                    nav2item['name'] = l2item['name']
+                    nav2item['title'] = l2item['title']
+                    nav2item['segment'] = l2item['segment']
+                    nav2item['href'] = l2item['href']
+                    nav2item['icon'] = l2item['icon']
+                    nav2item['navclass'] = l2item['navclass']
+                    sublist.append(nav2item)
+                navitem['sub'] = sublist
+                #log.logger.debug('l2nav: %s' % l2nav)
+            nav.append(navitem)
+        #log.logger.debug('nav: %s' % nav)
+        return nav
+    except:
+        return None

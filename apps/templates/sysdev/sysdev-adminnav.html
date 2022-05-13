@@ -61,7 +61,7 @@ div.DTE_Body div.DTE_Form_Content:after {
           <h2 class="az-content-title">导航定义</h2>
 
           <div class="table-responsive">
-            <table id="datatable" class="table table-hover mg-b-0" width="100%">
+            <table id="datatable" class="table table-hover mg-b-0 responsive " style="width:100%">
               <thead>
                 <tr>
                   {% for th in define['thlist'] %}
@@ -94,6 +94,7 @@ div.DTE_Body div.DTE_Form_Content:after {
   <script src="/static/assets/lib/datatables/pdfmake.js"></script>
   <script src="/static/assets/lib/datatables/vfs_fonts.js"></script>
   <script src="/static/assets/lib/datatables/datatables.js"></script>
+  <script src="/static/assets/lib/datatables/datatables.responsive.min.js"></script>
   <!-- DataTables Editor-->
   <script src="/static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>
   <script src="/static/assets/lib/datatables-editor/js/dataTables.dateTime.min.js"></script>
@@ -165,6 +166,20 @@ div.DTE_Body div.DTE_Form_Content:after {
       editor.on( 'onInitEdit', function(){
         editor.disable('createdate');
       });
+      var openVals;
+      editor.on( 'open', function () {
+            // Store the values of the fields on open
+            openVals = JSON.stringify( editor.get() );
+            editor.on( 'preClose', function ( e ) {
+                // On close, check if the values have changed and ask for closing confirmation if they have
+                if ( openVals !== JSON.stringify( editor.get() ) ) {
+                    return confirm( '有修改过的数据没有保存，确认退出吗?' );
+                }
+            } )
+        } );
+      editor.on( 'postCreate postEdit close', function () {
+            editor.off( 'preClose' );
+        } );
       var datatable = $("#datatable").DataTable({
         processing: true,
         serverSide: true,
@@ -183,15 +198,15 @@ div.DTE_Body div.DTE_Form_Content:after {
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
         select: 'single',
         columns:[
-          {data:"name", title:"名称", "visible": false, defaultContent:""},
+          {data:"name", title:"名称", "visible": true, defaultContent:""},
           {data:"title", title:"标题", "visible": true, defaultContent:""},
           {data:"level", title:"层级", "visible": true, defaultContent:""},
           {data:"order", title:"顺序", "visible": true, defaultContent:""},
           {data:"segment", title:"标记", "visible": true, defaultContent:""},
           {data:"navclass", title:"条目样式", "visible": true, defaultContent:""},
           {data:"href", title:"链接目标", "visible": true, defaultContent:""},
-          {data:"icon", title:"图标", "visible": true, defaultContent:""},
-          {data:"createdate", title:"创建/修改时间", "visible": true, defaultContent:""}
+          {data:"icon", title:"图标", "visible": false, defaultContent:""},
+          {data:"createdate", title:"创建/修改时间", "visible": false, defaultContent:""}
         ],
         buttons: true,
         buttons: {
