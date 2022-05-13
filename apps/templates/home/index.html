@@ -62,7 +62,16 @@
               <a class="nav-link" href="#"><i class="fas fa-ellipsis-h"></i></a>
             </nav>
           </div>
-
+          <div>
+          {% for navitem in nav %}
+            <p>{{ navitem }} </p>
+              {% if navitem['navclass']=='sub' %}
+                  {% for nav2item in navitem['sub'] %}
+                    <p>{{ nav2item }} </p>
+                  {% endfor %}
+              {% endif %}
+          {% endfor %}
+          </div>
         </div><!-- az-content-body -->
       </div>
     </div><!-- az-content -->

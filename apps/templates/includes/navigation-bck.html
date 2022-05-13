@@ -1,0 +1,93 @@
+
+    <div class="az-header">
+      <div class="container">
+        <div class="az-header-left">
+          <a href="#" class="az-logo"><span></span> <h1>P</h1>ractition·er</a>
+          <a href="" id="azMenuShow" class="az-header-menu-icon d-lg-none"><span></span></a>
+        </div><!-- az-header-left -->
+        <div class="az-header-menu">
+          <div class="az-header-menu-header">
+            <a href="index.html" class="az-logo"><span></span> <h1>P</h1>ractition·er</a>
+            <a href="" class="close">&times;</a>
+          </div><!-- az-header-menu-header -->
+          <ul class="nav">
+            <li class="nav-item {% if 'index' in segment %} active show{% endif %}">
+              <a href="index.html" class="nav-link"><i class="typcn typcn-chart-area-outline"></i>首页</a>
+            </li>
+            <li class="nav-item {% if 'ossgov' in segment %} active show{% endif %}">
+              <a href="ossgov.html" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i> 开源治理</a>
+            </li>
+            <li class="nav-item {% if 'govass' in segment %} active show{% endif %}">
+              <a href="govass.html" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i> 治理评估</a>
+            </li>
+            <li class="nav-item {% if 'sysdev' in segment %} active show{% endif %}">
+              <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i>业务定义</a>
+              <div class="az-menu-sub">
+                <div class="container">
+                  <div>
+                    <nav class="nav flex-column">
+                      <label class="nav-link" style="font-weight:600;">模型定义</label>
+                      <a href="sysdev-sysdef.html"  class="nav-link {% if 'sysdev-sysdef'  in segment %} active {% endif %}">系统模型</a>
+                      <a href="sysdev-coldef.html"  class="nav-link {% if 'sysdev-coldef'  in segment %} active {% endif %}">业务模型</a>
+                      <a href="sysdev-relation.html"  class="nav-link {% if 'sysdev-relation'  in segment %} active {% endif %}">模型关系</a>
+                      <a href="sysdev-view.html"  class="nav-link {% if 'sysdev-view'  in segment %} active {% endif %}">模型视图</a>
+                      <label class="nav-link" style="font-weight:600;">业务过程</label>
+                      <a href="sysdev-adminnav.html"  class="nav-link {% if 'sysdev-adminnav'  in segment %} active {% endif %}">导航定义</a>
+                      </nav>
+                  </div>
+                </div><!-- container -->
+              </div>
+            </li>
+            <li class="nav-item {% if 'sysadmin' in segment %} active show{% endif %}">
+              <a href="" class="nav-link with-sub"><i class="typcn typcn-book"></i>系统管理</a>
+              <div class="az-menu-sub">
+                <div class="container">
+                  <div>
+                    <nav class="nav flex-column">
+                      <label class="nav-link" style="font-weight:600;">系统管理</label>
+                      <a href="sysadmin-users.html"  class="nav-link {% if 'sysadmin-user'  in segment %} active {% endif %}">用户管理</a>
+                      <a href="sysadmin-authority.html" class="nav-link {% if 'sysadmin-auth'  in segment %} active {% endif %}">权限设置</a>
+                      <a href="sysadmin-settings.html"    class="nav-link {% if 'sysadmin-set' in segment %} active {% endif %}">系统设置</a>
+                      <label class="nav-link" style="font-weight:600;">在线帮助</label>
+                      <a href="sysadmin-help-user.html"  class="nav-link {% if 'sysadmin-help-user'  in segment %} active {% endif %}">用户权限</a>
+                      <a href="sysadmin-help-settings.html" class="nav-link {% if 'sysadmin-help-set'  in segment %} active {% endif %}">配置参数</a>
+                    </nav>
+                  </div>
+                </div><!-- container -->
+              </div>
+            </li>
+          </ul>
+        </div><!-- az-header-menu -->
+        <div class="az-header-right">
+          <a href="https://www.bootstrapdash.com/demo/azia-free/docs/documentation.html" target="_blank" class="az-header-search-link"><i class="far fa-file-alt"></i></a>
+          <a href="" class="az-header-search-link"><i class="fas fa-search"></i></a>
+          <div class="az-header-message">
+            <a href="#"><i class="typcn typcn-messages"></i></a>
+          </div><!-- az-header-message -->
+          <div class="dropdown az-profile-menu">
+            <a href="" class="az-img-user"><img src="/static/assets/img/faces/face1.jpg" alt=""></a>
+            <div class="dropdown-menu">
+              <div class="az-dropdown-header d-sm-none">
+                <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+              </div>
+              <div class="az-header-profile">
+                <div class="az-img-user">
+                  <img src="/static/assets/img/faces/face1.jpg" alt="">
+                </div><!-- az-img-user -->
+                <h6>
+                  {{ current_user.full_name }}
+                </h6>
+                <span>
+                  {{ current_user.username}}
+                </span>
+              </div><!-- az-header-profile -->
+
+              <a href="" class="dropdown-item"><i class="typcn typcn-user-outline"></i> 我的信息</a>
+              <a href="" class="dropdown-item"><i class="typcn typcn-edit"></i> 修改信息</a>
+              <a href="" class="dropdown-item"><i class="typcn typcn-cog-outline"></i> 账户设置</a>
+              <a href="{{ url_for('authentication_blueprint.logout') }}" class="dropdown-item"><i class="typcn typcn-power-outline"></i> 退出登录</a>
+            </div><!-- dropdown-menu -->
+          </div>
+        </div><!-- az-header-right -->
+      </div><!-- container -->
+    </div><!-- az-header -->

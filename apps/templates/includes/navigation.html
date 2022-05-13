@@ -10,52 +10,32 @@
             <a href="index.html" class="az-logo"><span></span> <h1>P</h1>ractition·er</a>
             <a href="" class="close">&times;</a>
           </div><!-- az-header-menu-header -->
+
           <ul class="nav">
-            <li class="nav-item {% if 'index' in segment %} active show{% endif %}">
-              <a href="index.html" class="nav-link"><i class="typcn typcn-chart-area-outline"></i>首页</a>
-            </li>
-            <li class="nav-item {% if 'ossgov' in segment %} active show{% endif %}">
-              <a href="ossgov.html" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i> 开源治理</a>
-            </li>
-            <li class="nav-item {% if 'govass' in segment %} active show{% endif %}">
-              <a href="govass.html" class="nav-link"><i class="typcn typcn-chart-bar-outline"></i> 治理评估</a>
-            </li>
-            <li class="nav-item {% if 'sysdev' in segment %} active show{% endif %}">
-              <a href="" class="nav-link with-sub"><i class="typcn typcn-document"></i>业务定义</a>
+            {% for navitem in nav %}
+            <li class="nav-item {% if navitem['segment'] in segment %} active show{% endif %}">
+              {% if navitem['navclass']=='sub' %}
+              <a href="{{ navitem['href'] }}" class="nav-link with-sub"><i class="{{ navitem['icon'] }}"></i>{{ navitem['title'] }}</a>
               <div class="az-menu-sub">
                 <div class="container">
                   <div>
                     <nav class="nav flex-column">
-                      <label class="nav-link" style="font-weight:600;">模型定义</label>
-                      <a href="sysdev-sysdef.html"  class="nav-link {% if 'sysdev-sysdef'  in segment %} active {% endif %}">系统模型</a>
-                      <a href="sysdev-coldef.html"  class="nav-link {% if 'sysdev-coldef'  in segment %} active {% endif %}">业务模型</a>
-                      <a href="sysdev-relation.html"  class="nav-link {% if 'sysdev-relation'  in segment %} active {% endif %}">模型关系</a>
-                      <a href="sysdev-view.html"  class="nav-link {% if 'sysdev-view'  in segment %} active {% endif %}">模型视图</a>
-                      <label class="nav-link" style="font-weight:600;">业务过程</label>
-                      <a href="sysdev-adminnav.html"  class="nav-link {% if 'sysdev-adminnav'  in segment %} active {% endif %}">导航定义</a>
+                      {% for nav2item in navitem['sub'] %}
+                        {% if nav2item['navclass']=='label' %}
+                        <label class="nav-link" style="font-weight:600;">{{ nav2item['title'] }}</label>
+                        {% else %}
+                        <a href="{{ nav2item['href'] }}"  class="nav-link {% if nav2item['segment'] in segment %} active {% endif %}">{{ nav2item['title'] }}</a>
+                        {% endif %}
+                      {% endfor %}
                       </nav>
                   </div>
                 </div><!-- container -->
               </div>
+              {% else %}
+              <a href="{{ navitem['href'] }}" class="nav-link"><i class="{{ navitem['icon'] }}"></i>{{ navitem['title'] }}</a>
+              {% endif %}
             </li>
-            <li class="nav-item {% if 'sysadmin' in segment %} active show{% endif %}">
-              <a href="" class="nav-link with-sub"><i class="typcn typcn-book"></i>系统管理</a>
-              <div class="az-menu-sub">
-                <div class="container">
-                  <div>
-                    <nav class="nav flex-column">
-                      <label class="nav-link" style="font-weight:600;">系统管理</label>
-                      <a href="sysadmin-users.html"  class="nav-link {% if 'sysadmin-user'  in segment %} active {% endif %}">用户管理</a>
-                      <a href="sysadmin-authority.html" class="nav-link {% if 'sysadmin-auth'  in segment %} active {% endif %}">权限设置</a>
-                      <a href="sysadmin-settings.html"    class="nav-link {% if 'sysadmin-set' in segment %} active {% endif %}">系统设置</a>
-                      <label class="nav-link" style="font-weight:600;">在线帮助</label>
-                      <a href="sysadmin-help-user.html"  class="nav-link {% if 'sysadmin-help-user'  in segment %} active {% endif %}">用户权限</a>
-                      <a href="sysadmin-help-settings.html" class="nav-link {% if 'sysadmin-help-set'  in segment %} active {% endif %}">配置参数</a>
-                    </nav>
-                  </div>
-                </div><!-- container -->
-              </div>
-            </li>
+            {% endfor %}
           </ul>
         </div><!-- az-header-menu -->
         <div class="az-header-right">

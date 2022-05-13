@@ -1,0 +1,23 @@
+        {% set segnav=segment.split('-')[0] %}
+        <div class="az-content-left az-content-left-components">
+          <div class="component-item">
+            {% for navitem in nav %}
+              {% if navitem['name']==segnav %}
+                {% for nav2item in navitem['sub'] %}
+                  {% if nav2item['navclass']=='label' %}
+            {% if not loop.first %}
+            </nav>
+            {% endif %}
+            <label>{{ nav2item['title'] }}</label>
+            {% if loop.first %}
+            <nav class="nav flex-column">
+            {% endif %}
+                  {% else %}
+            <a href="{{ nav2item['href'] }}"  class="nav-link {% if nav2item['segment']  in segment %} active {% endif %}">{{ nav2item['title'] }}</a>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </div><!-- component-item -->
+
+        </div><!-- az-content-left -->
