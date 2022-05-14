@@ -253,11 +253,13 @@ _fieldTypes.jsoneditor = {
       var datatable = $("#datatable").DataTable({
         processing: true,
         serverSide: true,
+        lengthChange: true,
         ajax: "/sysdev-coldef/data",
         responsive: {
             details: true
         },
         autoWidth: true,
+        lengthChange: true,
         paging: true,
         fixedHeader: true,
         searching: false,

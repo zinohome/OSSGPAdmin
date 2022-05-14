@@ -166,11 +166,13 @@ div.DTE_Body div.DTE_Form_Content:after {
       var datatable = $("#datatable").DataTable({
         processing: true,
         serverSide: true,
+        lengthChange: true,
         ajax: "/sysadmin-users/data",
         responsive: {
             details: true
         },
         autoWidth: true,
+        lengthChange: true,
         paging: true,
         fixedHeader: true,
         searching: false,
