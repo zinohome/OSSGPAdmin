@@ -143,6 +143,12 @@ div.DTE_Body div.DTE_Form_Content:after {
             }
         ]
       });
+      editor.on( 'onInitCreate', function(){
+        editor.enable('name');
+      });
+      editor.on( 'onInitEdit', function(){
+        editor.disable('name');
+      });
       var openVals;
       editor.on( 'open', function () {
             // Store the values of the fields on open
