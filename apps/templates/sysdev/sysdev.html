@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} 业务模型 {% endblock %}
+{% block title %} {{ define['pagedef']['pagedef']['block_title'] }} {% endblock %}
 
 <!-- Page CSS Plugins goes HERE  -->
 {% block plugin_stylesheets %}{% endblock plugin_stylesheets %}
@@ -56,10 +56,10 @@ div.DTE_Body div.DTE_Form_Content:after {
 
         <div class="az-content-body pd-lg-l-40 d-flex flex-column">
           <div class="az-content-breadcrumb">
-            <span>业务定义</span>
-            <span>业务模型</span>
+            <span>{{ define['pagedef']['pagedef']['block_navtitle'] }}</span>
+            <span>{{ define['pagedef']['pagedef']['block_title'] }}</span>
           </div>
-          <h2 class="az-content-title">业务模型</h2>
+          <h2 class="az-content-title">{{ define['pagedef']['pagedef']['block_title'] }}</h2>
 
           <div class="table-responsive">
             <table id="datatable" class="table table-hover mg-b-0 responsive " style="width:100%">
@@ -114,6 +114,13 @@ _fieldTypes.jsoneditor = {
     create: function (conf) {
         //SEC 1 - DOM Setup
         var safeId = DataTable.Editor.safeId(conf.id);
+        var edschema ="";
+        $.ajaxSetup({async:false});
+        {% if define['has_jsoneditor']  %}
+        $.getJSON('/static/assets/jsonschema/{{ define['jsoneditor_def'] }}', function getschema(data){edschema = data;});
+        var config = {{ define['jsoneditor_options']|safe }}
+        {% else %}
+        $.getJSON('/static/assets/jsonschema/schema-pagedef.json', function getschema(data){edschema = data;});
         var config = {
                 use_name_attributes: false,
                 theme: 'bootstrap4',
@@ -124,36 +131,9 @@ _fieldTypes.jsoneditor = {
                 disable_collapse: false,
                 expand_height: true,
                 show_opt_in: false,
-                schema: {
-                  'title': '模型定义',
-                  'type': 'object',
-                  'format': 'grid-strict',
-                  'required': [
-                    '__collection__',
-                    '_index',
-                    '_key',
-                    'createdate'
-                  ],
-                  'properties': {
-                    '__collection__': {
-                      'type': 'string',
-                      'default': 'collectionname'
-                    },
-                    '_index': {
-                      'type': 'string',
-                      'default': "[{'type':'hash', 'fields':['name'], 'unique':True}]"
-                    },
-                    '_key': {
-                      'type': 'string',
-                      'default': "String(required=True)"
-                    },
-                    'createdate': {
-                      'type': 'string',
-                      'default': "String(required=True, allow_none=False)"
-                    }
-                  }
-                }
+                schema: edschema
               };
+        {% endif %}
         var jinput = $('<input id="' + safeId + '" type="hidden" name="'+safeId+'">');
         var jdiv = $('<div id="' + safeId + '_div"></div>');
         var container = $('<div/>').append(jinput).append(jdiv);
@@ -199,35 +179,19 @@ _fieldTypes.jsoneditor = {
         }
       };
       var editor = new $.fn.dataTable.Editor({
-        ajax: "/sysdev-coldef/data",
+        ajax: "/sysdev-{{ define['pagedef']['name'] }}/data",
         table: "#datatable",
         display: "lightbox",
         idSrc:  "name",
-        fields: [ {
-                "label": "模型名称:",
-                "name": "name"
-            }, {
-                "label": "模型类型:",
-                "name": "coltype",
-                "type": "select",
-                "options":[
-                    {label:"Document", value:"document"},
-                    {label:"Edge", value:"edge"}
-                ]
-            }, {
-                "label": "模型定义:",
-                "labelInfo": "字段可用类型：\"String\", \"Number\", \"Integer\", \"Boolean\", \"Float\", \"DateTime\"",
-                "name": "coldef",
-                "type": "jsoneditor"
-            }, {
-                "label": "键字段:",
-                "name": "keyfieldname"
-            }, {
-                "label": "创建/修改时间:",
-                "name": "createdate",
-                "type": "datetime",
-                "def": function () { return new Date(); }
-            }
+        fields: [
+            {% for field in define['pagedef']['pagedef']['et_fields'] %}
+            {
+                "label": "{{ field['label'] }}:",
+                "labelInfo": "{{ field['labelInfo'] }}",
+                "name": "{{ field['name'] }}",
+                "type": "{{ field['type'] }}"
+            }{{ "," if not loop.last }}
+            {% endfor %}
         ]
       });
       editor.on( 'onInitCreate', function(){
@@ -254,7 +218,7 @@ _fieldTypes.jsoneditor = {
         processing: true,
         serverSide: true,
         lengthChange: true,
-        ajax: "/sysdev-coldef/data",
+        ajax: "/sysdev-{{ define['pagedef']['name'] }}/data",
         responsive: {
             details: true
         },
@@ -270,11 +234,9 @@ _fieldTypes.jsoneditor = {
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
         select: 'single',
         columns:[
-          {data:"name", title:"模型名称", "visible": true, defaultContent:""},
-          {data:"coltype", title:"模型类型", "visible": true, defaultContent:""},
-          {data:"keyfieldname", title:"键字段", "visible": true, defaultContent:""},
-          {data:"coldef", title:"模型定义", "visible": false, defaultContent:""},
-          {data:"createdate", title:"创建/修改时间", "visible": true, defaultContent:""}
+        {% for field in define['pagedef']['pagedef']['et_fields'] %}
+          {data:"{{ field['name'] }}", title:"{{ field['label'] }}", "visible": {{ field['visible'] }}, defaultContent:""}{{ "," if not loop.last }}
+        {% endfor %}
         ],
         buttons: true,
         buttons: {

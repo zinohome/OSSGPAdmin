@@ -47,16 +47,24 @@ def route_sysdev(devname):
             if cdef not in ['__collection__', '_index', '_key', 'password']:
                 thlist.append(cdef)
         define['thlist'] = thlist
-        tableEditor = {}
         pagenames = oc.fetch('pagedef', '_sysdef/sysdefnames', body=None, offset=None,
                              limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
         if devname in set(pagenames):
             result = oc.fetch(devname, '_sysdef/pagedef', body=None, offset=None,
                              limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'))['body']
-            log.logger.debug("result is: %s" % result)
+            result['pagedef'] = json.loads(result['pagedef'])
+            define['has_jsoneditor'] = False
+            for etfield in result['pagedef']['et_fields']:
+                if etfield['type'] == 'jsoneditor':
+                    define['has_jsoneditor'] = True
+                    define['jsoneditor_options'] = etfield['options']
+                    define['jsoneditor_def'] = etfield['def']
+            define['pagedef'] = result
         else:
-            define['tableEditor'] = None
-        return render_template('sysdev/sysdev-'+devname+'.html', segment='sysdev-'+devname, nav=nav,
+            return render_template('home/page-404.html'), 404
+        log.logger.debug(define)
+        log.logger.debug(define['pagedef'])
+        return render_template('sysdev/sysdev.html', segment='sysdev-'+devname, nav=nav,
                                define=define,devname=devname,
                                startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                today=today)
