@@ -34,17 +34,28 @@ def route_sysdev(devname):
     modelnames =  oc.fetch('sysdef', '_sysdef/sysdefnames', body=None, offset=None, limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
     modelnames.append('sysdef') if not 'sysdef' in set(modelnames) else None
     if devname in set(modelnames):
-
-
-        return render_template('sysdev/sysdev.html', segment='sysdev',nav=nav,
-                           startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
-                           today=today)
+        # sysdef define same with coldef
+        defname = 'coldef' if devname == 'sysdef' else devname
+        definestr = oc.fetch(defname, '_sysdef/sysdef', None, 0, 5)['body']
+        define = {}
+        define['colname'] = devname
+        define['keyfieldname'] = definestr['data'][0]['keyfieldname']
+        define['coldef'] = json.loads(definestr['data'][0]['coldef'])
+        thlist = []
+        for cdef in define['coldef'].keys():
+            if cdef not in ['__collection__', '_index', '_key', 'password']:
+                thlist.append(cdef)
+        define['thlist'] = thlist
+        return render_template('sysdev/sysdev-'+devname+'.html', segment='sysdev-'+devname, nav=nav,
+                               define=define,
+                               startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                               today=today)
     else:
         return render_template('home/page-404.html'), 404
 
 @blueprint.route('/sysdev-<devname>/data', methods = ['GET', 'POST'])
 @login_required
-def route_sysadmin_data(devname):
+def route_sysdev_data(devname):
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
@@ -56,10 +67,10 @@ def route_sysadmin_data(devname):
         return Response('{"status":500, "body": "Error"}', status=500)
     else:
         if request.method == 'GET':  # list
-            count = oc.fetchcount('sys', 'sysdef')['body']
+            count = oc.fetchcount('sys', devname)['body']
             start = request.args.get('start', type=int)
             length = request.args.get('length', type=int)
-            record = oc.fetch('sysdef', '_sysdef', None, start, length, 'name')['body']
+            record = oc.fetch(devname, '_sysdef', None, start, length, 'name')['body']
             rdata = {
                 'data': record['data'],
                 'recordsFiltered': count,
@@ -70,7 +81,8 @@ def route_sysadmin_data(devname):
             return rdata
         elif request.method == 'POST':
             # sysdef define same with coldef
-            definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
+            defname = 'coldef' if devname == 'sysdef' else devname
+            definestr = oc.fetch(defname, '_sysdef/sysdef', None, 0, 5)['body']
             keyfieldname = definestr['data'][0]['keyfieldname']
             action = request.form.get('action', type=str)
             reqdict = request.form.to_dict()
@@ -81,7 +93,7 @@ def route_sysadmin_data(devname):
             formdict['_key'] = formdict[keyfieldname]
             subformdata = {'data':formdict}
             if action == 'create':
-                resultstr = oc.post('sysdef', '_sysdef', json.dumps(subformdata))
+                resultstr = oc.post(devname, '_sysdef', json.dumps(subformdata))
                 if resultstr['code'] == 200:
                     returnlist=[]
                     returnlist.append(resultstr['body'])
@@ -91,7 +103,7 @@ def route_sysadmin_data(devname):
                     return Response('{"status":500, "body": "Error"}', status=500)
             elif action == 'edit':
                 #log.logger.debug(request.form.to_dict())
-                resultstr = oc.put('sysdef', '_sysdef', json.dumps(subformdata),formdict[keyfieldname])
+                resultstr = oc.put(devname, '_sysdef', json.dumps(subformdata),formdict[keyfieldname])
                 if resultstr['code'] == 200:
                     returnlist=[]
                     returnlist.append(resultstr['body'])
@@ -100,7 +112,7 @@ def route_sysadmin_data(devname):
                 else:
                     return Response('{"status":500, "body": "Error"}', status=500)
             elif action == 'remove':
-                resultstr = oc.deletebyid('sysdef', '_sysdef', formdict[keyfieldname])
+                resultstr = oc.deletebyid(devname, '_sysdef', formdict[keyfieldname])
                 #log.logger.debug(resultstr)
                 if resultstr['code'] == 200:
                     return Response('{"status":200, "body": "'+ str(resultstr['body'])+'"}', status=200)
@@ -125,7 +137,7 @@ def get_nav():
                          cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
         if oc.token_expired:
             oc.renew_token()
-        l1nav = oc.query('adminnav', '_sysdef', None, filter='level==1', filteror=None, sort='order', limit=None,
+        l1nav = oc.query('navdef', '_sysdef', None, filter='level==1', filteror=None, sort='order', limit=None,
                          offset=None)
         for l1item in l1nav['body']['data']:
             navitem = {}
@@ -138,7 +150,7 @@ def get_nav():
             navitem['navclass'] = l1item['navclass']
             #log.logger.debug('l1item: %s' % l1item)
             if l1item['navclass'] == 'sub':
-                l2nav = oc.query('adminnav', '_sysdef', None, filter='level==2,order LIKE "'+str(l1item['order'])+'%"', filteror=None, sort='order', limit=None,
+                l2nav = oc.query('navdef', '_sysdef', None, filter='level==2,order LIKE "'+str(l1item['order'])+'%"', filteror=None, sort='order', limit=None,
                      offset=None)
                 sublist = []
                 for l2item in l2nav['body']['data']:

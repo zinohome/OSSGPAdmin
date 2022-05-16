@@ -237,7 +237,7 @@ def get_nav():
                          cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
         if oc.token_expired:
             oc.renew_token()
-        l1nav = oc.query('adminnav', '_sysdef', None, filter='level==1', filteror=None, sort='order', limit=None,
+        l1nav = oc.query('navdef', '_sysdef', None, filter='level==1', filteror=None, sort='order', limit=None,
                          offset=None)
         for l1item in l1nav['body']['data']:
             navitem = {}
@@ -250,7 +250,7 @@ def get_nav():
             navitem['navclass'] = l1item['navclass']
             #log.logger.debug('l1item: %s' % l1item)
             if l1item['navclass'] == 'sub':
-                l2nav = oc.query('adminnav', '_sysdef', None, filter='level==2,order LIKE "'+str(l1item['order'])+'%"', filteror=None, sort='order', limit=None,
+                l2nav = oc.query('navdef', '_sysdef', None, filter='level==2,order LIKE "'+str(l1item['order'])+'%"', filteror=None, sort='order', limit=None,
                      offset=None)
                 sublist = []
                 for l2item in l2nav['body']['data']:
