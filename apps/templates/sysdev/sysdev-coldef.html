@@ -114,6 +114,9 @@ _fieldTypes.jsoneditor = {
     create: function (conf) {
         //SEC 1 - DOM Setup
         var safeId = DataTable.Editor.safeId(conf.id);
+        var edschema ="";
+        $.ajaxSetup({async:false});
+        $.getJSON('/static/assets/jsonschema/schema-coldef.json', function getschema(data){edschema = data;});
         var config = {
                 use_name_attributes: false,
                 theme: 'bootstrap4',
@@ -124,35 +127,7 @@ _fieldTypes.jsoneditor = {
                 disable_collapse: false,
                 expand_height: true,
                 show_opt_in: false,
-                schema: {
-                  'title': '模型定义',
-                  'type': 'object',
-                  'format': 'grid-strict',
-                  'required': [
-                    '__collection__',
-                    '_index',
-                    '_key',
-                    'createdate'
-                  ],
-                  'properties': {
-                    '__collection__': {
-                      'type': 'string',
-                      'default': 'collectionname'
-                    },
-                    '_index': {
-                      'type': 'string',
-                      'default': "[{'type':'hash', 'fields':['name'], 'unique':True}]"
-                    },
-                    '_key': {
-                      'type': 'string',
-                      'default': "String(required=True)"
-                    },
-                    'createdate': {
-                      'type': 'string',
-                      'default': "String(required=True, allow_none=False)"
-                    }
-                  }
-                }
+                schema: edschema
               };
         var jinput = $('<input id="' + safeId + '" type="hidden" name="'+safeId+'">');
         var jdiv = $('<div id="' + safeId + '_div"></div>');

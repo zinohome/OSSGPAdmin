@@ -110,7 +110,7 @@ div.DTE_Body div.DTE_Form_Content:after {
         }
       };
       var editor = new $.fn.dataTable.Editor({
-        ajax: "/sysdev-adminnav/data",
+        ajax: "/sysdev-navdef/data",
         table: "#datatable",
         display: "lightbox",
         idSrc:  "name",
@@ -183,7 +183,7 @@ div.DTE_Body div.DTE_Form_Content:after {
       var datatable = $("#datatable").DataTable({
         processing: true,
         serverSide: true,
-        ajax: "/sysdev-adminnav/data",
+        ajax: "/sysdev-navdef/data",
         responsive: {
             details: true
         },

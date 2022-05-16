@@ -1,0 +1,119 @@
+{
+  "title": "页面定义",
+  "type": "object",
+  "format": "grid",
+  "required": [
+    "block_title",
+    "block_navtitle",
+    "dt_order",
+    "et_fields",
+    "et_columns"
+  ],
+  "properties": {
+    "block_title": {
+      "title": "页面标题",
+      "type": "string",
+      "default": "标题"
+    },
+    "block_navtitle": {
+      "title": "导航标题",
+      "type": "string",
+      "default": "导航"
+    },
+    "dt_order": {
+      "title": "默认排序",
+      "type": "string",
+      "default": "name"
+    },
+    "et_columns": {
+      "title": "表单列数",
+      "type": "string",
+      "enum": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    "et_fields": {
+      "type": "array",
+      "format": "tabs",
+      "title": "表单定义",
+      "uniqueItems": true,
+      "items": {
+        "title": "表单定义",
+        "type": "object",
+        "required": [
+          "name",
+          "label",
+          "labelinfo",
+          "visible",
+          "type",
+          "options",
+          "def"
+        ],
+        "properties": {
+          "name": {
+            "title": "名称",
+            "type": "string",
+            "default": "name"
+          },
+          "label": {
+            "title": "标题",
+            "type": "string",
+            "default": "标题"
+          },
+          "labelinfo": {
+            "title": "提示",
+            "type": "string",
+            "default": "提示"
+          },
+          "visible": {
+            "title": "显示",
+            "type": "string",
+            "enum": [
+              "true",
+              "false"
+            ],
+            "options": {
+              "enum_titles": [
+                "显示",
+                "隐藏"
+              ]
+            },
+            "default": "true"
+          },
+          "type": {
+            "title": "类型",
+            "type": "string",
+            "enum": [
+              "text",
+              "checkbox",
+              "datetime",
+              "hidden",
+              "password",
+              "radio",
+              "readonly",
+              "select",
+              "textarea",
+              "jsoneditor"
+            ],
+            "default": "text"
+          },
+          "options": {
+            "title": "参数",
+            "type": "string",
+            "format": "textarea",
+            "default": "None"
+          },
+          "def": {
+            "title": "定义",
+            "type": "string",
+            "format": "textarea",
+            "default": "None"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} 系统模型 {% endblock %}
+{% block title %} 页面定义 {% endblock %}
 
 <!-- Page CSS Plugins goes HERE  -->
 {% block plugin_stylesheets %}{% endblock plugin_stylesheets %}
@@ -15,6 +15,7 @@
   <!-- DataTables Editor-->
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/dataTables.dateTime.min.css">
+
 
 <style type="text/css">
 .align-right {text-align: right;font-size:13px;}
@@ -56,9 +57,9 @@ div.DTE_Body div.DTE_Form_Content:after {
         <div class="az-content-body pd-lg-l-40 d-flex flex-column">
           <div class="az-content-breadcrumb">
             <span>业务定义</span>
-            <span>系统模型</span>
+            <span>页面定义</span>
           </div>
-          <h2 class="az-content-title">系统模型</h2>
+          <h2 class="az-content-title">页面定义</h2>
 
           <div class="table-responsive">
             <table id="datatable" class="table table-hover mg-b-0 responsive " style="width:100%">
@@ -109,23 +110,24 @@ if ( ! DataTable.ext.editorFields ) {
 }
 var Editor = DataTable.Editor;
 var _fieldTypes = DataTable.ext.editorFields;
+
 _fieldTypes.jsoneditor = {
     create: function (conf) {
         //SEC 1 - DOM Setup
         var safeId = DataTable.Editor.safeId(conf.id);
         var edschema ="";
         $.ajaxSetup({async:false});
-        $.getJSON('/static/assets/jsonschema/schema-coldef.json', function getschema(data){edschema = data;});
+        $.getJSON('/static/assets/jsonschema/schema-pagedef.json', function getschema(data){edschema = data;});
         var config = {
                 use_name_attributes: false,
                 theme: 'bootstrap4',
                 iconlib: 'fontawesome5',
                 keep_oneof_values: false,
-                disable_edit_json: false,
-                disable_properties: false,
-                disable_collapse: false,
+                disable_edit_json: true,
+                disable_properties: true,
+                disable_collapse: true,
                 expand_height: true,
-                show_opt_in: false,
+                show_opt_in: true,
                 schema: edschema
               };
         var jinput = $('<input id="' + safeId + '" type="hidden" name="'+safeId+'">');
@@ -148,7 +150,6 @@ _fieldTypes.jsoneditor = {
         });
         return container;
     },
-
     get: function (conf) {
         return conf.jsoninput.val();
     },
@@ -174,29 +175,26 @@ _fieldTypes.jsoneditor = {
         }
       };
       var editor = new $.fn.dataTable.Editor({
-        ajax: "/sysdev-sysdef/data",
+        ajax: "/sysdev-pagedef/data",
         table: "#datatable",
         display: "lightbox",
         idSrc:  "name",
         fields: [ {
-                "label": "模型名称:",
+                "label": "页面名称:",
                 "name": "name"
             }, {
-                "label": "模型类型:",
-                "name": "coltype",
+                "label": "页面类型:",
+                "name": "pagetype",
                 "type": "select",
                 "options":[
                     {label:"Document", value:"document"},
                     {label:"Edge", value:"edge"}
                 ]
             }, {
-                "label": "模型定义:",
-                "labelInfo": "字段可用类型：\"String\", \"Number\", \"Integer\", \"Boolean\", \"Float\", \"DateTime\"",
-                "name": "coldef",
+                "label": "页面定义:",
+                "labelInfo": "",
+                "name": "pagedef",
                 "type": "jsoneditor"
-            }, {
-                "label": "键字段:",
-                "name": "keyfieldname"
             }, {
                 "label": "创建/修改时间:",
                 "name": "createdate",
@@ -228,7 +226,8 @@ _fieldTypes.jsoneditor = {
       var datatable = $("#datatable").DataTable({
         processing: true,
         serverSide: true,
-        ajax: "/sysdev-sysdef/data",
+        lengthChange: true,
+        ajax: "/sysdev-pagedef/data",
         responsive: {
             details: true
         },
@@ -244,10 +243,9 @@ _fieldTypes.jsoneditor = {
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
         select: 'single',
         columns:[
-          {data:"name", title:"模型名称", "visible": true, defaultContent:""},
-          {data:"coltype", title:"模型类型", "visible": true, defaultContent:""},
-          {data:"keyfieldname", title:"键字段", "visible": true, defaultContent:""},
-          {data:"coldef", title:"模型定义", "visible": false, defaultContent:""},
+          {data:"name", title:"页面名称", "visible": true, defaultContent:""},
+          {data:"pagetype", title:"页面类型", "visible": true, defaultContent:""},
+          {data:"pagedef", title:"页面定义", "visible": false, defaultContent:""},
           {data:"createdate", title:"创建/修改时间", "visible": true, defaultContent:""}
         ],
         buttons: true,
