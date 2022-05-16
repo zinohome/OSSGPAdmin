@@ -43,9 +43,9 @@ def route_sysdev_sysdef():
     #sysdef define same with coldef
     definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
     define = {}
-    define['colname'] = definestr['data'][0]['name']
-    define['keyfieldname'] = definestr['data'][0]['keyfieldname']
-    define['coldef'] = json.loads(definestr['data'][0]['coldef'])
+    define['colname'] = definestr['name']
+    define['keyfieldname'] = definestr['keyfieldname']
+    define['coldef'] = json.loads(definestr['coldef'])
     thlist = []
     for cdef in define['coldef'].keys():
         if cdef not in ['__collection__', '_index', '_key', 'password']:
@@ -79,7 +79,7 @@ def route_sysadmin_sysdef_data():
     elif request.method == 'POST':
         # sysdef define same with coldef
         definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
-        keyfieldname = definestr['data'][0]['keyfieldname']
+        keyfieldname = definestr['keyfieldname']
         action = request.form.get('action', type=str)
         reqdict = request.form.to_dict()
         formdict = {}
@@ -127,9 +127,9 @@ def route_sysdev_coldef():
     today = time.strftime("%Y-%m-%d", time.localtime())
     definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
     define = {}
-    define['colname'] = definestr['data'][0]['name']
-    define['keyfieldname'] = definestr['data'][0]['keyfieldname']
-    define['coldef'] = json.loads(definestr['data'][0]['coldef'])
+    define['colname'] = definestr['name']
+    define['keyfieldname'] = definestr['keyfieldname']
+    define['coldef'] = json.loads(definestr['coldef'])
     thlist = []
     for cdef in define['coldef'].keys():
         if cdef not in ['__collection__', '_index', '_key', 'password']:
@@ -162,7 +162,7 @@ def route_sysadmin_coldef_data():
         return rdata
     elif request.method == 'POST':
         definestr = oc.fetch('coldef', '_sysdef/sysdef', None, 0, 5)['body']
-        keyfieldname = definestr['data'][0]['keyfieldname']
+        keyfieldname = definestr['keyfieldname']
         action = request.form.get('action', type=str)
         reqdict = request.form.to_dict()
         formdict = {}
@@ -228,9 +228,9 @@ def route_sysdev_adminnav():
     today = time.strftime("%Y-%m-%d", time.localtime())
     definestr = oc.fetch('adminnav', '_sysdef/sysdef', None, 0, 5)['body']
     define = {}
-    define['colname'] = definestr['data'][0]['name']
-    define['keyfieldname'] = definestr['data'][0]['keyfieldname']
-    define['coldef'] = json.loads(definestr['data'][0]['coldef'])
+    define['colname'] = definestr['name']
+    define['keyfieldname'] = definestr['keyfieldname']
+    define['coldef'] = json.loads(definestr['coldef'])
     thlist = []
     for cdef in define['coldef'].keys():
         if cdef not in ['__collection__', '_index', '_key', 'password']:
@@ -263,7 +263,7 @@ def route_sysadmin_adminnav_data():
         return rdata
     elif request.method == 'POST':
         definestr = oc.fetch('adminnav', '_sysdef/sysdef', None, 0, 5)['body']
-        keyfieldname = definestr['data'][0]['keyfieldname']
+        keyfieldname = definestr['keyfieldname']
         action = request.form.get('action', type=str)
         reqdict = request.form.to_dict()
         formdict = {}

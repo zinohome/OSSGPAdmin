@@ -41,9 +41,9 @@ def route_sysadmin_users():
     nav = get_nav()
     definestr = oc.fetch('users', '_sysdef/coldef', None, 0, 5)['body']
     define = {}
-    define['colname'] = definestr['data'][0]['name']
-    define['keyfieldname'] = definestr['data'][0]['keyfieldname']
-    define['coldef'] = json.loads(definestr['data'][0]['coldef'])
+    define['colname'] = definestr['name']
+    define['keyfieldname'] = definestr['keyfieldname']
+    define['coldef'] = json.loads(definestr['coldef'])
     thlist = []
     for cdef in define['coldef'].keys():
         if cdef not in ['__collection__', '_index', '_key', 'password']:
@@ -88,7 +88,7 @@ def route_sysadmin_users_data():
         return rdata
     elif request.method == 'POST':
         definestr = oc.fetch('users', '_sysdef/coldef', None, 0, 5)['body']
-        keyfieldname = definestr['data'][0]['keyfieldname']
+        keyfieldname = definestr['keyfieldname']
         action = request.form.get('action', type=str)
         reqdict = request.form.to_dict()
         formdict = {}
@@ -135,9 +135,9 @@ def route_sysadmin_authority():
     nav = get_nav()
     definestr = oc.fetch('users', '_sysdef/coldef', None, 0, 5)['body']
     define = {}
-    define['colname'] = definestr['data'][0]['name']
-    define['keyfieldname'] = definestr['data'][0]['keyfieldname']
-    define['coldef'] = json.loads(definestr['data'][0]['coldef'])
+    define['colname'] = definestr['name']
+    define['keyfieldname'] = definestr['keyfieldname']
+    define['coldef'] = json.loads(definestr['coldef'])
     thlist = []
     for cdef in define['coldef'].keys():
         if cdef not in ['__collection__', '_index', '_key', 'password']:
@@ -182,7 +182,7 @@ def route_sysadmin_authority_data():
         return rdata
     elif request.method == 'POST':
         definestr = oc.fetch('users', '_sysdef/coldef', None, 0, 5)['body']
-        keyfieldname = definestr['data'][0]['keyfieldname']
+        keyfieldname = definestr['keyfieldname']
         action = request.form.get('action', type=str)
         reqdict = request.form.to_dict()
         formdict = {}

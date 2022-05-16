@@ -394,6 +394,8 @@ if __name__ == '__main__':
     log.logger.debug(resultstr)
     resultstr = nc.fetchone('admin', '_collection/users', None, 0, 5)
     log.logger.debug(resultstr)
+
+    '''
     resultstr = nc.query('adminnav', '_sysdef', None, filter='level==1', filteror=None, sort='order', limit=None,
                          offset=None)
     log.logger.debug(resultstr)
@@ -406,7 +408,6 @@ if __name__ == '__main__':
     resultstr = nc.query('adminnav', '_sysdef', None, filter='level==2', filteror=None, sort='order', limit=None,
                      offset=None)
     log.logger.debug(resultstr)
-    '''
     resultstr = nc.post('users', '_collection', json.dumps({'data': {'name': 'tony', 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}))
     log.logger.debug(resultstr)
     resultstr = nc.put('users', '_collection', json.dumps({"data": {'name': 'tony2', 'password': 'passw0rd', 'role': '[admin,user]', 'active': True}}),'tony')

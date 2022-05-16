@@ -31,7 +31,8 @@ def route_sysdev(devname):
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
         oc.renew_token()
-    modelnames =  oc.fetch('sysdef', '_sysdef/sysdefnames', body=None, offset=None, limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
+    modelnames =  oc.fetch('sysdef', '_sysdef/sysdefnames', body=None, offset=None,
+                           limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
     modelnames.append('sysdef') if not 'sysdef' in set(modelnames) else None
     if devname in set(modelnames):
         # sysdef define same with coldef
@@ -39,15 +40,24 @@ def route_sysdev(devname):
         definestr = oc.fetch(defname, '_sysdef/sysdef', None, 0, 5)['body']
         define = {}
         define['colname'] = devname
-        define['keyfieldname'] = definestr['data'][0]['keyfieldname']
-        define['coldef'] = json.loads(definestr['data'][0]['coldef'])
+        define['keyfieldname'] = definestr['keyfieldname']
+        define['coldef'] = json.loads(definestr['coldef'])
         thlist = []
         for cdef in define['coldef'].keys():
             if cdef not in ['__collection__', '_index', '_key', 'password']:
                 thlist.append(cdef)
         define['thlist'] = thlist
+        tableEditor = {}
+        pagenames = oc.fetch('pagedef', '_sysdef/sysdefnames', body=None, offset=None,
+                             limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
+        if devname in set(pagenames):
+            result = oc.fetch(devname, '_sysdef/pagedef', body=None, offset=None,
+                             limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'))['body']
+            log.logger.debug("result is: %s" % result)
+        else:
+            define['tableEditor'] = None
         return render_template('sysdev/sysdev-'+devname+'.html', segment='sysdev-'+devname, nav=nav,
-                               define=define,
+                               define=define,devname=devname,
                                startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                today=today)
     else:
@@ -83,7 +93,7 @@ def route_sysdev_data(devname):
             # sysdef define same with coldef
             defname = 'coldef' if devname == 'sysdef' else devname
             definestr = oc.fetch(defname, '_sysdef/sysdef', None, 0, 5)['body']
-            keyfieldname = definestr['data'][0]['keyfieldname']
+            keyfieldname = definestr['keyfieldname']
             action = request.form.get('action', type=str)
             reqdict = request.form.to_dict()
             formdict = {}
