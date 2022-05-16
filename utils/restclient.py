@@ -20,9 +20,8 @@ from pandas import json_normalize
 
 from utils.simple_rest_client.api import API
 from env.environment import Environment
-from utils import log
+from utils import log, toolkit
 
-'''logging'''
 '''logging'''
 env = Environment()
 log = log.Logger(level=os.getenv('OSSGPADMIN_APP_LOG_LEVEL'))
@@ -203,8 +202,10 @@ class OSSGPClient():
                     response = func(body)
                 else:
                     response = func()
-                for idict in response.body['data']:
-                    idict.update((k, str(v)) for k, v in idict.items())
+                if toolkit.is_json(str(response.body)):
+                    if response.body.has_key('data'):
+                        for idict in response.body['data']:
+                            idict.update((k, str(v)) for k, v in idict.items())
                 res = {'code': response.status_code, 'body': response.body}
                 return res
             except Exception as exp:
