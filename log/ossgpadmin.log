@@ -2279,3 +2279,46 @@ NoneType: None
 2022-05-17 at 17:35:54 | INFO | Environment = Debug
 2022-05-17 at 17:40:05 | INFO | DEBUG       = True
 2022-05-17 at 17:40:05 | INFO | Environment = Debug
+2022-05-17 at 18:10:36 | INFO | DEBUG       = True
+2022-05-17 at 18:10:36 | INFO | Environment = Debug
+2022-05-17 at 18:19:20 | INFO | DEBUG       = True
+2022-05-17 at 18:19:20 | INFO | Environment = Debug
+2022-05-17 at 18:19:36 | INFO | DEBUG       = True
+2022-05-17 at 18:19:36 | INFO | Environment = Debug
+2022-05-17 at 18:20:41 | INFO | DEBUG       = True
+2022-05-17 at 18:20:41 | INFO | Environment = Debug
+2022-05-17 at 18:22:01 | INFO | DEBUG       = True
+2022-05-17 at 18:22:01 | INFO | Environment = Debug
+2022-05-17 at 18:25:05 | INFO | DEBUG       = True
+2022-05-17 at 18:25:05 | INFO | Environment = Debug
+2022-05-17 at 18:25:30 | INFO | DEBUG       = True
+2022-05-17 at 18:25:30 | INFO | Environment = Debug
+2022-05-17 at 18:25:40 | INFO | DEBUG       = True
+2022-05-17 at 18:25:40 | INFO | Environment = Debug
+2022-05-17 at 18:25:44 | ERROR | Exception at fetch() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/sysdef/users', method='GET', body={'detail': 'Document [ users ] not found'}, headers=Headers({'content-length': '41', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/sysdef/users', method='GET', body={'detail': 'Document [ users ] not found'}, headers=Headers({'content-length': '41', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
+2022-05-17 at 18:26:20 | INFO | DEBUG       = True
+2022-05-17 at 18:26:20 | INFO | Environment = Debug
+2022-05-17 at 18:26:29 | ERROR | Exception at fetch() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/sysdef/users', method='GET', body={'detail': 'Document [ users ] not found'}, headers=Headers({'content-length': '41', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/sysdef/users', method='GET', body={'detail': 'Document [ users ] not found'}, headers=Headers({'content-length': '41', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
+2022-05-17 at 18:28:17 | INFO | DEBUG       = True
+2022-05-17 at 18:28:17 | INFO | Environment = Debug
+2022-05-17 at 18:29:50 | INFO | DEBUG       = True
+2022-05-17 at 18:29:50 | INFO | Environment = Debug
+2022-05-17 at 18:30:14 | INFO | DEBUG       = True
+2022-05-17 at 18:30:14 | INFO | Environment = Debug
+2022-05-17 at 18:34:46 | INFO | DEBUG       = True
+2022-05-17 at 18:34:46 | INFO | Environment = Debug
+2022-05-17 at 18:36:51 | INFO | DEBUG       = True
+2022-05-17 at 18:36:51 | INFO | Environment = Debug
+2022-05-17 at 18:37:13 | INFO | DEBUG       = True
+2022-05-17 at 18:37:13 | INFO | Environment = Debug
+2022-05-17 at 18:37:21 | ERROR | Exception at fetch() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/authority', method='GET', body={'detail': 'Document [ authority ] not found'}, headers=Headers({'content-length': '45', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/authority', method='GET', body={'detail': 'Document [ authority ] not found'}, headers=Headers({'content-length': '45', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
+2022-05-17 at 18:38:28 | INFO | DEBUG       = True
+2022-05-17 at 18:38:28 | INFO | Environment = Debug
+2022-05-17 at 18:38:34 | ERROR | Exception at fetchcount() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/sysdefcount/users', method='GET', body={'detail': 'Collection [ users ] not found'}, headers=Headers({'content-length': '43', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/sysdefcount/users', method='GET', body={'detail': 'Collection [ users ] not found'}, headers=Headers({'content-length': '43', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
+2022-05-17 at 18:39:10 | INFO | DEBUG       = True
+2022-05-17 at 18:39:10 | INFO | Environment = Debug
+2022-05-17 at 18:39:22 | INFO | DEBUG       = True
+2022-05-17 at 18:39:22 | INFO | Environment = Debug
+2022-05-17 at 18:39:26 | ERROR | Exception at fetch() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/sysdef/users', method='GET', body={'detail': 'Document [ users ] not found'}, headers=Headers({'content-length': '41', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/sysdef/users', method='GET', body={'detail': 'Document [ users ] not found'}, headers=Headers({'content-length': '41', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
+2022-05-17 at 18:40:29 | INFO | DEBUG       = True
+2022-05-17 at 18:40:29 | INFO | Environment = Debug

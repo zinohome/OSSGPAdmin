@@ -8,216 +8,106 @@
 #  @Author  : Zhang Jun
 #  @Email   : ibmzhangjun@139.com
 #  @Software: OSSGPAdmin
-from utils import cryptutil
-from utils.pagination import Pagination, get_page_parameter
+
 from apps.sysadmin import blueprint
-from flask import render_template, request, url_for, redirect, session, Response
+from flask import render_template, request, session, Response
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from apps import log
 import simplejson as json
 import time
 from decouple import config
+from apps import cache
+
+from utils import cryptutil
 from utils.restclient import OSSGPClient
 
 
-@blueprint.route('/sysadmin.html', methods = ['GET', 'POST'])
+@blueprint.route('/sysadmin-<devname>.html', methods = ['GET', 'POST'])
 @login_required
-def route_sysadmin():
+@cache.cached(timeout=600)
+def route_sysadmin(devname):
     today = time.strftime("%Y-%m-%d", time.localtime())
     nav = get_nav()
-    return render_template('sysadmin/sysadmin.html', segment='sysadmin',nav=nav,
-                           startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
-                           today=today)
+    pgdef = get_pagedef(devname)
+    define = get_sysdef(devname)
+    if not (pgdef is None or define is None):
+        for etfield in pgdef['pagedef']['et_fields']:
+            if etfield['type'] == 'jsoneditor':
+                define['has_jsoneditor'] = True
+                define['jsoneditor_options'] = etfield['options']
+                define['jsoneditor_def'] = etfield['def']
+        define['pagedef'] = pgdef
+        #log.logger.debug(define)
+        #log.logger.debug(define['pagedef'])
+        return render_template('sysadmin/sysadmin.html', segment='sysadmin-'+devname, nav=nav,
+                               define=define,devname=devname,
+                               startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                               today=today)
+    else:
+        return render_template('home/page-404.html'), 404
 
-@blueprint.route('/sysadmin-users.html', methods = ['GET', 'POST'])
+@blueprint.route('/sysadmin-<devname>/data', methods = ['GET', 'POST'])
 @login_required
-def route_sysadmin_users():
+def route_sysadmin_data(devname):
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
         oc.renew_token()
-    today = time.strftime("%Y-%m-%d", time.localtime())
-    nav = get_nav()
-    definestr = oc.fetch('users', '_sysdef/coldef', None, 0, 5)['body']
-    define = {}
-    define['colname'] = definestr['name']
-    define['keyfieldname'] = definestr['keyfieldname']
-    define['coldef'] = json.loads(definestr['coldef'])
-    thlist = []
-    for cdef in define['coldef'].keys():
-        if cdef not in ['__collection__', '_index', '_key', 'password']:
-            thlist.append(cdef)
-    define['thlist'] = thlist
-    if request.method == 'GET':  # list
-        count = oc.fetchcount('oss', 'users')['body']
-        start = request.args.get('start', type=int)
-        length = request.args.get('length', type=int)
-        record = oc.fetch('users', '_collection', None, start, length, 'name')['body']
-        rdata = {
-            'data': record['data'],
-            'recordsFiltered': record['count'],
-            'recordsTotal': count,
-            'draw': request.args.get('draw', type=int),
-        }
-        #log.logger.debug("define %s" % define)
-        #log.logger.debug("rdata %s" % rdata)
-        return render_template('sysadmin/sysadmin-users.html', segment='sysadmin-users',nav=nav,
-                                define=define, record=record,
-                                startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
-                                today=today)
-
-@blueprint.route('/sysadmin-users/data', methods = ['GET', 'POST'])
-@login_required
-def route_sysadmin_users_data():
-    oc = OSSGPClient(session['username'],
-                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
-    if oc.token_expired:
-        oc.renew_token()
-    if request.method == 'GET':  # list
-        count = oc.fetchcount('oss', 'users')['body']
-        start = request.args.get('start', type=int)
-        length = request.args.get('length', type=int)
-        record = oc.fetch('users', '_collection', None, start, length, 'name')['body']
-        rdata = {
-            'data': record['data'],
-            'recordsFiltered': count,
-            'recordsTotal': count,
-            'draw': request.args.get('draw', type=int),
-        }
-        return rdata
-    elif request.method == 'POST':
-        definestr = oc.fetch('users', '_sysdef/coldef', None, 0, 5)['body']
-        keyfieldname = definestr['keyfieldname']
-        action = request.form.get('action', type=str)
-        reqdict = request.form.to_dict()
-        formdict = {}
-        for (key, value) in reqdict.items():
-            if '][' in key:
-                formdict[key.split(']')[1][1:]] = value
-        formdict['_key'] = formdict[keyfieldname]
-        subformdata = {'data':formdict}
-        if action == 'create':
-            resultstr = oc.post('users', '_collection', json.dumps(subformdata))
-            if resultstr['code'] == 200:
-                returnlist=[]
-                returnlist.append(resultstr['body'])
-                returndict={'data':returnlist}
-                return Response(json.dumps(returndict), status=200)
-            else:
-                return Response('{"status":500, "body": "Error"}', status=500)
-        elif action == 'edit':
-            #log.logger.debug(request.form.to_dict())
-            resultstr = oc.put('users', '_collection', json.dumps(subformdata),formdict[keyfieldname])
-            if resultstr['code'] == 200:
-                returnlist=[]
-                returnlist.append(resultstr['body'])
-                returndict={'data':returnlist}
-                return Response(json.dumps(returndict), status=200)
-            else:
-                return Response('{"status":500, "body": "Error"}', status=500)
-        elif action == 'remove':
-            resultstr = oc.deletebyid('users', '_collection', formdict[keyfieldname])
-            #log.logger.debug(resultstr)
-            if resultstr['code'] == 200:
-                return Response('{"status":200, "body": "'+ str(resultstr['body'])+'"}', status=200)
-            else:
-                return Response('{"status":500, "body": "Error"}', status=500)
-
-@blueprint.route('/sysadmin-authority.html', methods = ['GET', 'POST'])
-@login_required
-def route_sysadmin_authority():
-    oc = OSSGPClient(session['username'],
-                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
-    if oc.token_expired:
-        oc.renew_token()
-    today = time.strftime("%Y-%m-%d", time.localtime())
-    nav = get_nav()
-    definestr = oc.fetch('users', '_sysdef/coldef', None, 0, 5)['body']
-    define = {}
-    define['colname'] = definestr['name']
-    define['keyfieldname'] = definestr['keyfieldname']
-    define['coldef'] = json.loads(definestr['coldef'])
-    thlist = []
-    for cdef in define['coldef'].keys():
-        if cdef not in ['__collection__', '_index', '_key', 'password']:
-            thlist.append(cdef)
-    define['thlist'] = thlist
-    if request.method == 'GET':  # list
-        count = oc.fetchcount('oss', 'users')['body']
-        start = request.args.get('start', type=int)
-        length = request.args.get('length', type=int)
-        record = oc.fetch('users', '_collection', None, start, length, 'name')['body']
-        rdata = {
-            'data': record['data'],
-            'recordsFiltered': record['count'],
-            'recordsTotal': count,
-            'draw': request.args.get('draw', type=int),
-        }
-        #log.logger.debug("define %s" % define)
-        #log.logger.debug("rdata %s" % rdata)
-        return render_template('sysadmin/sysadmin-authority.html', segment='sysadmin-authority',nav=nav,
-                                define=define, record=record,
-                                startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
-                                today=today)
-
-@blueprint.route('/sysadmin-authority/data', methods = ['GET', 'POST'])
-@login_required
-def route_sysadmin_authority_data():
-    oc = OSSGPClient(session['username'],
-                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
-    if oc.token_expired:
-        oc.renew_token()
-    if request.method == 'GET':  # list
-        count = oc.fetchcount('oss', 'users')['body']
-        start = request.args.get('start', type=int)
-        length = request.args.get('length', type=int)
-        record = oc.fetch('users', '_collection', None, start, length, 'name')['body']
-        rdata = {
-            'data': record['data'],
-            'recordsFiltered': count,
-            'recordsTotal': count,
-            'draw': request.args.get('draw', type=int),
-        }
-        return rdata
-    elif request.method == 'POST':
-        definestr = oc.fetch('users', '_sysdef/coldef', None, 0, 5)['body']
-        keyfieldname = definestr['keyfieldname']
-        action = request.form.get('action', type=str)
-        reqdict = request.form.to_dict()
-        formdict = {}
-        for (key, value) in reqdict.items():
-            if '][' in key:
-                formdict[key.split(']')[1][1:]] = value
-        formdict['_key'] = formdict[keyfieldname]
-        subformdata = {'data':formdict}
-        if action == 'create':
-            resultstr = oc.post('users', '_collection', json.dumps(subformdata))
-            if resultstr['code'] == 200:
-                returnlist=[]
-                returnlist.append(resultstr['body'])
-                returndict={'data':returnlist}
-                return Response(json.dumps(returndict), status=200)
-            else:
-                return Response('{"status":500, "body": "Error"}', status=500)
-        elif action == 'edit':
-            #log.logger.debug(request.form.to_dict())
-            resultstr = oc.put('users', '_collection', json.dumps(subformdata),formdict[keyfieldname])
-            if resultstr['code'] == 200:
-                returnlist=[]
-                returnlist.append(resultstr['body'])
-                returndict={'data':returnlist}
-                return Response(json.dumps(returndict), status=200)
-            else:
-                return Response('{"status":500, "body": "Error"}', status=500)
-        elif action == 'remove':
-            resultstr = oc.deletebyid('users', '_collection', formdict[keyfieldname])
-            #log.logger.debug(resultstr)
-            if resultstr['code'] == 200:
-                return Response('{"status":200, "body": "'+ str(resultstr['body'])+'"}', status=200)
-            else:
-                return Response('{"status":500, "body": "Error"}', status=500)
-
+    pgdef = get_pagedef(devname)
+    if pgdef is None:
+        return Response('{"status":500, "body": "Error"}', status=500)
+    else:
+        if request.method == 'GET':  # list
+            count = oc.fetchcount('oss', devname)['body']
+            start = request.args.get('start', type=int)
+            length = request.args.get('length', type=int)
+            record = oc.fetch(devname, '_collection', None, start, length, pgdef['pagedef']['dt_order'])['body']
+            rdata = {
+                'data': record['data'],
+                'recordsFiltered': count,
+                'recordsTotal': count,
+                'draw': request.args.get('draw', type=int),
+            }
+            #log.logger.debug("rdata %s" % rdata)
+            return rdata
+        elif request.method == 'POST':
+            definestr = oc.fetch(devname, '_sysdef/coldef', None, 0, 5)['body']
+            keyfieldname = definestr['keyfieldname']
+            action = request.form.get('action', type=str)
+            reqdict = request.form.to_dict()
+            formdict = {}
+            for (key, value) in reqdict.items():
+                if '][' in key:
+                    formdict[key.split(']')[1][1:]] = value
+            formdict['_key'] = formdict[keyfieldname]
+            subformdata = {'data':formdict}
+            if action == 'create':
+                resultstr = oc.post(devname, '_collection', json.dumps(subformdata))
+                if resultstr['code'] == 200:
+                    returnlist=[]
+                    returnlist.append(resultstr['body'])
+                    returndict={'data':returnlist}
+                    return Response(json.dumps(returndict), status=200)
+                else:
+                    return Response('{"status":500, "body": "Error"}', status=500)
+            elif action == 'edit':
+                #log.logger.debug(request.form.to_dict())
+                resultstr = oc.put(devname, '_collection', json.dumps(subformdata),formdict[keyfieldname])
+                if resultstr['code'] == 200:
+                    returnlist=[]
+                    returnlist.append(resultstr['body'])
+                    returndict={'data':returnlist}
+                    return Response(json.dumps(returndict), status=200)
+                else:
+                    return Response('{"status":500, "body": "Error"}', status=500)
+            elif action == 'remove':
+                resultstr = oc.deletebyid(devname, '_collection', formdict[keyfieldname])
+                #log.logger.debug(resultstr)
+                if resultstr['code'] == 200:
+                    return Response('{"status":200, "body": "'+ str(resultstr['body'])+'"}', status=200)
+                else:
+                    return Response('{"status":500, "body": "Error"}', status=500)
 
 # Helper - Extract current page name from request
 def get_segment(request):
@@ -229,7 +119,56 @@ def get_segment(request):
     except:
         return None
 
+@cache.memoize(timeout=600)
+def get_sysdef(devname):
+    try:
+        # sysdef define same with coldef
+        oc = OSSGPClient(session['username'],
+                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+        if oc.token_expired:
+            oc.renew_token()
+        definestr = oc.fetch(devname, '_sysdef/coldef', None, 0, 5)['body']
+        define = {}
+        define['colname'] = devname
+        define['keyfieldname'] = definestr['keyfieldname']
+        define['coldef'] = json.loads(definestr['coldef'])
+        thlist = []
+        for cdef in define['coldef'].keys():
+            if cdef not in ['__collection__', '_index', '_key', 'password']:
+                thlist.append(cdef)
+        define['thlist'] = thlist
+        define['has_jsoneditor'] = False
+        return define
+    except:
+        return None
+
+@cache.memoize(timeout=600)
+def get_pagedef(devname):
+    try:
+        oc = OSSGPClient(session['username'],
+                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+        if oc.token_expired:
+            oc.renew_token()
+        modelnames = oc.fetch('coldef', '_sysdef/sysdefnames', body=None, offset=None,
+                              limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
+        modelnames.append('sysdef') if not 'sysdef' in set(modelnames) else None
+        if devname in set(modelnames):
+            pagenames = oc.fetch('pagedef', '_sysdef/sysdefnames', body=None, offset=None,
+                                 limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
+            if devname in set(pagenames):
+                result = oc.fetch(devname, '_sysdef/pagedef', body=None, offset=None,
+                                  limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'))['body']
+                result['pagedef'] = json.loads(result['pagedef'])
+                return result
+            else:
+                return None
+        else:
+            return None
+    except:
+        return None
+
 # Helper - Generate navigation
+@cache.cached(timeout=600, key_prefix='get_nav')
 def get_nav():
     try:
         nav = []

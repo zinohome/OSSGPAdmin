@@ -30,8 +30,8 @@ def route_sysdev(devname):
     today = time.strftime("%Y-%m-%d", time.localtime())
     nav = get_nav()
     pgdef = get_pagedef(devname)
-    if not pgdef is None:
-        define = get_sysdef(devname)
+    define = get_sysdef(devname)
+    if not (pgdef is None or define is None):
         for etfield in pgdef['pagedef']['et_fields']:
             if etfield['type'] == 'jsoneditor':
                 define['has_jsoneditor'] = True
@@ -144,6 +144,7 @@ def get_sysdef(devname):
         return define
     except:
         return None
+
 @cache.memoize(timeout=600)
 def get_pagedef(devname):
     try:
