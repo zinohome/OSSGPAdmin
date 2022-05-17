@@ -10,12 +10,12 @@
 #  @Software: OSSGPAdmin
 
 from flask import Flask
+from flask_caching import Cache
 from flask_login import LoginManager
 from importlib import import_module
 from utils.restclient import OSSGPClient
 from decouple import config
 from utils import log
-from flask_cache import Cache
 
 '''logging'''
 log = log.Logger(level=config('OSSGPADMIN_APP_LOG_LEVEL', default='INFO'))
@@ -23,7 +23,7 @@ log = log.Logger(level=config('OSSGPADMIN_APP_LOG_LEVEL', default='INFO'))
 login_manager = LoginManager()
 
 '''cache'''
-cache = Cache(config={'CACHE_TYPE': 'simple'})
+cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
 
 def register_extensions(app):
     login_manager.init_app(app)

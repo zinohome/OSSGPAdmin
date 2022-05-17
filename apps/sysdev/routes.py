@@ -25,44 +25,19 @@ from utils.restclient import OSSGPClient
 
 @blueprint.route('/sysdev-<devname>.html', methods = ['GET', 'POST'])
 @login_required
+@cache.cached(timeout=600)
 def route_sysdev(devname):
     today = time.strftime("%Y-%m-%d", time.localtime())
     nav = get_nav()
-    oc = OSSGPClient(session['username'],
-                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
-    if oc.token_expired:
-        oc.renew_token()
-    modelnames =  oc.fetch('sysdef', '_sysdef/sysdefnames', body=None, offset=None,
-                           limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
-    modelnames.append('sysdef') if not 'sysdef' in set(modelnames) else None
-    if devname in set(modelnames):
-        # sysdef define same with coldef
-        defname = 'coldef' if devname == 'sysdef' else devname
-        definestr = oc.fetch(defname, '_sysdef/sysdef', None, 0, 5)['body']
-        define = {}
-        define['colname'] = devname
-        define['keyfieldname'] = definestr['keyfieldname']
-        define['coldef'] = json.loads(definestr['coldef'])
-        thlist = []
-        for cdef in define['coldef'].keys():
-            if cdef not in ['__collection__', '_index', '_key', 'password']:
-                thlist.append(cdef)
-        define['thlist'] = thlist
-        pagenames = oc.fetch('pagedef', '_sysdef/sysdefnames', body=None, offset=None,
-                             limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
-        if devname in set(pagenames):
-            result = oc.fetch(devname, '_sysdef/pagedef', body=None, offset=None,
-                             limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'))['body']
-            result['pagedef'] = json.loads(result['pagedef'])
-            define['has_jsoneditor'] = False
-            for etfield in result['pagedef']['et_fields']:
-                if etfield['type'] == 'jsoneditor':
-                    define['has_jsoneditor'] = True
-                    define['jsoneditor_options'] = etfield['options']
-                    define['jsoneditor_def'] = etfield['def']
-            define['pagedef'] = result
-        else:
-            return render_template('home/page-404.html'), 404
+    pgdef = get_pagedef(devname)
+    if not pgdef is None:
+        define = get_sysdef(devname)
+        for etfield in pgdef['pagedef']['et_fields']:
+            if etfield['type'] == 'jsoneditor':
+                define['has_jsoneditor'] = True
+                define['jsoneditor_options'] = etfield['options']
+                define['jsoneditor_def'] = etfield['def']
+        define['pagedef'] = pgdef
         #log.logger.debug(define)
         #log.logger.debug(define['pagedef'])
         return render_template('sysdev/sysdev.html', segment='sysdev-'+devname, nav=nav,
@@ -79,17 +54,15 @@ def route_sysdev_data(devname):
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
         oc.renew_token()
-    modelnames = oc.fetch('sysdef', '_sysdef/sysdefnames', body=None, offset=None,
-                          limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
-    modelnames.append('sysdef') if not 'sysdef' in set(modelnames) else None
-    if not devname in set(modelnames):
+    pgdef = get_pagedef(devname)
+    if pgdef is None:
         return Response('{"status":500, "body": "Error"}', status=500)
     else:
         if request.method == 'GET':  # list
             count = oc.fetchcount('sys', devname)['body']
             start = request.args.get('start', type=int)
             length = request.args.get('length', type=int)
-            record = oc.fetch(devname, '_sysdef', None, start, length, 'name')['body']
+            record = oc.fetch(devname, '_sysdef', None, start, length, pgdef['pagedef']['dt_order'])['body']
             rdata = {
                 'data': record['data'],
                 'recordsFiltered': count,
@@ -148,8 +121,56 @@ def get_segment(request):
     except:
         return None
 
+@cache.memoize(timeout=600)
+def get_sysdef(devname):
+    try:
+        # sysdef define same with coldef
+        oc = OSSGPClient(session['username'],
+                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+        if oc.token_expired:
+            oc.renew_token()
+        defname = 'coldef' if devname == 'sysdef' else devname
+        definestr = oc.fetch(defname, '_sysdef/sysdef', None, 0, 5)['body']
+        define = {}
+        define['colname'] = devname
+        define['keyfieldname'] = definestr['keyfieldname']
+        define['coldef'] = json.loads(definestr['coldef'])
+        thlist = []
+        for cdef in define['coldef'].keys():
+            if cdef not in ['__collection__', '_index', '_key', 'password']:
+                thlist.append(cdef)
+        define['thlist'] = thlist
+        define['has_jsoneditor'] = False
+        return define
+    except:
+        return None
+@cache.memoize(timeout=600)
+def get_pagedef(devname):
+    try:
+        oc = OSSGPClient(session['username'],
+                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+        if oc.token_expired:
+            oc.renew_token()
+        modelnames = oc.fetch('sysdef', '_sysdef/sysdefnames', body=None, offset=None,
+                              limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
+        modelnames.append('sysdef') if not 'sysdef' in set(modelnames) else None
+        if devname in set(modelnames):
+            pagenames = oc.fetch('pagedef', '_sysdef/sysdefnames', body=None, offset=None,
+                                 limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
+            if devname in set(pagenames):
+                result = oc.fetch(devname, '_sysdef/pagedef', body=None, offset=None,
+                                  limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'))['body']
+                result['pagedef'] = json.loads(result['pagedef'])
+                return result
+            else:
+                return None
+        else:
+            return None
+    except:
+        return None
+
 # Helper - Generate navigation
-@cache.cached(timeout=60, key_prefix='get_nav')
+@cache.cached(timeout=600, key_prefix='get_nav')
 def get_nav():
     try:
         nav = []
