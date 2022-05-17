@@ -1,6 +1,7 @@
 click==8.1.2
 flask==2.1.1
 flask_migrate==3.1.0
+ Flask-Cache==0.13.1
 flask_wtf==1.0.1
 flask-restx==0.5.1
 flask_login==0.6.1
@@ -12,6 +13,7 @@ pycryptodome==3.14.1
 MarkupSafe==2.1.1
 PyJWT==2.3.0
 Werkzeug==2.1.2
+cachelib==0.7.0
 WTForms==3.0.1
 zipp==3.8.0
 python-dotenv==0.20.0

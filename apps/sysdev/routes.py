@@ -17,6 +17,7 @@ from apps import log
 import simplejson as json
 import time
 from decouple import config
+from apps import cache
 
 from utils import cryptutil
 from utils.restclient import OSSGPClient
@@ -62,8 +63,8 @@ def route_sysdev(devname):
             define['pagedef'] = result
         else:
             return render_template('home/page-404.html'), 404
-        log.logger.debug(define)
-        log.logger.debug(define['pagedef'])
+        #log.logger.debug(define)
+        #log.logger.debug(define['pagedef'])
         return render_template('sysdev/sysdev.html', segment='sysdev-'+devname, nav=nav,
                                define=define,devname=devname,
                                startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
@@ -148,6 +149,7 @@ def get_segment(request):
         return None
 
 # Helper - Generate navigation
+@cache.cached(timeout=60, key_prefix='get_nav')
 def get_nav():
     try:
         nav = []

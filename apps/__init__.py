@@ -15,12 +15,15 @@ from importlib import import_module
 from utils.restclient import OSSGPClient
 from decouple import config
 from utils import log
+from flask_cache import Cache
 
 '''logging'''
 log = log.Logger(level=config('OSSGPADMIN_APP_LOG_LEVEL', default='INFO'))
 
 login_manager = LoginManager()
 
+'''cache'''
+cache = Cache(config={'CACHE_TYPE': 'simple'})
 
 def register_extensions(app):
     login_manager.init_app(app)
@@ -46,6 +49,7 @@ def configure_database(app):
 def create_app(config):
     app = Flask(__name__)
     app.config.from_object(config)
+    cache.init_app(app)
     register_extensions(app)
     register_blueprints(app)
     configure_database(app)

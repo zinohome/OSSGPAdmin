@@ -1,0 +1,30 @@
+1、No module named 'flask.ext‘
+找到自己包的位置
+在~/.conda/envs/flask/lib/python3.8/site-packages/flask_cache
+vim jinja2ext.py
+将 第三行导包的位置改掉
+改为 from flask_cache import make_template_fragment_key
+
+2、ImportError: cannot import name ‘import_string’ from ‘werkzeug’
+网上查说是版本问题，但我flask和werkzeug都是2.0.1
+查源码发现werkzeug.__init__里没有导入import_string ，这个方法在werkzeug.utils里
+同样在 ~/.conda/envs/flask/lib/python3.8/site-packages/werkzeug
+vim __init__.py
+增加：
+from .utils import import_string
+
+3、ModuleNotFoundError: No module named ‘werkzeug.contrib‘
+查资料发现是werkzeug.contrib已经在1.0版本被移除了，改成了一个单独的项目，叫cachelib
+pip install cachelib
+在~/.conda/envs/flask/lib/python3.8/site-packages/flask_cache
+vim backends.py
+第二行改成从cachelib导入
+from cachelib import (BaseCache, NullCache, SimpleCache, MemcachedCache,
+                                    FileSystemCache)
+cachelib包里好像没有GAEMemcachedCache，
+它是MemcachedCache的一个别名，估计是新版本把它舍弃了，所以直接把它删了
+
+app.py里导入Cache
+from flask_cache import Cache
+1
+好起来了
