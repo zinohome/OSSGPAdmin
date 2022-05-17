@@ -190,17 +190,12 @@ _fieldTypes.jsoneditor = {
                 "labelInfo": "{{ field['labelInfo'] }}",
                 "name": "{{ field['name'] }}",
                 "type": "{{ field['type'] }}",
+                {{ field['def']|safe if field['type'] == 'select' and field['def']|length > 4 }}
                 "options": {{ "\"\""|safe if field['type'] == 'jsoneditor'  or  field['options']|length <= 4 else field['options']|safe }},
-                "def": {{ "\"\""|safe if field['type'] == 'jsoneditor'  or  field['def']|length <= 4 else field['def']|safe }}
+                "def": {{ "\"\""|safe if field['type'] == 'jsoneditor'  or field['type'] == 'select'  or  field['def']|length <= 4 else field['def']|safe }}
             }{{ "," if not loop.last }}
             {%- endfor %}
         ]
-      });
-      editor.on( 'onInitCreate', function(){
-        editor.enable('createdate');
-      });
-      editor.on( 'onInitEdit', function(){
-        editor.disable('createdate');
       });
       var openVals;
       editor.on( 'open', function () {
