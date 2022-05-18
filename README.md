@@ -49,6 +49,9 @@ Visit `http://localhost:85` in your browser. The app should be up & running.
 
 ## ✨ How to use it
 
+gunicorn --reload --log-level debug  --limit-request-line 81920 -w 1 -b 0.0.0.0:6890 run:app
+
+
 ```bash
 $ # Get the code
 $ git clone https://github.com/app-generator/flask-azia.git
@@ -67,7 +70,8 @@ $ pip3 install -r requirements.txt
 $
 $ # OR with PostgreSQL connector
 $ # pip install -r requirements-pgsql.txt
-$
+$  gunicorn --reload --log-level debug  --limit-request-line 81920 -w 1 -b 0.0.0.0:6890 run:app
+
 $ # Set the FLASK_APP environment variable
 $ (Unix/Mac) export FLASK_APP=run.py
 $ (Windows) set FLASK_APP=run.py

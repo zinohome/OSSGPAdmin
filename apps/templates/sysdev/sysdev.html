@@ -194,7 +194,7 @@ _fieldTypes.jsoneditor = {
             {% for field in define['pagedef']['pagedef']['et_fields'] -%}
             {
                 "label": "{{ field['label'] }}:",
-                "labelInfo": "{{ field['labelInfo'] }}",
+                "labelInfo": "{{ field['labelinfo'] }}",
                 "name": "{{ field['name'] }}",
                 "type": "{{ field['type'] }}",
                 {{ field['def']|safe if field['type'] == 'select' and field['def']|length > 4 }}
