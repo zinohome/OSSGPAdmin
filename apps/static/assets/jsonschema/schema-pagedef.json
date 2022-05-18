@@ -65,6 +65,7 @@
           "label",
           "labelinfo",
           "visible",
+          "classname",
           "type",
           "options",
           "def"
@@ -86,7 +87,7 @@
             "default": "提示"
           },
           "visible": {
-            "title": "显示",
+            "title": "表显示",
             "type": "string",
             "enum": [
               "true",
@@ -99,6 +100,17 @@
               ]
             },
             "default": "true"
+          },
+          "classname": {
+            "title": "宽度",
+            "type": "string",
+            "enum": [
+              "normal",
+              "full",
+              "block",
+              "full block"
+            ],
+            "default": "normal"
           },
           "type": {
             "title": "类型",
