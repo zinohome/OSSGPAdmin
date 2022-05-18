@@ -5,8 +5,7 @@
   "required": [
     "__collection__",
     "_index",
-    "_key",
-    "createdate"
+    "_key"
   ],
   "properties": {
     "__collection__": {

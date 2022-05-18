@@ -69,7 +69,7 @@ def route_ossgov_data(devname):
                 'recordsTotal': count,
                 'draw': request.args.get('draw', type=int),
             }
-            log.logger.debug("rdata %s" % rdata)
+            #log.logger.debug("rdata %s" % rdata)
             return rdata
         elif request.method == 'POST':
             definestr = oc.fetch(devname, '_sysdef/coldef', None, 0, 5)['body']
