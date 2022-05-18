@@ -25,7 +25,7 @@ from utils.restclient import OSSGPClient
 
 @blueprint.route('/sysadmin-<devname>.html', methods = ['GET', 'POST'])
 @login_required
-@cache.cached(timeout=6)
+@cache.cached(timeout=600)
 def route_sysadmin(devname):
     today = time.strftime("%Y-%m-%d", time.localtime())
     nav = get_nav()
@@ -119,7 +119,7 @@ def get_segment(request):
     except:
         return None
 
-@cache.memoize(timeout=6)
+@cache.memoize(timeout=600)
 def get_sysdef(devname):
     try:
         # sysdef define same with coldef
@@ -142,7 +142,7 @@ def get_sysdef(devname):
     except:
         return None
 
-@cache.memoize(timeout=6)
+@cache.memoize(timeout=600)
 def get_pagedef(devname):
     try:
         oc = OSSGPClient(session['username'],
@@ -168,7 +168,7 @@ def get_pagedef(devname):
         return None
 
 # Helper - Generate navigation
-@cache.cached(timeout=6, key_prefix='get_nav')
+@cache.cached(timeout=600, key_prefix='get_nav')
 def get_nav():
     try:
         nav = []
