@@ -2407,3 +2407,21 @@ NoneType: None
 2022-05-18 at 17:46:38 | ERROR | Exception at fetch() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/ledger', method='GET', body={'detail': 'Document [ ledger ] not found'}, headers=Headers({'content-length': '42', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/ledger', method='GET', body={'detail': 'Document [ ledger ] not found'}, headers=Headers({'content-length': '42', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
 2022-05-18 at 17:49:40 | INFO | DEBUG       = True
 2022-05-18 at 17:49:40 | INFO | Environment = Debug
+2022-05-18 at 17:51:31 | INFO | DEBUG       = True
+2022-05-18 at 17:51:31 | INFO | Environment = Debug
+2022-05-18 at 17:54:46 | INFO | DEBUG       = True
+2022-05-18 at 17:54:46 | INFO | Environment = Debug
+2022-05-18 at 17:55:18 | INFO | DEBUG       = True
+2022-05-18 at 17:55:18 | INFO | Environment = Debug
+2022-05-18 at 17:57:02 | INFO | DEBUG       = True
+2022-05-18 at 17:57:02 | INFO | Environment = Debug
+2022-05-18 at 17:57:34 | INFO | DEBUG       = True
+2022-05-18 at 17:57:34 | INFO | Environment = Debug
+2022-05-18 at 18:02:26 | INFO | DEBUG       = True
+2022-05-18 at 18:02:26 | INFO | Environment = Debug
+2022-05-18 at 18:03:27 | INFO | DEBUG       = True
+2022-05-18 at 18:03:27 | INFO | Environment = Debug
+2022-05-18 at 18:09:50 | INFO | DEBUG       = True
+2022-05-18 at 18:09:50 | INFO | Environment = Debug
+2022-05-18 at 18:10:22 | INFO | DEBUG       = True
+2022-05-18 at 18:10:22 | INFO | Environment = Debug

@@ -191,7 +191,7 @@ _fieldTypes.jsoneditor = {
             }
         },
         fields: [
-            {% for field in define['pagedef']['pagedef']['et_fields'] -%}
+            {%- for field in define['pagedef']['pagedef']['et_fields'] -%}
             {
                 "label": "{{ field['label'] }}:",
                 "labelInfo": "{{ field['labelinfo'] }}",
@@ -201,7 +201,7 @@ _fieldTypes.jsoneditor = {
                 "options": {{ "\"\""|safe if field['type'] == 'jsoneditor'  or  field['options']|length <= 4 else field['options']|safe }},
                 "def": {{ "\"\""|safe if field['type'] == 'jsoneditor'  or field['type'] == 'select'  or  field['def']|length <= 4 else field['def']|safe }}
             }{{ "," if not loop.last }}
-            {%- endfor %}
+            {% endfor %}
         ]
       });
       {% if define['pagedef']['name'] in ['sysdef','coldef','navdef','pagedef'] -%}

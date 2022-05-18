@@ -237,9 +237,9 @@ _fieldTypes.jsoneditor = {
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
         select: 'single',
         columns:[
-        {% for field in define['pagedef']['pagedef']['et_fields'] -%}
+        {%- for field in define['pagedef']['pagedef']['et_fields'] -%}
           {data:"{{ field['name'] }}", title:"{{ field['label'] }}", "visible": {{ field['visible'] }}, defaultContent:""}{{ "," if not loop.last }}
-        {%- endfor %}
+        {% endfor %}
         ],
         buttons: true,
         buttons: {
