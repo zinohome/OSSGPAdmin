@@ -33,7 +33,7 @@ div.DTED_Lightbox_Wrapper {
 }
 div.DTE_Body div.DTE_Body_Content div.DTE_Field {
     float: left;
-    width: 100%;
+    width: {{ 100/define['pagedef']['pagedef']['et_columns']|int|round|int|default(100) }}%;
     padding: 5px 20px;
     clear: none;
     box-sizing: border-box;
@@ -181,8 +181,15 @@ _fieldTypes.jsoneditor = {
       var editor = new $.fn.dataTable.Editor({
         ajax: "/sysadmin-{{ define['pagedef']['name'] }}/data",
         table: "#datatable",
-        display: "lightbox",
-        idSrc:  "name",
+        display: "{{ define['pagedef']['pagedef']['dt_display']|default('lightbox') }}",
+        idSrc:  "{{ define['pagedef']['pagedef']['dt_idSrc']|default('name') }}",
+        formOptions: {
+            main: {
+                onBackground: 'none',
+                submitOnReturn: false,
+                onReturn: 'none'
+            }
+        },
         fields: [
             {% for field in define['pagedef']['pagedef']['et_fields'] -%}
             {
@@ -197,6 +204,14 @@ _fieldTypes.jsoneditor = {
             {%- endfor %}
         ]
       });
+      {% if define['pagedef']['name'] in ['sysdef','coldef','navdef','pagedef'] -%}
+      editor.on( 'onInitCreate', function(){
+        editor.enable('createdate');
+      });
+      editor.on( 'onInitEdit', function(){
+        editor.disable('createdate');
+      });
+      {%- endif %}
       var openVals;
       editor.on( 'open', function () {
             // Store the values of the fields on open
@@ -220,7 +235,6 @@ _fieldTypes.jsoneditor = {
             details: true
         },
         autoWidth: true,
-        lengthChange: true,
         paging: true,
         fixedHeader: true,
         searching: false,

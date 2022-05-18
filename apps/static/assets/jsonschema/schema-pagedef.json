@@ -5,6 +5,8 @@
   "required": [
     "block_title",
     "block_navtitle",
+    "dt_display",
+    "dt_idSrc",
     "dt_order",
     "et_fields",
     "et_columns"
@@ -19,6 +21,20 @@
       "title": "导航标题",
       "type": "string",
       "default": "导航"
+    },
+    "dt_display": {
+      "title": "表单主题",
+      "type": "string",
+      "enum": [
+        "lightbox",
+        "envelope"
+      ],
+      "default": "lightbox"
+    },
+    "dt_idSrc": {
+      "title": "主键字段",
+      "type": "string",
+      "default": "name"
     },
     "dt_order": {
       "title": "默认排序",
