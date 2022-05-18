@@ -9,7 +9,9 @@
     "dt_idSrc",
     "dt_order",
     "et_fields",
-    "et_columns"
+    "et_columns",
+    "formtemplatename",
+    "formtemplate"
   ],
   "properties": {
     "block_title": {
@@ -143,6 +145,17 @@
           }
         }
       }
+    },
+    "formtemplatename": {
+      "title": "表单模板名称",
+      "type": "string",
+      "default": "tbeditorForm"
+    },
+    "formtemplate": {
+      "title": "表单模板",
+      "type": "string",
+      "format": "textarea",
+      "default": "None"
     }
   }
 }

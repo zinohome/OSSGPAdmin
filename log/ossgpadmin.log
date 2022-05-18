@@ -2461,3 +2461,7 @@ NoneType: None
 2022-05-18 at 19:59:30 | ERROR | Exception at fetch() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/category', method='GET', body={'detail': 'Document [ category ] not found'}, headers=Headers({'content-length': '44', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/category', method='GET', body={'detail': 'Document [ category ] not found'}, headers=Headers({'content-length': '44', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
 2022-05-18 at 20:41:19 | INFO | DEBUG       = True
 2022-05-18 at 20:41:19 | INFO | Environment = Debug
+2022-05-18 at 21:50:55 | INFO | DEBUG       = True
+2022-05-18 at 21:50:55 | INFO | Environment = Debug
+2022-05-18 at 21:51:27 | INFO | DEBUG       = True
+2022-05-18 at 21:51:27 | INFO | Environment = Debug
