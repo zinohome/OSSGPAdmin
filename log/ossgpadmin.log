@@ -2495,3 +2495,28 @@ NoneType: None
 2022-05-19 at 09:17:00 | INFO | Environment = Debug
 2022-05-19 at 09:18:56 | INFO | DEBUG       = True
 2022-05-19 at 09:18:56 | INFO | Environment = Debug
+2022-05-19 at 09:22:00 | INFO | DEBUG       = True
+2022-05-19 at 09:22:00 | INFO | Environment = Debug
+2022-05-19 at 09:34:51 | INFO | DEBUG       = True
+2022-05-19 at 09:34:51 | INFO | Environment = Debug
+2022-05-19 at 09:35:24 | INFO | DEBUG       = True
+2022-05-19 at 09:35:24 | INFO | Environment = Debug
+2022-05-19 at 09:36:56 | INFO | DEBUG       = True
+2022-05-19 at 09:36:56 | INFO | Environment = Debug
+2022-05-19 at 09:37:28 | INFO | DEBUG       = True
+2022-05-19 at 09:37:28 | INFO | Environment = Debug
+2022-05-19 at 09:39:20 | INFO | DEBUG       = True
+2022-05-19 at 09:39:20 | INFO | Environment = Debug
+2022-05-19 at 09:40:12 | INFO | DEBUG       = True
+2022-05-19 at 09:40:12 | INFO | Environment = Debug
+2022-05-19 at 09:41:22 | INFO | DEBUG       = True
+2022-05-19 at 09:41:22 | INFO | Environment = Debug
+2022-05-19 at 10:22:39 | INFO | DEBUG       = True
+2022-05-19 at 10:22:39 | INFO | Environment = Debug
+2022-05-19 at 11:20:40 | INFO | DEBUG       = True
+2022-05-19 at 11:20:40 | INFO | Environment = Debug
+2022-05-19 at 11:25:23 | ERROR | Exception at fetch() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/authority', method='GET', body={'detail': 'Document [ authority ] not found'}, headers=Headers({'content-length': '45', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/authority', method='GET', body={'detail': 'Document [ authority ] not found'}, headers=Headers({'content-length': '45', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
+2022-05-19 at 11:27:22 | ERROR | Exception at fetch() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/evaluate', method='GET', body={'detail': 'Document [ evaluate ] not found'}, headers=Headers({'content-length': '44', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/evaluate', method='GET', body={'detail': 'Document [ evaluate ] not found'}, headers=Headers({'content-length': '44', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
+2022-05-19 at 11:28:48 | ERROR | Exception at fetch() ("operation=not_found_error, response=Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/risk', method='GET', body={'detail': 'Document [ risk ] not found'}, headers=Headers({'content-length': '40', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)", Response(url='http://127.0.0.1:6880/api/v2/_sysdef/coldef/risk', method='GET', body={'detail': 'Document [ risk ] not found'}, headers=Headers({'content-length': '40', 'content-type': 'application/json'}), status_code=404, client_response=<Response [404 Not Found]>)) 
+2022-05-19 at 11:30:10 | INFO | DEBUG       = True
+2022-05-19 at 11:30:10 | INFO | Environment = Debug

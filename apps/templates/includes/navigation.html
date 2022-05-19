@@ -12,18 +12,18 @@
           </div><!-- az-header-menu-header -->
 
           <ul class="nav">
-            {% for navitem in nav %}
+            {%- for navitem in nav -%}
             <li class="nav-item {% if navitem['segment'] in segment %} active show{% endif %}">
-              {% if navitem['navclass']=='sub' %}
+              {%- if navitem['navclass']=='sub' -%}
               <a href="{{ navitem['href'] }}" class="nav-link with-sub"><i class="{{ navitem['icon'] }}"></i>{{ navitem['title'] }}</a>
               <div class="az-menu-sub">
                 <div class="container">
                   <div>
                     <nav class="nav flex-column">
-                      {% for nav2item in navitem['sub'] %}
-                        {% if nav2item['navclass']=='label' %}
+                      {%- for nav2item in navitem['sub'] -%}
+                        {%- if nav2item['navclass']=='label' -%}
                         <label class="nav-link" style="font-weight:600;">{{ nav2item['title'] }}</label>
-                        {% else %}
+                        {%- else -%}
                         <a href="{{ nav2item['href'] }}"  class="nav-link {% if nav2item['segment'] in segment %} active {% endif %}">{{ nav2item['title'] }}</a>
                         {% endif %}
                       {% endfor %}
@@ -31,7 +31,7 @@
                   </div>
                 </div><!-- container -->
               </div>
-              {% else %}
+              {%- else -%}
               <a href="{{ navitem['href'] }}" class="nav-link"><i class="{{ navitem['icon'] }}"></i>{{ navitem['title'] }}</a>
               {% endif %}
             </li>

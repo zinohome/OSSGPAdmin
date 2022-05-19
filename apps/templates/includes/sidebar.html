@@ -1,15 +1,15 @@
-        {% set segnav=segment.split('-')[0] %}
+        {%- set segnav=segment.split('-')[0] -%}
         <div class="az-content-left az-content-left-components">
           <div class="component-item">
-            {% for navitem in nav %}
-              {% if navitem['name']==segnav %}
-                {% for nav2item in navitem['sub'] %}
-                  {% if nav2item['navclass']=='label' %}
-            {% if not loop.first %}
+            {%- for navitem in nav -%}
+              {%- if navitem['name']==segnav -%}
+                {%- for nav2item in navitem['sub'] -%}
+                  {%- if nav2item['navclass']=='label' -%}
+            {%- if not loop.first -%}
             </nav>
             {% endif %}
             <label>{{ nav2item['title'] }}</label>
-            {% if loop.first %}
+            {%- if loop.first -%}
             <nav class="nav flex-column">
             {% endif %}
                   {% else %}

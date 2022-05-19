@@ -44,6 +44,9 @@ div.DTE_Body div.DTE_Form_Content:after {
     display: block;
     clear: both;
 }
+
+{{ define['pagedef']['pagedef']['formcss']|safe if 'formcss' in define['pagedef']['pagedef'] }}
+
 </style>
 {% endblock stylesheets %}
 
@@ -60,12 +63,12 @@ div.DTE_Body div.DTE_Form_Content:after {
             <span>{{ define['pagedef']['pagedef']['block_title'] }}</span>
           </div>
           <h2 class="az-content-title">{{ define['pagedef']['pagedef']['block_title'] }}</h2>
-
+          {{ define['pagedef']['pagedef']['formtemplate']|safe if 'formtemplate' in define['pagedef']['pagedef'] }}
           <div class="table-responsive">
             <table id="datatable" class="table table-hover mg-b-0 responsive " style="width:100%">
               <thead>
                 <tr>
-                  {% for th in define['thlist'] %}
+                  {%- for th in define['thlist'] -%}
                   <th>{{ th }}</th>
                     {% endfor %}
                 </tr>
@@ -183,6 +186,9 @@ _fieldTypes.jsoneditor = {
         table: "#datatable",
         display: "{{ define['pagedef']['pagedef']['dt_display']|default('lightbox') }}",
         idSrc:  "{{ define['pagedef']['pagedef']['dt_idSrc']|default('name') }}",
+        {%- if 'formtemplatename' in define['pagedef']['pagedef'] -%}
+        template: '#{{ define['pagedef']['pagedef']['formtemplatename'] }}',
+        {% endif %}
         formOptions: {
             main: {
                 blurOnBackground: false,
