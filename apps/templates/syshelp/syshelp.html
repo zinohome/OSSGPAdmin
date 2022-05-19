@@ -1,0 +1,286 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} {{ define['pagedef']['pagedef']['block_title'] }} {% endblock %}
+
+<!-- Page CSS Plugins goes HERE  -->
+{% block plugin_stylesheets %}{% endblock plugin_stylesheets %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/static/assets/lib/datatables-bs4/css/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-buttons/css/buttons.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-select/css/select.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <!-- DataTables Editor-->
+  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/dataTables.dateTime.min.css">
+
+
+<style type="text/css">
+.align-right {text-align: right;font-size:13px;}
+.table.dataTable {font-size: 13px;}
+.dataTables_length {font-size: 13px;}
+.dataTables_info {font-size: 13px;}
+.paginate_button {font-size: 13px;}
+.btn-icon {height:30px; width:30px;}
+.btn-info {height:30px; width:30px;}
+div.DTED_Lightbox_Wrapper {
+    left: 5em;
+    right: 5em;
+    margin-left: 0;
+    width: auto;
+}
+div.DTE_Body div.DTE_Body_Content div.DTE_Field {
+    float: left;
+    width: {{ 100/define['pagedef']['pagedef']['et_columns']|int|round|int|default(100) }}%;
+    padding: 5px 20px;
+    clear: none;
+    box-sizing: border-box;
+}
+
+div.DTE_Body div.DTE_Form_Content:after {
+    content: ' ';
+    display: block;
+    clear: both;
+}
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="az-content pd-y-20 pd-lg-y-30 pd-xl-y-40">
+      <div class="container">
+
+        {% include 'includes/sidebar.html' %}
+
+        <div class="az-content-body pd-lg-l-40 d-flex flex-column">
+          <div class="az-content-breadcrumb">
+            <span>{{ define['pagedef']['pagedef']['block_navtitle'] }}</span>
+            <span>{{ define['pagedef']['pagedef']['block_title'] }}</span>
+          </div>
+          <h2 class="az-content-title">{{ define['pagedef']['pagedef']['block_title'] }}</h2>
+
+          <div class="table-responsive">
+            <table id="datatable" class="table table-hover mg-b-0 responsive " style="width:100%">
+              <thead>
+                <tr>
+                  {% for th in define['thlist'] %}
+                  <th>{{ th }}</th>
+                    {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div><!-- table-responsive -->
+
+        </div><!-- az-content-body -->
+      </div><!-- container -->
+    </div><!-- az-content -->
+
+{% endblock content %}
+
+<!-- Page JS Plugins goes HERE  -->
+{% block plugin_javascripts %}{% endblock plugin_javascripts %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+ <!-- jQuery -->
+  <script src="/static/assets/lib/jquery/jquery-3.6.0.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/lib/bootstrap/js/bootstrap.bundle.js"></script>
+  <!-- DataTables -->
+  <script src="/static/assets/lib/datatables/pdfmake.js"></script>
+  <script src="/static/assets/lib/datatables/vfs_fonts.js"></script>
+  <script src="/static/assets/lib/datatables/datatables.js"></script>
+  <script src="/static/assets/lib/datatables/datatables.responsive.min.js"></script>
+  <!-- DataTables Editor-->
+  <script src="/static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>
+  <script src="/static/assets/lib/datatables-editor/js/dataTables.dateTime.min.js"></script>
+  <!-- JsonEditor-->
+  <script src="/static/assets/lib/jsoneditor/jsoneditor.js"></script>
+  <script src="/static/assets/lib/jsoneditor/purify.min.js"></script>
+  <!-- page script -->
+  <script>
+(function ($, DataTable) {
+if ( ! DataTable.ext.editorFields ) {
+    DataTable.ext.editorFields = {};
+}
+var Editor = DataTable.Editor;
+var _fieldTypes = DataTable.ext.editorFields;
+_fieldTypes.jsoneditor = {
+    create: function (conf) {
+        //SEC 1 - DOM Setup
+        var safeId = DataTable.Editor.safeId(conf.id);
+        var edschema ="";
+        $.ajaxSetup({async:false});
+        {% if define['has_jsoneditor']  %}
+        $.getJSON('/static/assets/jsonschema/{{ define['jsoneditor_def'] }}', function getschema(data){edschema = data;});
+        var config = {{ define['jsoneditor_options']|safe }}
+        {% else %}
+        $.getJSON('/static/assets/jsonschema/schema-pagedef.json', function getschema(data){edschema = data;});
+        var config = {
+                use_name_attributes: false,
+                theme: 'bootstrap4',
+                iconlib: 'fontawesome5',
+                keep_oneof_values: false,
+                disable_edit_json: false,
+                disable_properties: false,
+                disable_collapse: false,
+                expand_height: true,
+                show_opt_in: false,
+                schema: edschema
+              };
+        {% endif %}
+        var jinput = $('<input id="' + safeId + '" type="hidden" name="'+safeId+'">');
+        var jdiv = $('<div id="' + safeId + '_div"></div>');
+        var container = $('<div/>').append(jinput).append(jdiv);
+        conf.jsoninput = jinput;
+        // SEC 2 - JSONEditor setup
+        const jeditor = new JSONEditor(jdiv[0], config);
+        conf.jsoneditor = jeditor;
+        // SEC 3 - JSONEditor onchange control
+        jeditor.on('ready', function () {
+            jeditor.enable();
+            const errors = jeditor.validate();
+            if (errors.length) {
+              console.log(errors);
+            }
+        });
+        jeditor.on('change', function () {
+            jinput.val(JSON.stringify(jeditor.getValue()));
+        });
+        return container;
+    },
+    get: function (conf) {
+        return conf.jsoninput.val();
+    },
+    set: function (conf, val) {
+        if(val){
+            //conf.jsoninput.val(val);
+            conf.jsoneditor.setValue(JSON.parse(val));
+            //console.log(JSON.stringify(conf.jsoneditor.getValue()));
+        }else{
+            conf.jsoneditor.setValue('');
+        }
+    },
+};
+})(jQuery, jQuery.fn.dataTable);
+
+    $(document).ready(function () {
+      $.fn.dataTable.ext.buttons.reload = {
+        text:'<i class="typcn typcn-arrow-sync tx-18"></i>',
+        titleAttr: '刷新',
+        action: function ( e, dt, node, config ) {
+          dt.clear().draw();
+          dt.ajax.reload(null,false);
+        }
+      };
+      var editor = new $.fn.dataTable.Editor({
+        ajax: "/sysdev-{{ define['pagedef']['name'] }}/data",
+        table: "#datatable",
+        display: "{{ define['pagedef']['pagedef']['dt_display']|default('lightbox') }}",
+        idSrc:  "{{ define['pagedef']['pagedef']['dt_idSrc']|default('name') }}",
+        formOptions: {
+            main: {
+                blurOnBackground: false,
+                onBackground: 'none',
+                submitOnReturn: false,
+                onReturn: 'none'
+            }
+        },
+        fields: [
+            {%- for field in define['pagedef']['pagedef']['et_fields'] -%}
+            {
+                "label": "{{ field['label'] }}:",
+                "labelInfo": "{{ field['labelinfo'] }}",
+                "name": "{{ field['name'] }}",
+                "type": "{{ field['type'] }}",
+                {{ field['def']|safe if field['type'] == 'select' and field['def']|length > 4 }}
+                "options": {{ "\"\""|safe if field['type'] == 'jsoneditor'  or  field['options']|length <= 4 else field['options']|safe }},
+                "def": {{ "\"\""|safe if field['type'] == 'jsoneditor'  or field['type'] == 'select'  or  field['def']|length <= 4 else field['def']|safe }},
+                {% if field['classname']|default('normal') != 'normal' -%}
+                "className":"{{ field['classname']|default('normal') }}"
+                {%- endif %}
+            }{{ "," if not loop.last }}
+            {% endfor %}
+        ]
+      });
+      {% if define['pagedef']['name'] in ['sysdef','coldef','navdef','pagedef'] -%}
+      editor.on( 'onInitCreate', function(){
+        editor.enable('createdate');
+      });
+      editor.on( 'onInitEdit', function(){
+        editor.disable('createdate');
+      });
+      {%- endif %}
+      var openVals;
+      editor.on( 'open', function () {
+            // Store the values of the fields on open
+            openVals = JSON.stringify( editor.get() );
+            editor.on( 'preClose', function ( e ) {
+                // On close, check if the values have changed and ask for closing confirmation if they have
+                if ( openVals !== JSON.stringify( editor.get() ) ) {
+                    return confirm( '有修改过的数据没有保存，确认退出吗?' );
+                }
+            } )
+        } );
+      editor.on( 'postCreate postEdit close', function () {
+            editor.off( 'preClose' );
+        } );
+      var datatable = $("#datatable").DataTable({
+        processing: true,
+        serverSide: true,
+        lengthChange: true,
+        ajax: "/sysdev-{{ define['pagedef']['name'] }}/data",
+        responsive: {
+            details: true
+        },
+        autoWidth: true,
+        paging: true,
+        fixedHeader: true,
+        searching: false,
+        ordering: false,
+        info: true,
+        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'<'align-right'B>>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
+        select: 'single',
+        columns:[
+        {% for field in define['pagedef']['pagedef']['et_fields'] -%}
+          {data:"{{ field['name'] }}", title:"{{ field['label'] }}", "visible": {{ field['visible'] }}, defaultContent:""}{{ "," if not loop.last }}
+        {%- endfor %}
+        ],
+        buttons: true,
+        buttons: {
+          name:'primary',
+          buttons: [
+          { extend: 'create', text:'<i class="typcn typcn-document-add tx-18"></i>', titleAttr: '新建', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '新建'] },
+          {
+            extend: "selected",
+            text: '<i class="typcn typcn-clipboard tx-18"></i>', titleAttr: '复制',
+            action: function ( e, dt, node, config ) {
+              // Start in edit mode, and then change to create
+              editor.edit(datatable.rows( {selected: true} ).indexes(), {
+                title: '从记录复制',
+                buttons: [{text: '取消', action: function() {this.close();}}, '新建']
+              }).mode( 'create' );}
+            },
+          { extend: 'edit', text:'<i class="typcn typcn-edit tx-18"></i>', titleAttr: '修改', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '修改'] },
+          { extend: 'remove', text:'<i class="typcn typcn-document-delete tx-18"></i>', titleAttr: '删除', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '删除'] },
+          'reload'
+          ],
+          dom: {
+            button: { className: "btn btn-secondary btn-icon"},
+            buttonLiner: { tag: null }
+          }
+        },
+        language: {
+            url:'/static/assets/lib/datatables/zh.json'
+        }
+      });
+    });
+  </script>
+{% endblock javascripts %}
