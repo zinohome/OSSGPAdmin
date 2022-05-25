@@ -9,7 +9,7 @@
 #  @Email   : ibmzhangjun@139.com
 #  @Software: OSSGPAdmin
 
-from apps.sysdev import blueprint
+from apps.syshelp import blueprint
 from flask import render_template, request, session, Response
 from flask_login import login_required
 from jinja2 import TemplateNotFound
@@ -23,10 +23,10 @@ from utils import cryptutil
 from utils.restclient import OSSGPClient
 
 
-@blueprint.route('/sysdev-<devname>.html', methods = ['GET', 'POST'])
+@blueprint.route('/syshelp-<devname>.html', methods = ['GET', 'POST'])
 @login_required
 @cache.cached(timeout=600)
-def route_sysdev(devname):
+def route_syshelp(devname):
     today = time.strftime("%Y-%m-%d", time.localtime())
     nav = get_nav()
     pgdef = get_pagedef(devname)
@@ -40,16 +40,16 @@ def route_sysdev(devname):
         define['pagedef'] = pgdef
         #log.logger.debug(define)
         #log.logger.debug(define['pagedef'])
-        return render_template('sysdev/sysdev.html', segment='sysdev-'+devname, nav=nav,
+        return render_template('syshelp/syshelp.html', segment='syshelp-'+devname, nav=nav,
                                define=define,devname=devname,
                                startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                today=today)
     else:
         return render_template('home/page-404.html'), 404
 
-@blueprint.route('/sysdev-<devname>/data', methods = ['GET', 'POST'])
+@blueprint.route('/syshelp-<devname>/data', methods = ['GET', 'POST'])
 @login_required
-def route_sysdev_data(devname):
+def route_syshelp_data(devname):
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
