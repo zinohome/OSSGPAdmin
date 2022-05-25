@@ -37,6 +37,7 @@ def route_sysdev(devname):
                 define['has_jsoneditor'] = True
                 define['jsoneditor_options'] = etfield['options']
                 define['jsoneditor_def'] = etfield['def']
+                break
         define['pagedef'] = pgdef
         #log.logger.debug(define)
         #log.logger.debug(define['pagedef'])
