@@ -60,6 +60,7 @@
       "items": {
         "title": "表单定义",
         "type": "object",
+        "headerTemplate": "{{ i1 }}-{{ self.name }}",
         "required": [
           "name",
           "label",
