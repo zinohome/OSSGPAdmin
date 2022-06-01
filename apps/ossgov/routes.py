@@ -120,7 +120,7 @@ def get_segment(request):
     except:
         return None
 
-@cache.memoize(timeout=6)
+@cache.memoize(timeout=30)
 def get_sysdef(devname):
     try:
         # sysdef define same with coldef
@@ -143,7 +143,7 @@ def get_sysdef(devname):
     except:
         return None
 
-@cache.memoize(timeout=6)
+@cache.memoize(timeout=30)
 def get_pagedef(devname):
     try:
         oc = OSSGPClient(session['username'],
