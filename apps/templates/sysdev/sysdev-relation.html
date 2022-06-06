@@ -277,7 +277,7 @@ _fieldTypes.select2 = {
                 "type": "{{ field['type'] }}",
                 {{ field['def']|safe if field['type'] == 'select' and field['def']|length > 4 }}
                 {{ field['def']|safe if field['type'] == 'select2' and field['def']|length > 4 }}
-                "options": {{ "\"\""|safe if field['type'] == 'jsoneditor'  or  field['options']|length <= 4 else field['options']|safe }},
+                {{ "\"options\": \"\""|safe if field['type'] == 'jsoneditor' or field['options']|length <= 4 else "\"options\": field['options']"|safe }},
                 "def": {{ "\"\""|safe if field['type'] == 'jsoneditor'  or field['type'] == 'select' or field['type'] == 'select2' or field['def']|length <= 4 else field['def']|safe }},
                 {% if field['classname']|default('normal') != 'normal' -%}
                 "className":"{{ field['classname']|default('normal') }}"
