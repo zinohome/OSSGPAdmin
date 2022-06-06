@@ -133,20 +133,20 @@ def route_sysdev_ajaxdata(devname):
                 if key not in ['__collection__', '_index', '_key']:
                     ritem = {}
                     ritem['text'] = key
-                    ritem['value'] = key
+                    ritem['id'] = key
                     rdata.append(ritem)
             log.logger.debug("rdata %s" % rdata)
-            return json.dumps(rdata)
+            return {"results":rdata}
         else:
             record = oc.query(colname, prefix, None, selfilter, None, None, None, None)['body']['data']
             rdata = []
             for rd in record:
                 ritem={}
                 ritem['text'] = rd[seltxt]
-                ritem['value'] = rd[selvalue]
+                ritem['id'] = rd[selvalue]
                 rdata.append(ritem)
             log.logger.debug("rdata %s" % rdata)
-            return json.dumps(rdata)
+            return {"results":rdata}
 
 
 # Helper - Extract current page name from request
