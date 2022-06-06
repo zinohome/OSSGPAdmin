@@ -112,6 +112,43 @@ def route_sysdev_data(devname):
                 else:
                     return Response('{"status":500, "body": "Error"}', status=500)
 
+@blueprint.route('/sysdev-<devname>/ajaxdata', methods = ['GET'])
+def route_sysdev_ajaxdata(devname):
+    oc = OSSGPClient(session['username'],
+                     cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+    if oc.token_expired:
+        oc.renew_token()
+    if request.method == 'GET':  # list
+        qtype = request.args.get('qtype', type=str)
+        colname = request.args.get('colname', type=str)
+        prefix = request.args.get('prefix', type=str)
+        seltxt = request.args.get('seltxt', type=str)
+        selvalue = request.args.get('selvalue', type=str)
+        selfilter = request.args.get('selfilter', type=str)
+        if qtype.strip().lower() == 'def':
+            record = oc.fetch(colname, prefix, None, None, None)['body']
+            coldef = json.loads(record['coldef'])
+            rdata = []
+            for key in coldef.keys():
+                if key not in ['__collection__', '_index', '_key']:
+                    ritem = {}
+                    ritem['text'] = key
+                    ritem['value'] = key
+                    rdata.append(ritem)
+            log.logger.debug("rdata %s" % rdata)
+            return json.dumps(rdata)
+        else:
+            record = oc.query(colname, prefix, None, selfilter, None, None, None, None)['body']['data']
+            rdata = []
+            for rd in record:
+                ritem={}
+                ritem['text'] = rd[seltxt]
+                ritem['value'] = rd[selvalue]
+                rdata.append(ritem)
+            log.logger.debug("rdata %s" % rdata)
+            return json.dumps(rdata)
+
+
 # Helper - Extract current page name from request
 def get_segment(request):
     try:
