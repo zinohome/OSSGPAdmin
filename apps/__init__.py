@@ -16,6 +16,7 @@ from importlib import import_module
 from utils.restclient import OSSGPClient
 from decouple import config
 from utils import log
+import flask_monitoringdashboard as dashboard
 
 '''logging'''
 log = log.Logger(level=config('OSSGPADMIN_APP_LOG_LEVEL', default='INFO'))
@@ -50,6 +51,7 @@ def create_app(config):
     app = Flask(__name__)
     app.config.from_object(config)
     cache.init_app(app)
+    dashboard.bind(app)
     register_extensions(app)
     register_blueprints(app)
     configure_database(app)
