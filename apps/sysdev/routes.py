@@ -112,7 +112,9 @@ def route_sysdev_data(devname):
                 else:
                     return Response('{"status":500, "body": "Error"}', status=500)
 
+@cache.memoize(timeout=30)
 @blueprint.route('/sysdev-<devname>/ajaxdata', methods = ['GET'])
+@login_required
 def route_sysdev_ajaxdata(devname):
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
