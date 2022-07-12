@@ -174,7 +174,7 @@ class OSSGPClient():
                 if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
-    def fetch(self, resource_name, url_prefix='', body=None, offset=None, limit=None, sort=None):
+    def fetch(self, resource_name, url_prefix='', body=None, offset=None, limit=None, sort=None, relation=None):
         action = 'list'
         if self.token_expired:
             self.renew_token()
@@ -188,6 +188,8 @@ class OSSGPClient():
                 api.headers['limit'] = str(limit)
             if sort is not None:
                 api.headers['sort'] = str(sort)
+            if relation is not None:
+                api.headers['relation'] = str(relation)
             api.api_root_url = self.api_root_url + url_prefix
             api.add_resource(resource_name=resource_name)
             try:
@@ -213,7 +215,7 @@ class OSSGPClient():
                 if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
                     traceback.print_exc()
 
-    def fetchone(self, resource_name, url_prefix='', body=None, offset=None, limit=None):
+    def fetchone(self, resource_name, url_prefix='', body=None, offset=None, limit=None, relation=None):
         action = 'list'
         if self.token_expired:
             self.renew_token()
@@ -225,6 +227,8 @@ class OSSGPClient():
                 api.headers['offset'] = str(offset)
             if limit is not None:
                 api.headers['limit'] = str(limit)
+            if relation is not None:
+                api.headers['relation'] = str(relation)
             api.api_root_url = self.api_root_url + url_prefix
             api.add_resource(resource_name=resource_name)
             try:
