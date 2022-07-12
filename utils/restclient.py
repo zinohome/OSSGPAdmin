@@ -383,12 +383,12 @@ class OSSGPClient():
 
 if __name__ == '__main__':
     nc = OSSGPClient(os.getenv('OSSGPADMIN_APP_API_USER'), os.getenv('OSSGPADMIN_APP_API_PASSWORD'))
-    log.logger.debug(nc.user_login())
+    #log.logger.debug(nc.user_login())
     if nc.token_expired:
         nc.renew_token()
     if (not nc.token_expired) and (nc.access_token is not None):
         log.logger.debug(nc.fetchusers())
-    log.logger.debug(nc.getuser('admin'))
+    '''log.logger.debug(nc.getuser('admin'))
     log.logger.debug(nc.getuser('ddf'))
     log.logger.debug("nc.getuser('ddf') %s" % nc.getuser('ddf'))
     log.logger.debug(nc.fetchcount('oss', 'users'))
@@ -397,6 +397,10 @@ if __name__ == '__main__':
     resultstr = nc.fetch('users', '_collection', None, 0, 5)
     log.logger.debug(resultstr)
     resultstr = nc.fetchone('admin', '_collection/users', None, 0, 5)
+    log.logger.debug(resultstr)'''
+    resultstr = nc.fetch('student1', '_collection/student', None, 0, 5)
+    log.logger.debug(resultstr)
+    resultstr = nc.fetch('student1', '_collection/student', None, 0, 5, 'true')
     log.logger.debug(resultstr)
 
     '''
