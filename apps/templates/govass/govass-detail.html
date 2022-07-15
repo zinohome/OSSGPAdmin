@@ -53,6 +53,105 @@ div.DTE_Body div.DTE_Form_Content:after {
         border-color: #A8B1C2;
         pointer-events: none;
 }
+.label{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+.label>ul{
+    width: 100%;
+    height: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.label>ul>li{
+    list-style: none;
+    font-size: 90%;
+    padding-right: 8px;
+    padding-left: 8px;
+    width: auto;
+    height: 30px;
+    background-color: #ADB5C5;
+    line-height: 30px;
+    color: white;
+}
+.label>div{
+    width: auto;
+    height: 50px;
+    position: absolute;
+    color: black;
+    line-height: 50px;
+    background-color: #ADB5C5;
+    display: none;
+}
+.label li.showed{
+    background-color: #7987A1;
+    color: white;
+    line-height: 25px;
+    height: 30px;
+}
+.label div.showed{
+    display: block;
+}
+#customForm {
+    display: flex;
+    flex-flow: row wrap;
+}
+#customForm div.DTE_Field {
+    padding: 5px;
+}
+#customForm input {
+    width: 200px;
+    height: 30px;
+}
+#example th.sorting_disabled {
+    color: #7987a1;
+    font-weight: 700;
+    font-size: 11px;
+    padding-bottom: 5px;
+}
+#example td {
+    padding: 9px 15px;
+    line-height: 1.462;
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #cdd4e0;
+}
+label.myLabel {
+    font-size: 13px;
+    font-weight: 400px;
+    color: #031b4e;
+    font-family: "Roboto", sans-serif;
+    padding-left: 18px;
+}
+label.myLabelText {
+    font-size: 13px;
+    font-weight: 700;
+    color: #031b4e;
+    font-family: "Roboto", sans-serif;
+}
+legend.myLegend {
+    width: fit-content;
+    padding: 3px 15px 3px 15px;
+    color: white;
+    background-color: #5B47FB;
+    border-radius: 6px;
+    text-align:center;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: "Roboto", sans-serif;
+}
+div.myDiv {
+    border-bottom: 2px solid #ADB5C5;
+    padding: 8px;
+}
+a {
+    color: #596882;
+}
+ul li {
+    float: left;
+    height: 30px;
+}
 {{ define['pagedef']['pagedef']['formcss']|safe if 'formcss' in define['pagedef']['pagedef'] }}
 
 </style>
@@ -82,6 +181,20 @@ div.DTE_Body div.DTE_Form_Content:after {
           <div id="customForm">
             <div class="label" style="width: auto;height: auto;">
               <ul id="customUl" style="padding-left: 1px;margin-bottom: 0px;">
+                <li>
+                  {% if define['pagedef']['pagedef']['block_navtitle'] == '开源治理' %}
+                  <i class="typcn typcn-chart-area-outline tx-12"></i>
+                {% elif define['pagedef']['pagedef']['block_navtitle'] == '治理评估' %}
+                  <i class="typcn typcn-chart-bar-outline tx-12"></i>
+                {% elif define['pagedef']['pagedef']['block_navtitle'] == '业务定义' %}
+                  <i class="typcn typcn-document tx-12"></i>
+                {% elif define['pagedef']['pagedef']['block_navtitle'] == '系统管理' %}
+                  <i class="typcn typcn-chart-book tx-12"></i>
+                {% else %}
+                  <i class="typcn typcn-map tx-12"></i>
+                {% endif %}
+                    详细数据
+                </li>
                 {%- for th in data['relation'] -%}
                 <li>
                 {% if define['pagedef']['pagedef']['block_navtitle'] == '开源治理' %}
