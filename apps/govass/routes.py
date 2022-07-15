@@ -111,31 +111,101 @@ def route_govass_data(devname):
                 else:
                     return Response('{"status":500, "body": "Error"}', status=500)
 
-@blueprint.route('/ossgov-<devname>-detail.html', methods = ['GET', 'POST'])
+@blueprint.route('/govass-detail-<devname>.html', methods = ['GET', 'POST'])
 @login_required
 @cache.cached(timeout=6)
 def route_ossgov_detail(devname):
     id = request.args.get('id')
+    idfld = request.args.get('idfld')
+    page = request.args.get('page')
+    start = request.args.get('start')
+    length = request.args.get('length')
     today = time.strftime("%Y-%m-%d", time.localtime())
     nav = get_nav()
     pgdef = get_pagedef(devname)
     define = get_sysdef(devname)
-    #relationship = get_relation(devname)
-    data = get_Data_By_Id(devname, id)
-    if not (pgdef is None or define is None):
-        for etfield in pgdef['pagedef']['et_fields']:
-            if etfield['type'] == 'jsoneditor':
-                define['has_jsoneditor'] = True
-                define['jsoneditor_options'] = etfield['options']
-                define['jsoneditor_def'] = etfield['def']
-                break
-        define['pagedef'] = pgdef
-        return render_template('ossgov/ossgov-detail.html', segment='ossgov-' + devname, nav=nav,
-                               define=define, devname=devname, data=data,
-                               startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
-                               today=today)
-    else:
+    data = get_Data_By_Id(devname, id, idfld)
+    log.logger.debug('data is : %s' % data)
+    if data is None:
         return render_template('home/page-404.html'), 404
+    else:
+        if not (pgdef is None or define is None):
+            for etfield in pgdef['pagedef']['et_fields']:
+                if etfield['type'] == 'jsoneditor':
+                    define['has_jsoneditor'] = True
+                    define['jsoneditor_options'] = etfield['options']
+                    define['jsoneditor_def'] = etfield['def']
+                    break
+            define['pagedef'] = pgdef
+            return render_template('govass/govass-detail.html', segment='govass-' + devname, nav=nav,
+                                   define=define, devname=devname, data=data, start=start, length=length,
+                                   startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                                   today=today)
+        else:
+            return render_template('home/page-404.html'), 404
+
+def get_Data_By_Id(devname, id, idfld):
+    try:
+        oc = OSSGPClient(session['username'],
+                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+        if oc.token_expired:
+            oc.renew_token()
+        graphname = config('OSSGPADMIN_GRAPH_GOVASS', default='university')
+        detailData = oc.fetch(id, '_collection/'+devname, None, 0, 5,relation=graphname)
+        #log.logger.debug(detailData)
+        if detailData['code'] == 200:
+            #log.logger.debug(detailData['body'])
+            #log.logger.debug(detailData['body']['relation'][graphname])
+            #log.logger.debug(detailData['body']['relation'][graphname]['vertices'])
+            basicinfo = {}
+            relation = {}
+            graph = {}
+            pgdef = get_pagedef(devname)
+            fldlst = pgdef['pagedef']['et_fields']
+            pagetitle = get_all_pagetitle(devname)
+            # get basic info
+            for dkey,dvalue in detailData['body'].items():
+                if dkey != 'relation':
+                    infodict = {}
+                    infodict['value'] = dvalue
+                    for fld in fldlst:
+                        if fld['name']==dkey:
+                            infodict['label'] = fld['label']
+                            break
+                    basicinfo[dkey]=infodict
+            log.logger.debug(basicinfo)
+            # get relation
+            for verticy in detailData['body']['relation'][graphname]['vertices']:
+                relationname = verticy['_id'].split('/')[0]
+                nodevaluedict = {}
+                for nkey, nvalue in verticy.items():
+                    if nkey not in ['_key', '_id', '_rev']:
+                        nodevaluedict[nkey] = nvalue
+                if relationname in relation:
+                    relation[relationname]['value'].append(nodevaluedict)
+                else:
+                    nodeinfo = {}
+                    nodeinfo['name'] = relationname
+                    if relationname in pagetitle:
+                        nodeinfo['title'] = pagetitle[relationname]
+                    else:
+                        nodeinfo['title'] = relationname
+                    nodeinfo['value'] = []
+                    nodeinfo['value'].append(nodevaluedict)
+                    relation[relationname] = nodeinfo
+            log.logger.debug('relation is : [ %s ]' % relation)
+            #log.logger.debug(detailData['body']['relation'][graphname]['paths'])
+            for path in detailData['body']['relation'][graphname]['paths']:
+                log.logger.debug(path)
+            detailData['basicinfo'] = basicinfo
+            detailData['relation'] = relation
+            detailData['graph'] = graph
+            return detailData
+        else:
+            return None
+    except:
+        return None
+
 
 # Helper - Extract current page name from request
 def get_segment(request):
@@ -167,6 +237,22 @@ def get_sysdef(devname):
         define['thlist'] = thlist
         define['has_jsoneditor'] = False
         return define
+    except:
+        return None
+
+@cache.memoize(timeout=30)
+def get_all_pagetitle(devname):
+    try:
+        oc = OSSGPClient(session['username'],
+                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+        if oc.token_expired:
+            oc.renew_token()
+        pages = oc.fetch('pagedef', '_sysdef', body=None, offset=None,
+                             limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
+        pagetitle = {}
+        for page in pages['data']:
+            pagetitle[page['name']] = json.loads(page['pagedef'])['block_title']
+        return pagetitle
     except:
         return None
 

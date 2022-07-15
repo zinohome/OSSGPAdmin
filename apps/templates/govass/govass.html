@@ -71,7 +71,7 @@ div.DTE_Body div.DTE_Form_Content:after {
             <span>{{ define['pagedef']['pagedef']['block_title'] }}</span>
           </div>
           <h2 class="az-content-title">{{ define['pagedef']['pagedef']['block_title'] }}</h2>
-
+          {{ define['pagedef']['pagedef']['formtemplate']|safe if 'formtemplate' in define['pagedef']['pagedef'] }}
           <div class="table-responsive">
             <table id="datatable" class="table table-hover mg-b-0 responsive " style="width:100%">
               <thead>
@@ -269,13 +269,15 @@ _fieldTypes.select2 = {
         className: 'myBtn',
         text:'<i class="typcn typcn-eye-outline tx-18"></i>',
         titleAttr: '查看详情',
-        action: function ( e, dt, node, config ) {;
+        action: function ( e, dt, node, config ) {
           var page = dt.page.info().page;
-          var currentPage = dt.page.info().page;
-          var getRowData = dt.row({selected: true}).data();
-          var id = getRowData.name;
-          window.location="ossgov-{{ define['pagedef']['name'] }}-detail.html?id="+id;
-          <!--window.open("ossgov-{{ define['pagedef']['name'] }}-detail.html?id="+id);-->
+          var length = dt.page.info().length;
+          var start = dt.page.info().start;
+          var recordsTotal = dt.page.info().recordsTotal;
+          var rowData = dt.row({selected: true}).data();
+          var id = rowData.{{ define['pagedef']['pagedef']['dt_idSrc']|default('name') }};
+          var idfld = "{{ define['pagedef']['pagedef']['dt_idSrc']|default('name') }}";
+          window.location="govass-detail-{{ define['pagedef']['name'] }}.html?id="+id+"&idfld="+idfld+"&page="+page+"&start="+start+"&length="+length;
         }
       };
       $.fn.dataTable.ext.buttons.reload = {

@@ -1,0 +1,151 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} {{ define['pagedef']['pagedef']['block_title'] }} {% endblock %}
+
+<!-- Page CSS Plugins goes HERE  -->
+{% block plugin_stylesheets %}{% endblock plugin_stylesheets %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/static/assets/lib/datatables-bs4/css/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-buttons/css/buttons.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-select/css/select.bootstrap4.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <!-- DataTables Editor-->
+  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
+  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/dataTables.dateTime.min.css">
+  <!-- select2-->
+  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/select2.min.css">
+
+
+<style type="text/css">
+.align-right {text-align: right;font-size:13px;}
+.table.dataTable {font-size: 13px;}
+.dataTables_length {font-size: 13px;}
+.dataTables_info {font-size: 13px;}
+.paginate_button {font-size: 13px;}
+.btn-icon {height:30px; width:30px;}
+.btn-info {height:30px; width:30px;}
+div.DTED_Lightbox_Wrapper {
+    left: 5em;
+    right: 5em;
+    margin-left: 0;
+    width: auto;
+}
+div.DTE_Body div.DTE_Body_Content div.DTE_Field {
+    float: left;
+    width: {{ 100/define['pagedef']['pagedef']['et_columns']|int|round|int|default(100) }}%;
+    padding: 5px 20px;
+    clear: none;
+    box-sizing: border-box;
+}
+
+div.DTE_Body div.DTE_Form_Content:after {
+    content: ' ';
+    display: block;
+    clear: both;
+}
+.btn.btn-secondary.btn-icon.myBtn {
+<!--        width: 33px;-->
+        color: #fff;
+        background-color: #A8B1C2;
+        border-color: #A8B1C2;
+        pointer-events: none;
+}
+{{ define['pagedef']['pagedef']['formcss']|safe if 'formcss' in define['pagedef']['pagedef'] }}
+
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <div class="az-content pd-y-20 pd-lg-y-30 pd-xl-y-40">
+      <div class="container">
+
+        {% include 'includes/sidebar.html' %}
+
+        <div class="az-content-body pd-lg-l-40 d-flex flex-column">
+          <div class="az-content-breadcrumb">
+            <span>{{ define['pagedef']['pagedef']['block_navtitle'] }}</span>
+            <span>{{ define['pagedef']['pagedef']['block_title'] }}</span>
+          </div>
+          <h2 class="az-content-title">{{ define['pagedef']['pagedef']['block_title'] }}</h2>
+          <div class="myLink" style="color: #596882;font-size: 12px;font-weight: 500;font-family: 'Roboto', sans-serif;">
+            <span>
+              <a href="govass-{{ define['pagedef']['name'] }}.html?start={{ start }}&length={{ length }}">
+                <<返回
+              </a>
+            </span>
+          </div>
+
+          <div id="customForm">
+            <div class="label" style="width: auto;height: auto;">
+              <ul id="customUl" style="padding-left: 1px;margin-bottom: 0px;">
+                {%- for th in data['relation'] -%}
+                <li>
+                {% if define['pagedef']['pagedef']['block_navtitle'] == '开源治理' %}
+                  <i class="typcn typcn-chart-area-outline tx-12"></i>
+                {% elif define['pagedef']['pagedef']['block_navtitle'] == '治理评估' %}
+                  <i class="typcn typcn-chart-bar-outline tx-12"></i>
+                {% elif define['pagedef']['pagedef']['block_navtitle'] == '业务定义' %}
+                  <i class="typcn typcn-document tx-12"></i>
+                {% elif define['pagedef']['pagedef']['block_navtitle'] == '系统管理' %}
+                  <i class="typcn typcn-chart-book tx-12"></i>
+                {% else %}
+                  <i class="typcn typcn-map tx-12"></i>
+                {% endif %}
+                {{ data['relation'][th]['title'] }}
+                </li>
+                {% endfor %}
+                <li>
+                  <i class="typcn typcn-flow-merge tx-12"></i>关系图
+                </li>
+              </ul>
+            </div>
+            <form id="myForm" style="float: left;width: 100%;border-top: 2px solid #ADB5C5;padding:8px 0px 2px 0px;margin-bottom: 15px;">
+            </form>
+          </div>
+
+
+        </div><!-- az-content-body -->
+      </div><!-- container -->
+    </div><!-- az-content -->
+
+{% endblock content %}
+
+<!-- Page JS Plugins goes HERE  -->
+{% block plugin_javascripts %}{% endblock plugin_javascripts %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+ <!-- jQuery -->
+  <script src="/static/assets/lib/jquery/jquery-3.6.0.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/lib/bootstrap/js/bootstrap.bundle.js"></script>
+  <!-- DataTables -->
+  <script src="/static/assets/lib/datatables/jquery.dataTables.min.js"></script>
+  <script src="/static/assets/lib/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="/static/assets/lib/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="/static/assets/lib/datatables/pdfmake.js"></script>
+  <script src="/static/assets/lib/datatables/vfs_fonts.js"></script>
+  <script src="/static/assets/lib/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <!-- DataTables altEditor -->
+  <script src="/static/assets/lib/datatables-select/js/dataTables.select.min.js"></script>
+  <script src="/static/assets/lib/datatables-select/js/select.bootstrap4.min.js"></script>
+  <script src="/static/assets/lib/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="/static/assets/lib/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  <!-- DataTables Editor-->
+  <script src="/static/assets/lib/datatables-editor/js/dataTables.editor.js"></script>
+  <script src="/static/assets/lib/datatables-editor/js/dataTables.dateTime.min.js"></script>
+  <!-- JsonEditor-->
+  <script src="/static/assets/lib/jsoneditor/jsoneditor.js"></script>
+  <script src="/static/assets/lib/jsoneditor/purify.min.js"></script>
+  <!-- select2-->
+  <script src="/static/assets/lib/datatables-editor/js/select2.full.js"></script>
+  <!-- page script -->
+  <script>
+
+  </script>
+{% endblock javascripts %}
