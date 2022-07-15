@@ -65,12 +65,12 @@ div.DTE_Body div.DTE_Form_Content:after {
             <span>{{ define['pagedef']['pagedef']['block_title'] }}</span>
           </div>
           <h2 class="az-content-title">{{ define['pagedef']['pagedef']['block_title'] }}</h2>
-
+          {{ define['pagedef']['pagedef']['formtemplate']|safe if 'formtemplate' in define['pagedef']['pagedef'] }}
           <div class="table-responsive">
             <table id="datatable" class="table table-hover mg-b-0 responsive " style="width:100%">
               <thead>
                 <tr>
-                  {% for th in define['thlist'] %}
+                  {%- for th in define['thlist'] -%}
                   <th>{{ th }}</th>
                     {% endfor %}
                 </tr>
@@ -201,10 +201,7 @@ _fieldTypes.select2 = {
               editor.on('open.select2' + DataTable.Editor.safeId(conf.id), function () {
                  conf._input.select2($.extend({}, conf.opts, {
                         //Default options
-                        width: 'resolve',
-                        multiple: false,
-                        debug: true,
-                        allowClear: true,
+                        width: '100%',
                        // following property require for inline edit change event handling
                         dropdownParent: $(conf._input).parent(),
                        containerCssClass: $(conf._input).attr("class")
@@ -262,10 +259,13 @@ _fieldTypes.select2 = {
         }
       };
       var editor = new $.fn.dataTable.Editor({
-        ajax: "/sysdev-{{ define['pagedef']['name'] }}/data",
+        ajax: "/ossgov-{{ define['pagedef']['name'] }}/data",
         table: "#datatable",
         display: "{{ define['pagedef']['pagedef']['dt_display']|default('lightbox') }}",
         idSrc:  "{{ define['pagedef']['pagedef']['dt_idSrc']|default('name') }}",
+        {%- if 'formtemplatename' in define['pagedef']['pagedef'] -%}
+        template: '#{{ define['pagedef']['pagedef']['formtemplatename'] }}',
+        {% endif %}
         formOptions: {
             main: {
                 blurOnBackground: false,
@@ -275,7 +275,7 @@ _fieldTypes.select2 = {
             }
         },
         fields: [
-            {%- for field in define['pagedef']['pagedef']['et_fields'] -%}
+            {% for field in define['pagedef']['pagedef']['et_fields'] -%}
             {
                 "label": "{{ field['label'] }}:",
                 "labelInfo": "{{ field['labelinfo'] }}",
@@ -292,17 +292,9 @@ _fieldTypes.select2 = {
                 "def": {{ "\"\""|safe if field['type'] in ['jsoneditor','select','select2','datatable'] or field['def']|length <= 4 else field['def']|safe }}
                 {%- endif %}
             }{{ "," if not loop.last }}
-            {% endfor %}
+            {%- endfor %}
         ]
       });
-      {% if define['pagedef']['name'] in ['sysdef','coldef','navdef','pagedef','relation','graph'] -%}
-      editor.on( 'onInitCreate', function(){
-        editor.enable('createdate');
-      });
-      editor.on( 'onInitEdit', function(){
-        editor.disable('createdate');
-      });
-      {%- endif %}
       var openVals;
       editor.on( 'open', function () {
             // Store the values of the fields on open
@@ -321,7 +313,7 @@ _fieldTypes.select2 = {
         processing: true,
         serverSide: true,
         lengthChange: true,
-        ajax: "/sysdev-{{ define['pagedef']['name'] }}/data",
+        ajax: "/ossgov-{{ define['pagedef']['name'] }}/data",
         responsive: {
             details: true
         },
@@ -329,7 +321,6 @@ _fieldTypes.select2 = {
         paging: true,
         fixedHeader: true,
         searching: false,
-        stateSave: true,
         ordering: false,
         info: true,
         dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'<'align-right'B>>>" +
@@ -337,9 +328,9 @@ _fieldTypes.select2 = {
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
         select: 'single',
         columns:[
-        {% for field in define['pagedef']['pagedef']['et_fields'] -%}
+        {%- for field in define['pagedef']['pagedef']['et_fields'] -%}
           {data:"{{ field['name'] }}", title:"{{ field['label'] }}", "visible": {{ field['visible'] }}, defaultContent:""}{{ "," if not loop.last }}
-        {%- endfor %}
+        {% endfor %}
         ],
         buttons: true,
         buttons: {

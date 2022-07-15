@@ -46,6 +46,15 @@ div.DTE_Body div.DTE_Form_Content:after {
     display: block;
     clear: both;
 }
+.btn.btn-secondary.btn-icon.myBtn {
+<!--        width: 33px;-->
+        color: #fff;
+        background-color: #A8B1C2;
+        border-color: #A8B1C2;
+        pointer-events: none;
+}
+{{ define['pagedef']['pagedef']['formcss']|safe if 'formcss' in define['pagedef']['pagedef'] }}
+
 </style>
 {% endblock stylesheets %}
 
@@ -247,6 +256,28 @@ _fieldTypes.select2 = {
 })(jQuery, jQuery.fn.dataTable);
 
     $(document).ready(function () {
+      $('#datatable').on( 'click', 'tr', function (e) {
+        <!--添加按钮可用样式-->
+        $(".btn.btn-secondary.btn-icon.myBtn").css("pointer-events","auto");
+        $(".btn.btn-secondary.btn-icon.myBtn").attr("disabled", false);
+        $(".btn.btn-secondary.btn-icon.myBtn").css("color","#fff");
+        $(".btn.btn-secondary.btn-icon.myBtn").css("background-color","#7987A1");
+        $(".btn.btn-secondary.btn-icon.myBtn").css("border-color","#7987A1");
+        }
+      );
+      $.fn.dataTable.ext.buttons.detail = {
+        className: 'myBtn',
+        text:'<i class="typcn typcn-eye-outline tx-18"></i>',
+        titleAttr: '查看详情',
+        action: function ( e, dt, node, config ) {;
+          var page = dt.page.info().page;
+          var currentPage = dt.page.info().page;
+          var getRowData = dt.row({selected: true}).data();
+          var id = getRowData.name;
+          window.location="ossgov-{{ define['pagedef']['name'] }}-detail.html?id="+id;
+          <!--window.open("ossgov-{{ define['pagedef']['name'] }}-detail.html?id="+id);-->
+        }
+      };
       $.fn.dataTable.ext.buttons.reload = {
         text:'<i class="typcn typcn-arrow-sync tx-18"></i>',
         titleAttr: '刷新',
@@ -338,6 +369,7 @@ _fieldTypes.select2 = {
         buttons: {
           name:'primary',
           buttons: [
+          'detail',
           { extend: 'create', text:'<i class="typcn typcn-document-add tx-18"></i>', titleAttr: '新建', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '新建'] },
           {
             extend: "selected",

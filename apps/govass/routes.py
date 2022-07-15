@@ -22,6 +22,7 @@ from apps import cache
 from utils import cryptutil
 from utils.restclient import OSSGPClient
 
+GRAPH_NAME = 'university'
 
 @blueprint.route('/govass-<devname>.html', methods = ['GET', 'POST'])
 @login_required
@@ -109,6 +110,32 @@ def route_govass_data(devname):
                     return Response('{"status":200, "body": "'+ str(resultstr['body'])+'"}', status=200)
                 else:
                     return Response('{"status":500, "body": "Error"}', status=500)
+
+@blueprint.route('/ossgov-<devname>-detail.html', methods = ['GET', 'POST'])
+@login_required
+@cache.cached(timeout=6)
+def route_ossgov_detail(devname):
+    id = request.args.get('id')
+    today = time.strftime("%Y-%m-%d", time.localtime())
+    nav = get_nav()
+    pgdef = get_pagedef(devname)
+    define = get_sysdef(devname)
+    #relationship = get_relation(devname)
+    data = get_Data_By_Id(devname, id)
+    if not (pgdef is None or define is None):
+        for etfield in pgdef['pagedef']['et_fields']:
+            if etfield['type'] == 'jsoneditor':
+                define['has_jsoneditor'] = True
+                define['jsoneditor_options'] = etfield['options']
+                define['jsoneditor_def'] = etfield['def']
+                break
+        define['pagedef'] = pgdef
+        return render_template('ossgov/ossgov-detail.html', segment='ossgov-' + devname, nav=nav,
+                               define=define, devname=devname, data=data,
+                               startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                               today=today)
+    else:
+        return render_template('home/page-404.html'), 404
 
 # Helper - Extract current page name from request
 def get_segment(request):
