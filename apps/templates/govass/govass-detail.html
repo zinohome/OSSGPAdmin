@@ -170,56 +170,79 @@ ul li {
             <span>{{ define['pagedef']['pagedef']['block_title'] }}</span>
           </div>
           <h2 class="az-content-title">{{ define['pagedef']['pagedef']['block_title'] }}</h2>
-          <div class="myLink" style="color: #596882;font-size: 12px;font-weight: 500;font-family: 'Roboto', sans-serif;">
-            <span>
-              <a href="govass-{{ define['pagedef']['name'] }}.html?start={{ start }}&length={{ length }}">
-                <<返回
-              </a>
-            </span>
-          </div>
 
-          <div id="customForm">
-            <div class="label" style="width: auto;height: auto;">
-              <ul id="customUl" style="padding-left: 1px;margin-bottom: 0px;">
-                <li>
-                  {% if define['pagedef']['pagedef']['block_navtitle'] == '开源治理' %}
-                  <i class="typcn typcn-chart-area-outline tx-12"></i>
-                {% elif define['pagedef']['pagedef']['block_navtitle'] == '治理评估' %}
-                  <i class="typcn typcn-chart-bar-outline tx-12"></i>
-                {% elif define['pagedef']['pagedef']['block_navtitle'] == '业务定义' %}
-                  <i class="typcn typcn-document tx-12"></i>
-                {% elif define['pagedef']['pagedef']['block_navtitle'] == '系统管理' %}
-                  <i class="typcn typcn-chart-book tx-12"></i>
-                {% else %}
-                  <i class="typcn typcn-map tx-12"></i>
-                {% endif %}
-                    详细数据
-                </li>
-                {%- for th in data['relation'] -%}
-                <li>
-                {% if define['pagedef']['pagedef']['block_navtitle'] == '开源治理' %}
-                  <i class="typcn typcn-chart-area-outline tx-12"></i>
-                {% elif define['pagedef']['pagedef']['block_navtitle'] == '治理评估' %}
-                  <i class="typcn typcn-chart-bar-outline tx-12"></i>
-                {% elif define['pagedef']['pagedef']['block_navtitle'] == '业务定义' %}
-                  <i class="typcn typcn-document tx-12"></i>
-                {% elif define['pagedef']['pagedef']['block_navtitle'] == '系统管理' %}
-                  <i class="typcn typcn-chart-book tx-12"></i>
-                {% else %}
-                  <i class="typcn typcn-map tx-12"></i>
-                {% endif %}
-                {{ data['relation'][th]['title'] }}
-                </li>
-                {% endfor %}
-                <li>
-                  <i class="typcn typcn-flow-merge tx-12"></i>关系图
-                </li>
-              </ul>
+          <div class="az-dashboard-nav">
+            <nav class="nav">
+              <a class="nav-link" data-toggle="returntab" href="govass-{{ define['pagedef']['name'] }}.html?start={{ start }}&length={{ length }}"> << 返回</a>
+              <a class="nav-link active" data-toggle="tab" href="#detail">详细数据</a>
+              {%- for th in data['relation'] -%}
+              <a class="nav-link" data-toggle="tab" href="#{{ data['relation'][th]['name'] }}">{{ data['relation'][th]['title'] }}</a>
+              {% endfor %}
+              <a class="nav-link" data-toggle="tab" href="#graph">关系图</a>
+              <a class="nav-link" data-toggle="tab" href="#">更多</a>
+            </nav>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="detail">
+              <div class="table-responsive">
+                <table class="table mg-b-0 responsive dataTable no-footer dtr-inline">
+                  <thead>
+                    <tr>
+                      <th>字段</th>
+                      <th>值</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">
+                          {%- for info in data['basicinfo'] -%}
+                          <p>{{ data['basicinfo'][info]['label'] }}</p>
+                          {% endfor %}
+                      </th>
+                      <td>
+                          {%- for info in data['basicinfo'] -%}
+                          <p>{{ data['basicinfo'][info]['value'] }}</p>
+                          {% endfor %}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div><!-- table-responsive -->
+	        </div>
+            {%- for tb in data['relation'] -%}
+            <div class="tab-pane fade" id="{{ data['relation'][tb]['name'] }}">
+              <div class="table-responsive">
+                <table class="table mg-b-0 responsive dataTable no-footer dtr-inline">
+                  <thead>
+                    <tr>
+                      <th>字段</th>
+                      <th>值</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {%- for tr in data['relation'][tb]['value'] -%}
+                    <tr>
+                      <th scope="row">
+                          {%- for td in tr -%}
+                          <p>{{ tr[td]['label'] }}</p>
+                          {% endfor %}
+                      </th>
+                      <td>
+                          {%- for td in tr -%}
+                          <p>{{ tr[td]['value'] }}</p>
+                          {% endfor %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div><!-- table-responsive -->
             </div>
-            <form id="myForm" style="float: left;width: 100%;border-top: 2px solid #ADB5C5;padding:8px 0px 2px 0px;margin-bottom: 15px;">
-            </form>
+            {% endfor %}
+	        <div class="tab-pane fade" id="graph">
+                <div id="graphshow" class="container" style="height: 390px;width: 100%"></div>
+            </div>
           </div>
-
 
         </div><!-- az-content-body -->
       </div><!-- container -->
@@ -257,8 +280,67 @@ ul li {
   <script src="/static/assets/lib/jsoneditor/purify.min.js"></script>
   <!-- select2-->
   <script src="/static/assets/lib/datatables-editor/js/select2.full.js"></script>
+  <!--echarts Simple Graph -->
+  <script src="/static/assets/lib/echarts/echarts.min.js"></script>
   <!-- page script -->
   <script>
-
+var dom = document.getElementById('graphshow');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'svg',
+        width: 720,
+        height: 390,
+      useDirtyRect: false
+    });
+    var app = {};
+    var option;
+    option = {
+      tooltip: {
+      textStyle: {
+        fontSize: '8',
+      },
+      trigger: 'item',
+      formatter: function (param) {
+        var str = '<p>信息 <p/><p>';
+        var obj = param.data;
+        for(var key in obj){
+            if (key != 'name'){
+                str += key+"："+obj[key]+ '<br/>';
+            }
+        }
+        str += '</p>';
+        return str;
+      }
+    },
+  animationDurationUpdate: 1500,
+  animationEasingUpdate: 'quinticInOut',
+  series: [
+    {
+      type: 'graph',
+      layout: 'force',
+      force: {
+        repulsion: 1000,
+        edgeLength: 50,
+        layoutAnimation: true,
+      },
+      symbolSize: 30,
+      roam: true,
+      draggable: true,
+      focusNodeAdjacency: true,
+      label: {
+        show: true
+      },
+      edgeSymbol: ['circle', 'arrow'],
+      edgeLabel: {
+        fontSize: 20
+      },
+      data: {{ data['graph']['data']|safe }},
+      links: {{ data['graph']['links']|safe }}
+    }
+  ]
+};
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+    window.addEventListener('resize', myChart.resize);
   </script>
 {% endblock javascripts %}
