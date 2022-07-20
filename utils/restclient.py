@@ -9,7 +9,6 @@
 #  @Software: Capricornus
 
 import asyncio
-import distutils
 import operator
 import os
 import traceback
@@ -34,8 +33,8 @@ class OSSGPClient():
         self._token_expired = True
         self._access_token = None
         self._token_type = 'bearer'
-        httpstr = 'https' if distutils.util.strtobool(os.getenv('OSSGPADMIN_API_USE_HTTPS')) else 'http'
-        self._api_root_url = httpstr + '://' + os.getenv('OSSGPADMIN_API_HTTP_HOST') + ':' + os.getenv('OSSGPADMIN_API_HTTPS_PORT') + os.getenv('OSSGPADMIN_API_PREFIX') + '/' if distutils.util.strtobool(os.getenv('OSSGPADMIN_API_USE_HTTPS')) else httpstr + '://' + os.getenv('OSSGPADMIN_API_HTTP_HOST') + ':' + os.getenv('OSSGPADMIN_API_HTTP_PORT') + os.getenv('OSSGPADMIN_API_PREFIX') + '/'
+        httpstr = 'https' if str(os.getenv('OSSGPADMIN_API_USE_HTTPS')).strip().lower() == 'true' else 'http'
+        self._api_root_url = httpstr + '://' + os.getenv('OSSGPADMIN_API_HTTP_HOST') + ':' + os.getenv('OSSGPADMIN_API_HTTPS_PORT') + os.getenv('OSSGPADMIN_API_PREFIX') + '/' if str(os.getenv('OSSGPADMIN_API_USE_HTTPS')).strip().lower() == 'true' else httpstr + '://' + os.getenv('OSSGPADMIN_API_HTTP_HOST') + ':' + os.getenv('OSSGPADMIN_API_HTTP_PORT') + os.getenv('OSSGPADMIN_API_PREFIX') + '/'
         self._api_client = API(api_root_url = self._api_root_url, params = {}, headers = {}, timeout = int(os.getenv('OSSGPADMIN_API_TIMEOUT')), append_slash = False, json_encode_body = False, ssl_verify=False)
 
 
