@@ -9,7 +9,7 @@
 #  @Email   : ibmzhangjun@139.com
 #  @Software: OSSGPAdmin
 
-from apps.govass import blueprint
+from apps.infra import blueprint
 from flask import render_template, request, session, Response
 from flask_login import login_required
 from jinja2 import TemplateNotFound
@@ -22,12 +22,10 @@ from apps import cache
 from utils import cryptutil
 from utils.restclient import OSSGPClient
 
-GRAPH_NAME = 'university'
-
-@blueprint.route('/govass-<devname>.html', methods = ['GET', 'POST'])
+@blueprint.route('/infra-<devname>.html', methods = ['GET', 'POST'])
 @login_required
 @cache.cached(timeout=600)
-def route_govass(devname):
+def route_infra(devname):
     today = time.strftime("%Y-%m-%d", time.localtime())
     nav = get_nav()
     pgdef = get_pagedef(devname)
@@ -42,16 +40,16 @@ def route_govass(devname):
         define['pagedef'] = pgdef
         #log.logger.debug(define)
         #log.logger.debug(define['pagedef'])
-        return render_template('govass/govass.html', segment='govass-'+devname, nav=nav,
+        return render_template('infra/infra.html', segment='infra-'+devname, nav=nav,
                                define=define,devname=devname,
                                startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                today=today)
     else:
         return render_template('home/page-404.html'), 404
 
-@blueprint.route('/govass-<devname>/data', methods = ['GET', 'POST'])
+@blueprint.route('/infra-<devname>/data', methods = ['GET', 'POST'])
 @login_required
-def route_govass_data(devname):
+def route_infra_data(devname):
     oc = OSSGPClient(session['username'],
                      cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
     if oc.token_expired:
@@ -111,7 +109,7 @@ def route_govass_data(devname):
                 else:
                     return Response('{"status":500, "body": "Error"}', status=500)
 
-@blueprint.route('/govass-detail-<devname>.html', methods = ['GET', 'POST'])
+@blueprint.route('/infra-detail-<devname>.html', methods = ['GET', 'POST'])
 @login_required
 @cache.cached(timeout=6)
 def route_ossgov_detail(devname):
@@ -137,7 +135,7 @@ def route_ossgov_detail(devname):
                     define['jsoneditor_def'] = etfield['def']
                     break
             define['pagedef'] = pgdef
-            return render_template('govass/govass-detail.html', segment='govass-' + devname, nav=nav,
+            return render_template('infra/infra-detail.html', segment='infra-' + devname, nav=nav,
                                    define=define, devname=devname, data=data, start=start, length=length,
                                    startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
                                    today=today)
@@ -150,7 +148,7 @@ def get_Data_By_Id(devname, id, idfld):
                          cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
         if oc.token_expired:
             oc.renew_token()
-        graphname = config('OSSGPADMIN_GRAPH_GOVASS', default='university')
+        graphname = config('OSSGPADMIN_GRAPH_INFRAS', default='university')
         detailData = oc.fetch(id, '_collection/'+devname, None, 0, 5,relation=graphname)
         #log.logger.debug(detailData)
         if detailData['code'] == 200:

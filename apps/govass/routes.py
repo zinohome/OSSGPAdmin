@@ -18,11 +18,9 @@ import simplejson as json
 import time
 from decouple import config
 from apps import cache
-
 from utils import cryptutil
 from utils.restclient import OSSGPClient
 
-GRAPH_NAME = 'university'
 
 @blueprint.route('/govass-<devname>.html', methods = ['GET', 'POST'])
 @login_required
@@ -150,7 +148,7 @@ def get_Data_By_Id(devname, id, idfld):
                          cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
         if oc.token_expired:
             oc.renew_token()
-        graphname = config('OSSGPADMIN_GRAPH_GOVASS', default='university')
+        graphname = config('OSSGPADMIN_GRAPH_GOVASS', default='ossgov')
         detailData = oc.fetch(id, '_collection/'+devname, None, 0, 5,relation=graphname)
         #log.logger.debug(detailData)
         if detailData['code'] == 200:

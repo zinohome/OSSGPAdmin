@@ -186,6 +186,22 @@ def get_sysdef(devname):
         return None
 
 @cache.memoize(timeout=30)
+def get_all_pagetitle(devname):
+    try:
+        oc = OSSGPClient(session['username'],
+                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+        if oc.token_expired:
+            oc.renew_token()
+        pages = oc.fetch('pagedef', '_sysdef', body=None, offset=None,
+                             limit=config('OSSGPADMIN_API_QUERY_LIMIT_UPSET', default='2000'), sort='name')['body']
+        pagetitle = {}
+        for page in pages['data']:
+            pagetitle[page['name']] = json.loads(page['pagedef'])['block_title']
+        return pagetitle
+    except:
+        return None
+
+@cache.memoize(timeout=30)
 def get_pagedef(devname):
     try:
         oc = OSSGPClient(session['username'],
