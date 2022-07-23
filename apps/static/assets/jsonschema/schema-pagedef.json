@@ -125,7 +125,6 @@
               "radio",
               "readonly",
               "select",
-              "select2",
               "textarea",
               "datatable",
               "jsoneditor"
