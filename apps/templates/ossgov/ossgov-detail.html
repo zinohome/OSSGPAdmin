@@ -44,7 +44,112 @@ div.DTE_Body div.DTE_Form_Content:after {
     display: block;
     clear: both;
 }
-
+.btn.btn-secondary.btn-icon.myBtn {
+<!--        width: 33px;-->
+        color: #fff;
+        background-color: #A8B1C2;
+        border-color: #A8B1C2;
+        pointer-events: none;
+}
+.label{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+.label>ul{
+    width: 100%;
+    height: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.label>ul>li{
+    list-style: none;
+    font-size: 90%;
+    padding-right: 8px;
+    padding-left: 8px;
+    width: auto;
+    height: 30px;
+    background-color: #ADB5C5;
+    line-height: 30px;
+    color: white;
+}
+.label>div{
+    width: auto;
+    height: 50px;
+    position: absolute;
+    color: black;
+    line-height: 50px;
+    background-color: #ADB5C5;
+    display: none;
+}
+.label li.showed{
+    background-color: #7987A1;
+    color: white;
+    line-height: 25px;
+    height: 30px;
+}
+.label div.showed{
+    display: block;
+}
+#customForm {
+    display: flex;
+    flex-flow: row wrap;
+}
+#customForm div.DTE_Field {
+    padding: 5px;
+}
+#customForm input {
+    width: 200px;
+    height: 30px;
+}
+#example th.sorting_disabled {
+    color: #7987a1;
+    font-weight: 700;
+    font-size: 11px;
+    padding-bottom: 5px;
+}
+#example td {
+    padding: 9px 15px;
+    line-height: 1.462;
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #cdd4e0;
+}
+label.myLabel {
+    font-size: 13px;
+    font-weight: 400px;
+    color: #031b4e;
+    font-family: "Roboto", sans-serif;
+    padding-left: 18px;
+}
+label.myLabelText {
+    font-size: 13px;
+    font-weight: 700;
+    color: #031b4e;
+    font-family: "Roboto", sans-serif;
+}
+legend.myLegend {
+    width: fit-content;
+    padding: 3px 15px 3px 15px;
+    color: white;
+    background-color: #5B47FB;
+    border-radius: 6px;
+    text-align:center;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: "Roboto", sans-serif;
+}
+div.myDiv {
+    border-bottom: 2px solid #ADB5C5;
+    padding: 8px;
+}
+a {
+    color: #596882;
+}
+ul li {
+    float: left;
+    height: 30px;
+}
 {{ define['pagedef']['pagedef']['formcss']|safe if 'formcss' in define['pagedef']['pagedef'] }}
 
 </style>
@@ -63,20 +168,79 @@ div.DTE_Body div.DTE_Form_Content:after {
             <span>{{ define['pagedef']['pagedef']['block_title'] }}</span>
           </div>
           <h2 class="az-content-title">{{ define['pagedef']['pagedef']['block_title'] }}</h2>
-          {{ define['pagedef']['pagedef']['formtemplate']|safe if 'formtemplate' in define['pagedef']['pagedef'] }}
-          <div class="table-responsive">
-            <table id="datatable" class="table table-hover mg-b-0 responsive " style="width:100%">
-              <thead>
-                <tr>
-                  {%- for th in define['thlist'] -%}
-                  <th>{{ th }}</th>
+
+          <div class="az-dashboard-nav">
+            <nav class="nav">
+              <a class="nav-link" data-toggle="returntab" href="ossgov-{{ define['pagedef']['name'] }}.html?start={{ start }}&length={{ length }}"> << 返回</a>
+              <a class="nav-link active" data-toggle="tab" href="#detail">详细数据</a>
+              {%- for th in data['relation'] -%}
+              <a class="nav-link" data-toggle="tab" href="#{{ data['relation'][th]['name'] }}">{{ data['relation'][th]['title'] }}</a>
+              {% endfor %}
+              <a class="nav-link" data-toggle="tab" href="#graph">关系图</a>
+              <a class="nav-link" data-toggle="tab" href="#">更多</a>
+            </nav>
+          </div>
+          <div class="tab-content">
+            <div class="tab-pane active" id="detail">
+              <div class="table-responsive">
+                <table class="table mg-b-0 responsive dataTable no-footer dtr-inline">
+                  <thead>
+                    <tr>
+                      <th>字段</th>
+                      <th>值</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">
+                          {%- for info in data['basicinfo'] -%}
+                          <p>{{ data['basicinfo'][info]['label'] }}</p>
+                          {% endfor %}
+                      </th>
+                      <td>
+                          {%- for info in data['basicinfo'] -%}
+                          <p>{{ data['basicinfo'][info]['value'] }}</p>
+                          {% endfor %}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div><!-- table-responsive -->
+	        </div>
+            {%- for tb in data['relation'] -%}
+            <div class="tab-pane fade" id="{{ data['relation'][tb]['name'] }}">
+              <div class="table-responsive">
+                <table class="table mg-b-0 responsive dataTable no-footer dtr-inline">
+                  <thead>
+                    <tr>
+                      <th>字段</th>
+                      <th>值</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {%- for tr in data['relation'][tb]['value'] -%}
+                    <tr>
+                      <th scope="row">
+                          {%- for td in tr -%}
+                          <p>{{ tr[td]['label'] }}</p>
+                          {% endfor %}
+                      </th>
+                      <td>
+                          {%- for td in tr -%}
+                          <p>{{ tr[td]['value'] }}</p>
+                          {% endfor %}
+                      </td>
+                    </tr>
                     {% endfor %}
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div><!-- table-responsive -->
+                  </tbody>
+                </table>
+              </div><!-- table-responsive -->
+            </div>
+            {% endfor %}
+	        <div class="tab-pane fade" id="graph">
+                <div id="graphshow" class="container" style="height: 390px;width: 100%"></div>
+            </div>
+          </div>
 
         </div><!-- az-content-body -->
       </div><!-- container -->
@@ -112,183 +276,67 @@ div.DTE_Body div.DTE_Form_Content:after {
   <!-- JsonEditor-->
   <script src="/static/assets/lib/jsoneditor/jsoneditor.js"></script>
   <script src="/static/assets/lib/jsoneditor/purify.min.js"></script>
+  <!--echarts Simple Graph -->
+  <script src="/static/assets/lib/echarts/echarts.min.js"></script>
   <!-- page script -->
   <script>
-(function ($, DataTable) {
-if ( ! DataTable.ext.editorFields ) {
-    DataTable.ext.editorFields = {};
-}
-var Editor = DataTable.Editor;
-var _fieldTypes = DataTable.ext.editorFields;
-_fieldTypes.jsoneditor = {
-    create: function (conf) {
-        //SEC 1 - DOM Setup
-        var safeId = DataTable.Editor.safeId(conf.id);
-        var edschema ="";
-        $.ajaxSetup({async:false});
-        {% if define['has_jsoneditor']  %}
-        $.getJSON('/static/assets/jsonschema/{{ define['jsoneditor_def'] }}', function getschema(data){edschema = data;});
-        var config = {{ define['jsoneditor_options']|safe }}
-        {% else %}
-        $.getJSON('/static/assets/jsonschema/schema-pagedef.json', function getschema(data){edschema = data;});
-        var config = {
-                use_name_attributes: false,
-                theme: 'bootstrap4',
-                iconlib: 'fontawesome5',
-                keep_oneof_values: false,
-                disable_edit_json: false,
-                disable_properties: false,
-                disable_collapse: false,
-                expand_height: true,
-                show_opt_in: false,
-                schema: edschema
-              };
-        {% endif %}
-        var jinput = $('<input id="' + safeId + '" type="hidden" name="'+safeId+'">');
-        var jdiv = $('<div id="' + safeId + '_div"></div>');
-        var container = $('<div/>').append(jinput).append(jdiv);
-        conf.jsoninput = jinput;
-        // SEC 2 - JSONEditor setup
-        const jeditor = new JSONEditor(jdiv[0], config);
-        conf.jsoneditor = jeditor;
-        // SEC 3 - JSONEditor onchange control
-        jeditor.on('ready', function () {
-            jeditor.enable();
-            const errors = jeditor.validate();
-            if (errors.length) {
-              console.log(errors);
-            }
-        });
-        jeditor.on('change', function () {
-            jinput.val(JSON.stringify(jeditor.getValue()));
-        });
-        return container;
-    },
-    get: function (conf) {
-        return conf.jsoninput.val();
-    },
-    set: function (conf, val) {
-        if(val){
-            //conf.jsoninput.val(val);
-            conf.jsoneditor.setValue(JSON.parse(val));
-            //console.log(JSON.stringify(conf.jsoneditor.getValue()));
-        }else{
-            conf.jsoneditor.setValue('');
-        }
-    },
-};
-})(jQuery, jQuery.fn.dataTable);
-
-    $(document).ready(function () {
-      $.fn.dataTable.ext.buttons.reload = {
-        text:'<i class="typcn typcn-arrow-sync tx-18"></i>',
-        titleAttr: '刷新',
-        action: function ( e, dt, node, config ) {
-          dt.clear().draw();
-          dt.ajax.reload(null,false);
-        }
-      };
-      var editor = new $.fn.dataTable.Editor({
-        ajax: "/ossgov-{{ define['pagedef']['name'] }}/data",
-        table: "#datatable",
-        display: "{{ define['pagedef']['pagedef']['dt_display']|default('lightbox') }}",
-        idSrc:  "{{ define['pagedef']['pagedef']['dt_idSrc']|default('name') }}",
-        {%- if 'formtemplatename' in define['pagedef']['pagedef'] -%}
-        template: '#{{ define['pagedef']['pagedef']['formtemplatename'] }}',
-        {% endif %}
-        formOptions: {
-            main: {
-                blurOnBackground: false,
-                onBackground: 'none',
-                submitOnReturn: false,
-                onReturn: 'none'
-            }
-        },
-        fields: [
-            {% for field in define['pagedef']['pagedef']['et_fields'] -%}
-            {
-                "label": "{{ field['label'] }}:",
-                "labelInfo": "{{ field['labelinfo'] }}",
-                "name": "{{ field['name'] }}",
-                "type": "{{ field['type'] }}",
-                {{ field['def']|safe if field['type'] == 'select' and field['def']|length > 4 }}
-                {{ field['def']|safe if field['type'] == 'datatable' and field['def']|length > 4 }}
-                {{ "\"options\": \"\""|safe if field['type'] == 'jsoneditor' or field['options']|length <= 4 else "\"options\": "|safe + field['options']|safe }},
-                {% if field['classname']|default('normal') != 'normal' -%}
-                "def": {{ "\"\""|safe if field['type'] in ['jsoneditor','select','datatable'] or field['def']|length <= 4 else field['def']|safe }},
-                "className":"{{ field['classname']|default('normal') }}"
-                {% else %}
-                "def": {{ "\"\""|safe if field['type'] in ['jsoneditor','select','datatable'] or field['def']|length <= 4 else field['def']|safe }}
-                {%- endif %}
-            }{{ "," if not loop.last }}
-            {%- endfor %}
-        ]
-      });
-      var openVals;
-      editor.on( 'open', function () {
-            // Store the values of the fields on open
-            openVals = JSON.stringify( editor.get() );
-            editor.on( 'preClose', function ( e ) {
-                // On close, check if the values have changed and ask for closing confirmation if they have
-                if ( openVals !== JSON.stringify( editor.get() ) ) {
-                    return confirm( '有修改过的数据没有保存，确认退出吗?' );
-                }
-            } )
-        } );
-      editor.on( 'postCreate postEdit close', function () {
-            editor.off( 'preClose' );
-        } );
-      var datatable = $("#datatable").DataTable({
-        processing: true,
-        serverSide: true,
-        lengthChange: true,
-        ajax: "/ossgov-{{ define['pagedef']['name'] }}/data",
-        responsive: {
-            details: true
-        },
-        autoWidth: true,
-        paging: true,
-        fixedHeader: true,
-        searching: false,
-        ordering: false,
-        info: true,
-        dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'<'align-right'B>>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",        // Needs button container
-        select: 'single',
-        columns:[
-        {%- for field in define['pagedef']['pagedef']['et_fields'] -%}
-          {data:"{{ field['name'] }}", title:"{{ field['label'] }}", "visible": {{ field['visible'] }}, defaultContent:""}{{ "," if not loop.last }}
-        {% endfor %}
-        ],
-        buttons: true,
-        buttons: {
-          name:'primary',
-          buttons: [
-          { extend: 'create', text:'<i class="typcn typcn-document-add tx-18"></i>', titleAttr: '新建', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '新建'] },
-          {
-            extend: "selected",
-            text: '<i class="typcn typcn-clipboard tx-18"></i>', titleAttr: '复制',
-            action: function ( e, dt, node, config ) {
-              // Start in edit mode, and then change to create
-              editor.edit(datatable.rows( {selected: true} ).indexes(), {
-                title: '从记录复制',
-                buttons: [{text: '取消', action: function() {this.close();}}, '新建']
-              }).mode( 'create' );}
-            },
-          { extend: 'edit', text:'<i class="typcn typcn-edit tx-18"></i>', titleAttr: '修改', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '修改'] },
-          { extend: 'remove', text:'<i class="typcn typcn-document-delete tx-18"></i>', titleAttr: '删除', editor: editor, formButtons:[{text: '取消', action: function() {this.close();}}, '删除'] },
-          'reload'
-          ],
-          dom: {
-            button: { className: "btn btn-secondary btn-icon"},
-            buttonLiner: { tag: null }
-          }
-        },
-        language: {
-            url:'/static/assets/lib/datatables/zh.json'
-        }
-      });
+var dom = document.getElementById('graphshow');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'svg',
+        width: 720,
+        height: 390,
+      useDirtyRect: false
     });
+    var app = {};
+    var option;
+    option = {
+      tooltip: {
+      textStyle: {
+        fontSize: '8',
+      },
+      trigger: 'item',
+      formatter: function (param) {
+        var str = '<p>信息 <p/><p>';
+        var obj = param.data;
+        for(var key in obj){
+            if (key != 'name'){
+                str += key+"："+obj[key]+ '<br/>';
+            }
+        }
+        str += '</p>';
+        return str;
+      }
+    },
+  animationDurationUpdate: 1500,
+  animationEasingUpdate: 'quinticInOut',
+  series: [
+    {
+      type: 'graph',
+      layout: 'force',
+      force: {
+        repulsion: 1000,
+        edgeLength: 50,
+        layoutAnimation: true,
+      },
+      symbolSize: 30,
+      roam: true,
+      draggable: true,
+      focusNodeAdjacency: true,
+      label: {
+        show: true
+      },
+      edgeSymbol: ['circle', 'arrow'],
+      edgeLabel: {
+        fontSize: 20
+      },
+      data: {{ data['graph']['data']|safe }},
+      links: {{ data['graph']['links']|safe }}
+    }
+  ]
+};
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+    window.addEventListener('resize', myChart.resize);
   </script>
 {% endblock javascripts %}

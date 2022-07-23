@@ -143,6 +143,92 @@ def route_ossgov_detail(devname):
         else:
             return render_template('home/page-404.html'), 404
 
+
+def get_Data_By_Id(devname, id, idfld):
+    try:
+        oc = OSSGPClient(session['username'],
+                         cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
+        if oc.token_expired:
+            oc.renew_token()
+        graphname = config('OSSGPADMIN_GRAPH_GOVASS', default='ossgov')
+        detailData = oc.fetch(id, '_collection/'+devname, None, 0, 5,relation=graphname)
+        #log.logger.debug(detailData)
+        if detailData['code'] == 200:
+            #log.logger.debug(detailData['body'])
+            #log.logger.debug(detailData['body']['relation'][graphname])
+            #log.logger.debug(detailData['body']['relation'][graphname]['vertices'])
+            basicinfo = {}
+            relation = {}
+            graph = {}
+            pgdef = get_pagedef(devname)
+            fldlst = pgdef['pagedef']['et_fields']
+            pagetitle = get_all_pagetitle(devname)
+            # get basic info
+            for dkey,dvalue in detailData['body'].items():
+                if dkey != 'relation':
+                    infodict = {}
+                    infodict['value'] = dvalue
+                    for fld in fldlst:
+                        if fld['name']==dkey:
+                            infodict['label'] = fld['label']
+                            break
+                    basicinfo[dkey]=infodict
+            #log.logger.debug(basicinfo)
+            # get relation
+            graphdata = []
+            for verticy in detailData['body']['relation'][graphname]['vertices']:
+                relationname = verticy['_id'].split('/')[0]
+                nodevaluedict = {}
+                gnodevaluedict = {}
+                if 'name' in verticy:
+                    gnodevaluedict['name'] = verticy['name']
+                vpgdef = get_pagedef(relationname)
+                for nkey, nvalue in verticy.items():
+                    if nkey not in ['_key', '_id', '_rev']:
+                        vdict = {'value':nvalue}
+                        if vpgdef is None:
+                            vdict['label'] = nkey
+                            gnodevaluedict[nkey] = str(nvalue)
+                        else:
+                            for vfld in vpgdef['pagedef']['et_fields']:
+                                if vfld['name'] == nkey:
+                                    vdict ['label'] = vfld['label']
+                                    gnodevaluedict[vfld['label']] = str(nvalue)
+                                    break
+                        nodevaluedict[nkey] = vdict
+                graphdata.append(gnodevaluedict)
+                if relationname in relation:
+                    relation[relationname]['value'].append(nodevaluedict)
+                else:
+                    nodeinfo = {}
+                    nodeinfo['name'] = relationname
+                    if relationname in pagetitle:
+                        nodeinfo['title'] = pagetitle[relationname]
+                    else:
+                        nodeinfo['title'] = relationname
+                    nodeinfo['value'] = []
+                    nodeinfo['value'].append(nodevaluedict)
+                    relation[relationname] = nodeinfo
+            #log.logger.debug('relation is : [ %s ]' % relation)
+            #log.logger.debug(detailData['body']['relation'][graphname]['paths'])
+            graph['data'] = graphdata
+            linkslist = []
+            for path in detailData['body']['relation'][graphname]['paths']:
+                #log.logger.debug('================= path is : %s' % path['edges'])
+                for edge in path['edges']:
+                    #log.logger.debug('label : %s , From: %s , To: %s' % (edge['_id'].split('/')[0],edge['_from'].split('/')[1],edge['_to'].split('/')[1]))
+                    linkslist.append({'source':edge['_from'].split('/')[1],'target':edge['_to'].split('/')[1]})
+            graph['links'] = linkslist
+            detailData['basicinfo'] = basicinfo
+            detailData['relation'] = relation
+            detailData['graph'] = graph
+            if 'body' in detailData: del detailData['body']
+            return detailData
+        else:
+            return None
+    except:
+        return None
+
 # Helper - Extract current page name from request
 def get_segment(request):
     try:

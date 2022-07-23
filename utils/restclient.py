@@ -86,7 +86,7 @@ class OSSGPClient():
                 raise Exception('Can not get renew_token at renew_token()')
         except Exception as exp:
             log.logger.error('Exception at renew_token() %s ' % exp)
-            if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+            if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                 traceback.print_exc()
 
     def getuser(self,name):
@@ -110,7 +110,7 @@ class OSSGPClient():
                     return response.body
                 except Exception as exp:
                     log.logger.error('Exception at getuser() %s ' % exp)
-                    if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                    if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                         traceback.print_exc()
                     return None
         else:
@@ -133,7 +133,7 @@ class OSSGPClient():
                 log.logger.error('Can not get user login at user_login() ... ')
         except Exception as exp:
             log.logger.error('Exception at user_login() %s ' % exp)
-            if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+            if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                 traceback.print_exc()
         return {"result": login_pass, "response": response.body}
 
@@ -147,7 +147,7 @@ class OSSGPClient():
             return response.body
         except Exception as exp:
             log.logger.error('Exception at fetchusers() %s ' % exp)
-            if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+            if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                 traceback.print_exc()
 
     def fetchcount(self, resource_type, resource_name, url_prefix=''):
@@ -170,7 +170,7 @@ class OSSGPClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at fetchcount() %s ' % exp)
-                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                     traceback.print_exc()
 
     def fetch(self, resource_name, url_prefix='', body=None, offset=None, limit=None, sort=None, relation=None):
@@ -211,7 +211,7 @@ class OSSGPClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at fetch() %s ' % exp)
-                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                     traceback.print_exc()
 
     def fetchone(self, resource_name, url_prefix='', body=None, offset=None, limit=None, relation=None):
@@ -249,7 +249,7 @@ class OSSGPClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at fetchone() %s ' % exp)
-                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                     traceback.print_exc()
 
     def query(self, resource_name, url_prefix='', body=None, filter=None, filteror=None, sort=None, limit=None, offset=None):
@@ -292,7 +292,7 @@ class OSSGPClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at query() %s ' % exp)
-                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                     traceback.print_exc()
 
     def post(self, resource_name, url_prefix='', body=None):
@@ -319,7 +319,7 @@ class OSSGPClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at post() %s ' % exp)
-                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                     traceback.print_exc()
 
     def put(self, resource_name, url_prefix='', body=None, idvalue=None):
@@ -346,7 +346,7 @@ class OSSGPClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at post() %s ' % exp)
-                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                     traceback.print_exc()
 
     def deletebyid(self, resource_name, url_prefix='', idvalue=None):
@@ -372,7 +372,7 @@ class OSSGPClient():
                 return res
             except Exception as exp:
                 log.logger.error('Exception at deletebyid() %s ' % exp)
-                if os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL'):
+                if str(os.getenv('OSSGPADMIN_APP_EXCEPTION_DETAIL')).strip().lower()=='true':
                     traceback.print_exc()
 
     def toDataFrame(self, jsonobj, attbname):
