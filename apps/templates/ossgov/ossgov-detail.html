@@ -194,12 +194,20 @@ ul li {
                     <tr>
                       <th scope="row">
                           {%- for info in data['basicinfo'] -%}
-                          <p>{{ data['basicinfo'][info]['label'] }}</p>
+                            {%- if data['basicinfo'][info]['label']|trim|length>1 -%}
+                          <p>{{ data['basicinfo'][info]['label']|safe }}</p>
+                            {%- else -%}
+                          <p>&nbsp</p>
+                            {% endif %}
                           {% endfor %}
                       </th>
                       <td>
                           {%- for info in data['basicinfo'] -%}
-                          <p>{{ data['basicinfo'][info]['value'] }}</p>
+                            {%- if data['basicinfo'][info]['value']|trim|length>1 -%}
+                          <p>{{ data['basicinfo'][info]['value']|safe }}</p>
+                            {%- else -%}
+                          <p>&nbsp</p>
+                            {% endif %}
                           {% endfor %}
                       </td>
                     </tr>
@@ -222,12 +230,20 @@ ul li {
                     <tr>
                       <th scope="row">
                           {%- for td in tr -%}
-                          <p>{{ tr[td]['label'] }}</p>
+                          {%- if tr[td]['label']|trim|length>1 -%}
+                          <p>{{ tr[td]['label']|safe }}</p>
+                            {%- else -%}
+                          <p>&nbsp</p>
+                            {% endif %}
                           {% endfor %}
                       </th>
                       <td>
                           {%- for td in tr -%}
-                          <p>{{ tr[td]['value'] }}</p>
+                          {%- if tr[td]['value']|trim|length>1 -%}
+                          <p>{{ tr[td]['value']|safe }}</p>
+                            {%- else -%}
+                          <p>&nbsp</p>
+                            {% endif %}
                           {% endfor %}
                       </td>
                     </tr>

@@ -124,7 +124,7 @@ def route_ossgov_detail(devname):
     pgdef = get_pagedef(devname)
     define = get_sysdef(devname)
     data = get_Data_By_Id(devname, id, idfld)
-    #log.logger.debug('data is : %s' % data)
+    log.logger.debug('data is : %s' % data)
     if data is None:
         return render_template('home/page-404.html'), 404
     else:
@@ -150,8 +150,9 @@ def get_Data_By_Id(devname, id, idfld):
                          cryptutil.decrypt(config('OSSGPADMIN_APP_SECRET', default='bgt56yhn'), session['password']))
         if oc.token_expired:
             oc.renew_token()
-        graphname = config('OSSGPADMIN_GRAPH_GOVASS', default='ossgov')
+        graphname = config('OSSGPADMIN_GRAPH_OSSGOV', default='ossgov')
         detailData = oc.fetch(id, '_collection/'+devname, None, 0, 5,relation=graphname)
+        #log.logger.debug('get_Data_By_Id from %s with graph %s' % (devname,graphname))
         #log.logger.debug(detailData)
         if detailData['code'] == 200:
             #log.logger.debug(detailData['body'])
