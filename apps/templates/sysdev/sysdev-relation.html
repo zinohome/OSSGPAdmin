@@ -15,9 +15,6 @@
   <!-- DataTables Editor-->
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/editor.dataTables.css">
   <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/dataTables.dateTime.min.css">
-  <!-- select2-->
-  <link rel="stylesheet" href="/static/assets/lib/datatables-editor/css/select2.min.css">
-
 
 <style type="text/css">
 .align-right {text-align: right;font-size:13px;}
@@ -111,8 +108,6 @@ div.DTE_Body div.DTE_Form_Content:after {
   <!-- JsonEditor-->
   <script src="/static/assets/lib/jsoneditor/jsoneditor.js"></script>
   <script src="/static/assets/lib/jsoneditor/purify.min.js"></script>
-  <!-- select2-->
-  <script src="/static/assets/lib/datatables-editor/js/select2.full.js"></script>
   <!-- page script -->
   <script>
 (function ($, DataTable) {
@@ -178,72 +173,6 @@ _fieldTypes.jsoneditor = {
         }
     },
 };
-_fieldTypes.select2 = {
-          _addOptions: function (conf, options) {
-              var elOpts = conf._input[0].options;
-              elOpts.length = 0;
-            if (options) {
-                 DataTable.Editor.pairs(options, conf.optionsPair, function (val, label, i) {
-                   elOpts[i] = new Option(label, val);
-                 });
-            }
-         },
-         create: function (conf) {
-              var editor = this;
-              conf._input =   $('<select/>').attr(
-                    $.extend({id:DataTable.Editor.safeId(conf.id),
-                    multiple: conf.multiple === true},
-                    conf.attr || {}));
-              _fieldTypes.select2._addOptions(conf, conf.options || conf.ipOpts);
-              editor.on('open.select2' + DataTable.Editor.safeId(conf.id), function () {
-                 conf._input.select2($.extend({}, conf.opts, {
-                        //Default options
-                        width: '100%',
-                       // following property require for inline edit change event handling
-                        dropdownParent: $(conf._input).parent(),
-                       containerCssClass: $(conf._input).attr("class")
-                  }));
-             });
-             return conf._input[0];
-         },
-         update: function (conf, options) {
-                conf.options=options;
-                _fieldTypes.select2._addOptions(conf, options);
-         },
-         get: function (conf) {
-                var val = conf._input.val();
-                return conf._input.prop('multiple') && val === null?[]:val;
-         },
-         set: function (conf, val) {
-                _fieldTypes.select2._addOptions(conf, conf.options || conf.ipOpts);
-                if(val.length){
-                    for(var i=0;i<val.length;i++){
-                       if ($(conf._input).find("option[value='" + val[i] + "']").length)
-                       {
-                       } else
-                       {
-                           if(val[i]!=""){
-                               // Create the DOM option that is pre-selected by default
-                               var newState = new Option(val[i], val[i], true, true);
-                               // Append it to the select
-                              $(conf._input).append(newState).trigger('change');
-                           }
-                      }
-                     }
-                   $(conf._input).val(val).trigger("change");
-                } else {
-                        conf._input.select2().val(val).trigger('change');
-                }
-         },
-         enable: function (conf) {
-             $(conf._input).prop('disabled', false);
-             $(conf._input).selectpicker('refresh');
-        },
-        disable: function (conf) {
-             $(conf._input).prop('disabled', true);
-             $(conf._input).selectpicker('refresh');
-        },
-    };
 })(jQuery, jQuery.fn.dataTable);
 
     $(document).ready(function () {
@@ -276,14 +205,13 @@ _fieldTypes.select2 = {
                 "name": "{{ field['name'] }}",
                 "type": "{{ field['type'] }}",
                 {{ field['def']|safe if field['type'] == 'select' and field['def']|length > 4 }}
-                {{ field['def']|safe if field['type'] == 'select2' and field['def']|length > 4 }}
                 {{ field['def']|safe if field['type'] == 'datatable' and field['def']|length > 4 }}
                 {{ "\"options\": \"\""|safe if field['type'] == 'jsoneditor' or field['options']|length <= 4 else "\"options\": "|safe + field['options']|safe }},
                 {% if field['classname']|default('normal') != 'normal' -%}
-                "def": {{ "\"\""|safe if field['type'] in ['jsoneditor','select','select2','datatable'] or field['def']|length <= 4 else field['def']|safe }},
+                "def": {{ "\"\""|safe if field['type'] in ['jsoneditor','select','datatable'] or field['def']|length <= 4 else field['def']|safe }},
                 "className":"{{ field['classname']|default('normal') }}"
                 {% else %}
-                "def": {{ "\"\""|safe if field['type'] in ['jsoneditor','select','select2','datatable'] or field['def']|length <= 4 else field['def']|safe }}
+                "def": {{ "\"\""|safe if field['type'] in ['jsoneditor','select','datatable'] or field['def']|length <= 4 else field['def']|safe }}
                 {%- endif %}
             }{{ "," if not loop.last }}
             {% endfor %}
