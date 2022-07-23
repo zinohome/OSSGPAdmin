@@ -112,7 +112,7 @@ def route_infra_data(devname):
 @blueprint.route('/infra-detail-<devname>.html', methods = ['GET', 'POST'])
 @login_required
 @cache.cached(timeout=6)
-def route_ossgov_detail(devname):
+def route_infra_detail(devname):
     id = request.args.get('id')
     idfld = request.args.get('idfld')
     page = request.args.get('page')

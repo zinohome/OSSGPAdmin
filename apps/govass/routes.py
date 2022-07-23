@@ -112,7 +112,7 @@ def route_govass_data(devname):
 @blueprint.route('/govass-detail-<devname>.html', methods = ['GET', 'POST'])
 @login_required
 @cache.cached(timeout=6)
-def route_ossgov_detail(devname):
+def route_govass_detail(devname):
     id = request.args.get('id')
     idfld = request.args.get('idfld')
     page = request.args.get('page')

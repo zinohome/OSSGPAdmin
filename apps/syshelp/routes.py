@@ -112,6 +112,39 @@ def route_syshelp_data(devname):
                 else:
                     return Response('{"status":500, "body": "Error"}', status=500)
 
+@blueprint.route('/syshelp-detail-<devname>.html', methods = ['GET', 'POST'])
+@login_required
+@cache.cached(timeout=6)
+def route_syshelp_detail(devname):
+    id = request.args.get('id')
+    idfld = request.args.get('idfld')
+    page = request.args.get('page')
+    start = request.args.get('start')
+    length = request.args.get('length')
+    today = time.strftime("%Y-%m-%d", time.localtime())
+    nav = get_nav()
+    pgdef = get_pagedef(devname)
+    define = get_sysdef(devname)
+    data = get_Data_By_Id(devname, id, idfld)
+    #log.logger.debug('data is : %s' % data)
+    if data is None:
+        return render_template('home/page-404.html'), 404
+    else:
+        if not (pgdef is None or define is None):
+            for etfield in pgdef['pagedef']['et_fields']:
+                if etfield['type'] == 'jsoneditor':
+                    define['has_jsoneditor'] = True
+                    define['jsoneditor_options'] = etfield['options']
+                    define['jsoneditor_def'] = etfield['def']
+                    break
+            define['pagedef'] = pgdef
+            return render_template('syshelp/syshelp-detail.html', segment='infra-' + devname, nav=nav,
+                                   define=define, devname=devname, data=data, start=start, length=length,
+                                   startdate=config('OSSGPADMIN_SYS_START_DAY', default='2020-02-19'),
+                                   today=today)
+        else:
+            return render_template('home/page-404.html'), 404
+
 # Helper - Extract current page name from request
 def get_segment(request):
     try:
