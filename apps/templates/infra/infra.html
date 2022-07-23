@@ -207,7 +207,7 @@ _fieldTypes.jsoneditor = {
           var rowData = dt.row({selected: true}).data();
           var id = rowData.{{ define['pagedef']['pagedef']['dt_idSrc']|default('name') }};
           var idfld = "{{ define['pagedef']['pagedef']['dt_idSrc']|default('name') }}";
-          window.location="govass-detail-{{ define['pagedef']['name'] }}.html?id="+id+"&idfld="+idfld+"&page="+page+"&start="+start+"&length="+length;
+          window.location="infra-detail-{{ define['pagedef']['name'] }}.html?id="+id+"&idfld="+idfld+"&page="+page+"&start="+start+"&length="+length;
         }
       };
       $.fn.dataTable.ext.buttons.reload = {
@@ -219,7 +219,7 @@ _fieldTypes.jsoneditor = {
         }
       };
       var editor = new $.fn.dataTable.Editor({
-        ajax: "/govass-{{ define['pagedef']['name'] }}/data",
+        ajax: "/infra-{{ define['pagedef']['name'] }}/data",
         table: "#datatable",
         display: "{{ define['pagedef']['pagedef']['dt_display']|default('lightbox') }}",
         idSrc:  "{{ define['pagedef']['pagedef']['dt_idSrc']|default('name') }}",
@@ -277,7 +277,7 @@ _fieldTypes.jsoneditor = {
         processing: true,
         serverSide: true,
         lengthChange: true,
-        ajax: "/govass-{{ define['pagedef']['name'] }}/data",
+        ajax: "/infra-{{ define['pagedef']['name'] }}/data",
         responsive: {
             details: true
         },

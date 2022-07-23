@@ -171,7 +171,7 @@ ul li {
 
           <div class="az-dashboard-nav">
             <nav class="nav">
-              <a class="nav-link" data-toggle="returntab" href="govass-{{ define['pagedef']['name'] }}.html?start={{ start }}&length={{ length }}"> << 返回</a>
+              <a class="nav-link" data-toggle="returntab" href="infra-{{ define['pagedef']['name'] }}.html?start={{ start }}&length={{ length }}"> << 返回</a>
               <a class="nav-link active" data-toggle="tab" href="#detail">详细数据</a>
               {%- for th in data['relation'] -%}
               <a class="nav-link" data-toggle="tab" href="#{{ data['relation'][th]['name'] }}">{{ data['relation'][th]['title'] }}</a>
